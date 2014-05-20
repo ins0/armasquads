@@ -14,14 +14,27 @@ return array (
                             'squads' => array(
                                 'type' => 'segment',
                                 'options' => array(
-                                    'route' => 'squads/[page/:page/]',
+                                    'route' => 'squads/',
                                     'defaults' => array(
                                         'controller' => 'Frontend\Squads\Controller\Squads',
                                         'action' => 'index',
                                         'page'  => 1,
                                     )
                                 ),
-                                'may_terminate' => true
+                                'may_terminate' => true,
+                                'child_routes' => array(
+                                    'create' => array(
+                                        'type' => 'segment',
+                                        'options' => array(
+                                            'route' => 'create/',
+                                            'defaults' => array(
+                                                'controller' => 'Frontend\Squads\Controller\Squads',
+                                                'action' => 'create',
+                                                'page'  => 1,
+                                            )
+                                        )
+                                    ),
+                                )
                             ),
                         )
                     ),
