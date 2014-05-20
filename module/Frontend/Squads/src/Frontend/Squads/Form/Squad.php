@@ -53,12 +53,34 @@ class Squad extends AbstractFrontendForm implements ServiceManagerAwareInterface
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
                 'id' => 'name',
-                'class' => '',
+                'class' => 'form-control',
             ),
             'options' => array(
+                'label_attributes' => array(
+                    'class' => 'col-lg-2 control-label'
+                ),
                 'label' => 'Squad Name',
             )
         ));
+
+        $this->add(array(
+            'name' => 'title',
+            'type' => 'Zend\Form\Element\Text',
+            'attributes' => array(
+                'id' => 'title',
+                'class' => 'form-control',
+            ),
+            'options' => array(
+                'label_attributes' => array(
+                    'class' => 'col-lg-2 control-label'
+                ),
+                'label' => 'Squad Title',
+            )
+        ));
+
+
+
+
 
         $this->add(array(
             'name' => 'email',
@@ -69,18 +91,6 @@ class Squad extends AbstractFrontendForm implements ServiceManagerAwareInterface
             ),
             'options' => array(
                 'label' => 'Squad Email',
-            )
-        ));
-
-        $this->add(array(
-            'name' => 'title',
-            'type' => 'Zend\Form\Element\Text',
-            'attributes' => array(
-                'id' => 'title',
-                'class' => '',
-            ),
-            'options' => array(
-                'label' => 'Squad Title',
             )
         ));
 
