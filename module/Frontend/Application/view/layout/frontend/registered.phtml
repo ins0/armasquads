@@ -55,11 +55,13 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Userpanel <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="<?php echo $this->url('frontend/user/home'); ?>"><?php echo $this->translate('Home'); ?></a></li>
-                            <li><a href="#"><?php echo $this->translate('Squads'); ?></a></li>
+                            <li><a href="<?php echo $this->url('frontend/user/squads'); ?>"><?php echo $this->translate('Squads'); ?></a></li>
                             <li class="divider"></li>
                             <li><a href="<?php echo $this->url('frontend/logout'); ?>"><?php echo $this->translate('Logout'); ?></a></li>
                         </ul>
                     </li>
+                    <li><a href="<?php echo $this->url(null, array('locale' => 'de'), true); ?>"><img src="/images/frontend/icons/languages/de.png" /></a></li>
+                    <li><a href="<?php echo $this->url(null, array('locale' => 'en'), true); ?>""><img src="/images/frontend/icons/languages/us.png" /></a></li>
                     <li class="label-primary"><a target="_blank" href="#">Buy me a Coffee? <span class="fa fa-coffee"></span></a></li>
                 </ul>
             </div><!--/.nav-collapse -->
@@ -77,9 +79,9 @@
                     <ul class="list-unstyled">
                         <li class="pull-right"><a href="#top">Back to top</a></li>
                     </ul>
-                    <p>Created with <span class="fa fa-heart"></span></p>
                     <p>Blabla maybe some hints to Bohemia Interactive Arma blabla</p>
                     <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="http://www.google.com/webfonts" rel="nofollow">Google</a>.</p>
+                    <p>Created with <span class="fa fa-heart"></span></p>
                 </div>
             </div>
         </footer>

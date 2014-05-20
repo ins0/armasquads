@@ -40,9 +40,11 @@ return array(
         'Frontend\Dashboard',
         'Frontend\Startseite',
 
-        /**
-         *  FRONTEND MODULES
-         */
+            /**
+             *  FRONTEND MODULES
+             */
+            'Frontend\Squads',
+
 
     ),
 		

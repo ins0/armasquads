@@ -1,5 +1,5 @@
 <?php
-namespace Frontend\Startseite\Controller;
+namespace Frontend\Squads\Controller;
 
 use Frontend\Application\Controller\AbstractDoctrineController;
 use Frontend\Application\Controller\AbstractFrontendController;
@@ -13,6 +13,12 @@ class SquadsController extends AbstractFrontendController
         $viewModel = new ViewModel();
         $viewModel->setTemplate('/squads/index.phtml');
 
+        $squadRepo = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
+        $userSquads = $squadRepo->findBy(array('user' => $this->identity() ));
+
+        $viewModel = new ViewModel();
+        $viewModel->setTemplate('/squads/index.phtml');
+        $viewModel->setVariable('squads', $userSquads);
         return $viewModel;
     }
 }

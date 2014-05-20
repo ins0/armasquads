@@ -1,5 +1,5 @@
 <?php
-namespace Frontend\Startseite;
+namespace Frontend\Squads;
 
 use Zend\Mvc\MvcEvent;
 use Zend\EventManager\EventInterface;

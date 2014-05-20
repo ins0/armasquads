@@ -1,0 +1,31 @@
+<div class="page-header">
+    <h1 id="type"><?php echo $this->translate('My Squads'); ?></h1>
+</div>
+<table class="table table-striped table-hover ">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Squad Tag</th>
+        <th>Squad Name</th>
+        <th>Squad Title</th>
+        <th>Squad Email</th>
+        <th>Squad Logo</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php foreach($this->squads as $squad ): ?>
+            <tr>
+                <td><?php echo $this->escapeHtml( $squad->id ); ?></td>
+                <td><?php echo $this->escapeHtml( $squad->tag ); ?></td>
+                <td><?php echo $this->escapeHtml( $squad->name ); ?></td>
+                <td><?php echo $this->escapeHtml( $squad->title ); ?></td>
+                <td><?php echo $this->escapeHtml( $squad->email ); ?></td>
+                <td><?php echo $this->escapeHtml( $squad->logo ); ?></td>
+                <td>
+                    do something
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

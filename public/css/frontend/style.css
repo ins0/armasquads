@@ -7,7 +7,6 @@ body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del
 body {background:#f4f5fa; -webkit-text-size-adjust: 100%;-moz-text-size-adjust: 100%;font-family:'Open Sans', sans-serif}
 
 .clear:after{content: ".";display: block;clear: both;visibility: hidden;line-height: 0;height: 0}
-a {text-decoration: none;outline: none;color: #333f48;-webkit-transition: all .3s ease-out;-moz-transition: all .3s ease-out;-o-transition: all .3s ease-out;transition: all .3s ease-out}
 img {height: auto;max-width: 100%}
 a img {border: 0}
 input,select,textarea {outline: none}
