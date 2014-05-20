@@ -1,0 +1,19 @@
+<?php $this->headtitle('Login'); ?>
+<div class="login-box border-grey">
+        <?php $this->loginForm->setAttribute('action', $this->url('frontend/login'))->prepare(); ?>
+        <?php echo $this->form()->openTag($this->loginForm); ?>
+        
+	        <?php echo $this->formLabel($this->loginForm->get('username') );?>
+	        <?php echo $this->formInput( $this->loginForm->get('username') );?>
+			<br />
+			<?php echo $this->formLabel($this->loginForm->get('password') );?>
+	        <?php echo $this->formInput($this->loginForm->get('password'));?>
+	        <!--
+            <br />
+	        <?php echo $this->formLabel($this->loginForm->get('remember') );?>
+	        <?php echo $this->formInput($this->loginForm->get('remember'));?>
+	 		-->
+	 		<div class="sep"></div>
+	        <?php echo $this->formSubmit($this->loginForm->get('submit'));?>
+        <?php echo $this->form()->closeTag();?>
+</div>
