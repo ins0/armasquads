@@ -1,14 +1,13 @@
 $(document).ready(function(){
 
-    var confirmDelete = false;
+    //modal delete confirm
     $('.delete-confirm').click(function(event){
         event.preventDefault();
-
+        var delLnk = $(this).attr('href');
         $('div#delete-confirm').on($.modal.BLOCK, function(){
             $(this).find("[rel^='modal:confirm']").click(function(e){
                 e.preventDefault();
-                confirmDelete = true;
-
+                document.location = delLnk;
             });
         }).modal();
     });

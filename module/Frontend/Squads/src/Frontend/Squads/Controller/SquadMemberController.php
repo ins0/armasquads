@@ -119,6 +119,7 @@ class SquadMemberController extends AbstractFrontendController
         $viewModel = new ViewModel();
         $viewModel->setTemplate('/squads/member/edit.phtml');
         $viewModel->setVariable('form', $form);
+        $viewModel->setVariable('squad', $squadEntity);
         return $viewModel;
     }
 

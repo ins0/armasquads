@@ -57,7 +57,7 @@ return array (
                                     'member' => array(
                                         'type' => 'segment',
                                         'options' => array(
-                                            'route' => 'edit/:id/',
+                                            'route' => 'member/:id/',
                                             'defaults' => array(
                                                 'controller' => 'Frontend\Squads\Controller\SquadMember',
                                                 'action' => 'edit'

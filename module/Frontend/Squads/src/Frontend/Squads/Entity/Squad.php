@@ -55,7 +55,7 @@ class Squad {
      */
     protected $members;
 
-    public function getSquadLogo($size = 16)
+    public function getSquadLogo($size = 32)
     {
         if( ! $this->getLogo() )
             return false;
@@ -63,7 +63,7 @@ class Squad {
         return '/uploads/logos/' . $this->getLogo() . '/' . $size . '_' . $this->getLogo() . '.jpg';
     }
 
-    public function getSquadLogoPaa($size = 16)
+    public function getSquadLogoPaa($size = 32)
     {
         if( ! $this->getLogo() )
             return false;

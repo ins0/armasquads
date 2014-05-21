@@ -7,44 +7,46 @@
 </a>
 <br />
 <br />
-<table class="table table-striped table-hover ">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>Squad Logo</th>
-        <th>Squad Tag</th>
-        <th>Squad Name</th>
-        <th>Squad Title</th>
-        <th>Squad Email</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-        <?php foreach($this->squads as $squad ): ?>
-            <tr>
-                <td><?php echo $this->escapeHtml( $squad->getId() ); ?></td>
-                <td>
-                    <?php if( $squad->getLogo() ): ?>
-                        <img src="<?php echo $this->basePath( $squad->getSquadLogo(32) ); ?>" class="img-circle" />
-                    <?php else: ?>
-                        <?php echo $this->translate('No Image'); ?>
-                    <?php endif; ?>
-                </td>
-                <td><?php echo $this->escapeHtml( $squad->getTag() ); ?></td>
-                <td><?php echo $this->escapeHtml( $squad->getName() ); ?></td>
-                <td><?php echo $this->escapeHtml( $squad->getTitle() ); ?></td>
-                <td><?php echo $this->escapeHtml( $squad->getEmail() ); ?></td>
-                <td>
-                    <?php if($this->hasAccess('frontend/squads/create') ): ?>
-                        <a href="<?php echo $this->url('frontend/user/squads/edit', array('id'=>$squad->getId())) ?>"><span class="fa fa-edit"></span></a>
-                        <a href="<?php echo $this->url('frontend/user/squads/member', array('id'=>$squad->getId())) ?>"><span class="fa fa-users"></span></a>
+<div class="table-responsive">
+    <table class="table table-striped table-hover ">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Logo</th>
+            <th>Tag</th>
+            <th>Name</th>
+            <th>Title</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+            <?php foreach($this->squads as $squad ): ?>
+                <tr>
+                    <td><?php echo $this->escapeHtml( $squad->getId() ); ?></td>
+                    <td>
+                        <?php if( $squad->getLogo() ): ?>
+                            <img src="<?php echo $this->basePath( $squad->getSquadLogo(32) ); ?>" class="img-circle" />
+                        <?php else: ?>
+                            <?php echo $this->translate('No Image'); ?>
+                        <?php endif; ?>
+                    </td>
+                    <td><?php echo $this->escapeHtml( $squad->getTag() ); ?></td>
+                    <td><?php echo $this->escapeHtml( $squad->getName() ); ?></td>
+                    <td><?php echo $this->escapeHtml( $squad->getTitle() ); ?></td>
+                    <td><?php echo $this->escapeHtml( $squad->getEmail() ); ?></td>
+                    <td>
+                        <?php if($this->hasAccess('frontend/squads/create') ): ?>
+                            <a href="<?php echo $this->url('frontend/user/squads/edit', array('id'=>$squad->getId())) ?>"><span class="fa fa-edit"></span></a>
+                            <a href="<?php echo $this->url('frontend/user/squads/member', array('id'=>$squad->getId())) ?>"><span class="fa fa-users"></span></a>
 
-                    <?php endif; ?>
-                    <?php if($this->hasAccess('frontend/squads/delete') ): ?>
-                        <a class="text-danger delete-confirm" href="<?php echo $this->url('frontend/user/squads/delete', array('id'=>$squad->getId())) ?>"><span class="fa fa-minus-circle"></span></a>
-                    <?php endif; ?>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+                        <?php endif; ?>
+                        <?php if($this->hasAccess('frontend/squads/delete') ): ?>
+                            <a class="text-danger delete-confirm" href="<?php echo $this->url('frontend/user/squads/delete', array('id'=>$squad->getId())) ?>"><span class="fa fa-minus-circle"></span></a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

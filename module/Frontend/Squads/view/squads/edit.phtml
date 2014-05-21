@@ -29,18 +29,19 @@
             </div>
         </div>
         <div class="form-group">
-            <?php echo $this->formElementErrors($this->form->get('logo')); ?>
             <?php echo $this->formLabel( $this->form->get('logo') ); ?>
             <div class="col-lg-10">
-                <?php echo $this->formFile( $this->form->get('logo') ); ?>
+                <?php echo $this->formFile( $this->form->get('logo') ); ?><br />
+                <?php if( $this->form->getObject()->getLogo() ): ?>
+                    <?php echo $this->translate('Current Squad Image'); ?>:
+                    <img src="<?php echo $this->form->getObject()->getSquadLogo(64); ?>" />
+                <?php endif; ?>
             </div>
         </div>
-
-
         <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
-                <a class="btn btn-default" href="<?php echo $this->url('frontend/user/squads'); ?>">Cancel</a>
                 <button type="submit" class="btn btn-primary"><?php echo $this->translate('Edit my awesome Squad!'); ?></button>
+                <a class="btn btn-danger" href="<?php echo $this->url('frontend/user/squads'); ?>">Cancel</a>
             </div>
         </div>
     </fieldset>

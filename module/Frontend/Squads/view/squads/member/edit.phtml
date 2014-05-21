@@ -1,1 +1,29 @@
-asd
+<div class="page-header">
+    <h1 id="type">
+        <?php if( $this->squad->getLogo() ): ?>
+            <img src="<?php echo $this->basePath( $squad->getSquadLogo(64) ); ?>" class="img-circle" />
+        <?php endif; ?>
+        »<em><?php echo $this->escapeHtml( $this->squad->getTag() ); ?></em>«
+        <?php echo $this->escapeHtml( $this->squad->getName() ); ?>
+    </h1>
+</div>
+<div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Your Squad XML Url</h3>
+        </div>
+        <div class="panel-body">
+            <form class="bs-component">
+                <div class="form-group">
+                    <input type="text" class="form-control" value="http://gaming-cec.de/squadurl/squad.xml" id="inputDefault">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<hr>
+<?php foreach($this->squad->getMembers() as $member ): ?>
+    <?php echo $member->username; ?><br />
+<?php endforeach; ?>
+<br /><br />
+<a href="<?php echo $this->url('frontend/user/squads'); ?>" class="btn btn-primary"><?php echo $this->translate('Back'); ?></a>
