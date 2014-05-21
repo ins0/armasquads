@@ -3,7 +3,7 @@ return array(
 
     'languages' => array(
 
-        'fallback' => 'de',
+        'fallback' => 'en',
         'available' => array(
 
             'de' => 'de_DE',

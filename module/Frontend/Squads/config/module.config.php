@@ -34,6 +34,36 @@ return array (
                                             )
                                         )
                                     ),
+                                    'delete' => array(
+                                        'type' => 'segment',
+                                        'options' => array(
+                                            'route' => 'delete/:id/',
+                                            'defaults' => array(
+                                                'controller' => 'Frontend\Squads\Controller\Squads',
+                                                'action' => 'delete'
+                                            )
+                                        )
+                                    ),
+                                    'edit' => array(
+                                        'type' => 'segment',
+                                        'options' => array(
+                                            'route' => 'edit/:id/',
+                                            'defaults' => array(
+                                                'controller' => 'Frontend\Squads\Controller\Squads',
+                                                'action' => 'edit'
+                                            )
+                                        )
+                                    ),
+                                    'member' => array(
+                                        'type' => 'segment',
+                                        'options' => array(
+                                            'route' => 'edit/:id/',
+                                            'defaults' => array(
+                                                'controller' => 'Frontend\Squads\Controller\SquadMember',
+                                                'action' => 'edit'
+                                            )
+                                        )
+                                    ),
                                 )
                             ),
                         )
@@ -46,7 +76,8 @@ return array (
 
     'controllers' => array (
         'invokables' => array (
-            'Frontend\Squads\Controller\Squads' => 'Frontend\Squads\Controller\SquadsController'
+            'Frontend\Squads\Controller\Squads' => 'Frontend\Squads\Controller\SquadsController',
+            'Frontend\Squads\Controller\SquadMember' => 'Frontend\Squads\Controller\SquadMemberController'
         )
     ),
 

@@ -41,7 +41,7 @@ class Squad {
     protected $email;
 
     /**
-     * @ORM\Column(type="string", name="SQA_Logo")
+     * @ORM\Column(type="string", name="SQA_Logo", nullable=true)
      */
     protected $logo;
 
@@ -55,26 +55,150 @@ class Squad {
      */
     protected $members;
 
-    /**
-     * Magic getter to expose protected properties.
-     *
-     * @param string $property
-     * @return mixed
-     */
-    public function __get($property)
+    public function getSquadLogo($size = 16)
     {
-        return $this->$property;
+        if( ! $this->getLogo() )
+            return false;
+
+        return '/uploads/logos/' . $this->getLogo() . '/' . $size . '_' . $this->getLogo() . '.jpg';
+    }
+
+    public function getSquadLogoPaa($size = 16)
+    {
+        if( ! $this->getLogo() )
+            return false;
+
+        return '/uploads/logos/' . $this->getLogo() . '/' . $size . '_' . $this->getLogo() . '.paa';
     }
 
     /**
-     * Magic setter to save protected properties.
-     *
-     * @param string $property
-     * @param mixed $value
+     * @param mixed $email
      */
-    public function __set($property, $value)
+    public function setEmail($email)
     {
-        $this->$property = $value;
+        $this->email = $email;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $logo
+     */
+    public function setLogo($logo)
+    {
+        $this->logo = $logo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLogo()
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param mixed $members
+     */
+    public function setMembers($members)
+    {
+        $this->members = $members;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMembers()
+    {
+        return $this->members;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $tag
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTag()
+    {
+        return $this->tag;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+
 
 }

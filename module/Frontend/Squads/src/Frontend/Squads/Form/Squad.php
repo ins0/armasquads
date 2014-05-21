@@ -23,14 +23,12 @@ class Squad extends AbstractFrontendForm implements ServiceManagerAwareInterface
             $this->bind(new \Frontend\Squads\Entity\Squad() );
         }
 
-        $object = $this->getObject();
-
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'form-horizontal');
 
-        //$this->setInputFilter(new \Servicebereich\Form\Gutscheinerfassung\Filter\Artikel(
-        //    $this->getEntityManager()
-        //));
+        $this->setInputFilter(new \Frontend\Squads\Form\Filter\Squad(
+            $this->getEntityManager()
+        ));
 
         // Tag
         $this->add(array(
@@ -78,19 +76,34 @@ class Squad extends AbstractFrontendForm implements ServiceManagerAwareInterface
             )
         ));
 
-
-
-
-
         $this->add(array(
             'name' => 'email',
             'type' => 'Zend\Form\Element\Email',
             'attributes' => array(
                 'id' => 'email',
-                'class' => '',
+                'class' => 'form-control',
             ),
             'options' => array(
+                'label_attributes' => array(
+                    'class' => 'col-lg-2 control-label'
+                ),
                 'label' => 'Squad Email',
+            )
+        ));
+
+        $this->add(array(
+            'name' => 'logo',
+            'type' => 'Zend\Form\Element\File',
+            'attributes' => array(
+                'id' => 'logo',
+                'class' => 'form-control',
+                'accept' => 'image/jpg,image/jpeg,image/gif,image/png'
+            ),
+            'options' => array(
+                'label_attributes' => array(
+                    'class' => 'col-lg-2 control-label'
+                ),
+                'label' => 'Logo',
             )
         ));
 

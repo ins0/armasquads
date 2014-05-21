@@ -18,6 +18,7 @@
         ->appendFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
         ->appendFile('//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
         ->appendFile($this->basePath() . '/js/frontend/jquery.modal.js')
+        ->appendFile($this->basePath() . '/js/frontend/main.js')
         ->prependFile($this->basePath() . '/js/frontend/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
         ->prependFile($this->basePath() . '/js/frontend/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',));
 
@@ -52,7 +53,7 @@
                         <?php echo sprintf($this->translate('Welcome back, <b>%s</b>!'), $this->identity()->username); ?>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Userpanel <b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menü <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="<?php echo $this->url('frontend/user/home'); ?>"><?php echo $this->translate('Home'); ?></a></li>
                             <li><a href="<?php echo $this->url('frontend/user/squads'); ?>"><?php echo $this->translate('Squads'); ?></a></li>
@@ -85,6 +86,10 @@
                 </div>
             </div>
         </footer>
+    </div>
+    <div id="delete-confirm" style="display:none;">
+        Once you delete, there is no going back.<br/>
+        <a class="btn btn-sm" href="#" rel="modal:confirm">I'm sure!</a> <a class="btn btn-sm" href="#" rel="modal:close">Nope</a>
     </div>
     <!-- container end -->
     <!-- JS TIME! -->
