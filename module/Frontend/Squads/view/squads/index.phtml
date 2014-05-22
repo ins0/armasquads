@@ -12,11 +12,11 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>Logo</th>
-            <th>Tag</th>
-            <th>Name</th>
-            <th>Title</th>
-            <th>Email</th>
+            <th><?php echo $this->translate('Logo'); ?></th>
+            <th><?php echo $this->translate('Tag'); ?></th>
+            <th><?php echo $this->translate('Name'); ?></th>
+            <th><?php echo $this->translate('Title'); ?></th>
+            <th><?php echo $this->translate('E-Mail'); ?></th>
             <th></th>
         </tr>
         </thead>
@@ -37,12 +37,20 @@
                     <td><?php echo $this->escapeHtml( $squad->getEmail() ); ?></td>
                     <td>
                         <?php if($this->hasAccess('frontend/squads/create') ): ?>
-                            <a href="<?php echo $this->url('frontend/user/squads/edit', array('id'=>$squad->getId())) ?>"><span class="fa fa-edit"></span></a>
-                            <a href="<?php echo $this->url('frontend/user/squads/member', array('id'=>$squad->getId())) ?>"><span class="fa fa-users"></span></a>
-
+                            <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/edit', array('id'=>$squad->getId())) ?>">
+                                <span class="fa fa-edit"></span>
+                                <?php echo $this->translate('Edit'); ?>
+                            </a>
+                            <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/member', array('id'=>$squad->getId())) ?>">
+                                <span class="fa fa-users"></span>
+                                <?php echo $this->translate('Members'); ?>
+                            </a>
                         <?php endif; ?>
                         <?php if($this->hasAccess('frontend/squads/delete') ): ?>
-                            <a class="text-danger delete-confirm" href="<?php echo $this->url('frontend/user/squads/delete', array('id'=>$squad->getId())) ?>"><span class="fa fa-minus-circle"></span></a>
+                            <a class="btn btn-danger btn-sm" class="delete-confirm" href="<?php echo $this->url('frontend/user/squads/delete', array('id'=>$squad->getId())) ?>">
+                                <span class="fa fa-minus-circle"></span>
+                                <?php echo $this->translate('Delete'); ?>
+                            </a>
                         <?php endif; ?>
                     </td>
                 </tr>

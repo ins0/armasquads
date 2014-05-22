@@ -8,26 +8,21 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity
  * @ORM\Table(name="sqa_squad_member_4de785")
- * @ORM\Entity(repositoryClass="Auth\Repository\Role")
- * @property int $id
- * @property string $name
- * @property int $parent
- * @property int $supervisor
- *
  */
 class Member {
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer", name="MEM_ID")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\ManyToOne(targetEntity="Squad", inversedBy="members")
+     * @ORM\JoinColumn(name="SQA_ID", referencedColumnName="SQA_ID")
      */
-    protected $id;
+    protected $squad;
 
     /**
-     * @ORM\Column(type="integer", name="MEM_UID")
+     * @ORM\Id
+     * @ORM\Column(type="string", name="MEM_UID")
      */
-    protected $tag;
+    protected $uuid;
 
     /**
      * @ORM\Column(type="string", name="MEM_Username")
@@ -47,7 +42,7 @@ class Member {
     /**
      * @ORM\Column(type="integer", name="MEM_ICQ")
      */
-    protected $logo;
+    protected $icq;
 
     /**
      * @ORM\Column(type="string", name="MEM_Remark")
@@ -55,31 +50,116 @@ class Member {
     protected $remark;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Squad", inversedBy="members")
-     * @ORM\JoinColumn(name="SQA_ID", referencedColumnName="SQA_ID")
+     * @param mixed $email
      */
-    protected $squad;
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
 
     /**
-     * Magic getter to expose protected properties.
-     *
-     * @param string $property
      * @return mixed
      */
-    public function __get($property)
+    public function getEmail()
     {
-        return $this->$property;
+        return $this->email;
     }
 
     /**
-     * Magic setter to save protected properties.
-     *
-     * @param string $property
-     * @param mixed $value
+     * @param mixed $icq
      */
-    public function __set($property, $value)
+    public function setIcq($icq)
     {
-        $this->$property = $value;
+        $this->icq = $icq;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIcq()
+    {
+        return $this->icq;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $remark
+     */
+    public function setRemark($remark)
+    {
+        $this->remark = $remark;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRemark()
+    {
+        return $this->remark;
+    }
+
+    /**
+     * @param mixed $squad
+     */
+    public function setSquad($squad)
+    {
+        $this->squad = $squad;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSquad()
+    {
+        return $this->squad;
+    }
+
+    /**
+     * @param mixed $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param mixed $uuid
+     */
+    public function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
 
 }

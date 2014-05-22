@@ -21,13 +21,14 @@ class SquadMemberController extends AbstractFrontendController
             'user' => $this->identity(),
             'id' => $squadID
         ));
-        $squadEntityOriginal = clone $squadEntity;
 
         if( ! $squadEntity )
         {
             $this->flashMessenger()->addErrorMessage('Squad not found');
             return $this->redirect()->toRoute('frontend/user/squads');
         }
+
+        $squadEntityOriginal = clone $squadEntity;
 
         $form  = new SquadForm();
         $form->setEntityManager(

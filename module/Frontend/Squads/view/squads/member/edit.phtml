@@ -23,7 +23,7 @@
 </div>
 <hr>
 <?php foreach($this->squad->getMembers() as $member ): ?>
-    <?php echo $member->username; ?><br />
+    <?php echo $member->getUsername(); ?><br />
 <?php endforeach; ?>
 <br /><br />
 <a href="<?php echo $this->url('frontend/user/squads'); ?>" class="btn btn-primary"><?php echo $this->translate('Back'); ?></a>
