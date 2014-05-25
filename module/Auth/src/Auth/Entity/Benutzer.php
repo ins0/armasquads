@@ -9,16 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="BEN_Benutzer_91C48C")
  * @ORM\Entity(repositoryClass="Auth\Repository\Benutzer")
- * @property int $id
- * @property int $gruppenID
- * @property \Auth\Entity\Role $gruppe
- * @property string $username
- * @property string $password
- * @property bool $loggedIn
- * @property bool $disbaled
- * @property datetime $lastLogin
- * @property datetime $registerDate
- *
  */
 class Benutzer {
 	
@@ -44,13 +34,18 @@ class Benutzer {
 	 * @ORM\Column(type="string", name="BEN_Username")
 	 */
 	protected $username;
-	
-	/**
-	 * @ORM\Column(type="string", name="BEN_Password")
-	 */
-	protected $password;
 
-	/**
+    /**
+     * @ORM\Column(type="string", name="BEN_Password")
+     */
+    protected $password;
+
+    /**
+     * @ORM\Column(type="string", name="BEN_Email")
+     */
+    protected $email;
+
+    /**
 	 * @ORM\Column(type="boolean", name="BEN_Disabled")
 	 */
 	protected $disabled;
@@ -72,11 +67,35 @@ class Benutzer {
 	protected $loggedIn = false;
 
     /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
      * Liefert den Letzten Login als DateTime
      * @return \DateTime
      */
     public function getLastLogin(){
         return new \DateTime( $this->lastLogin );
+    }
+
+    public function setLastLogin($lastLogin){
+        $this->lastLogin = $lastLogin;
+    }
+
+    public function setRegisterDate($registerDate){
+        $this->registerDate = $registerDate;
     }
 
     /**
@@ -86,30 +105,116 @@ class Benutzer {
     public function getRegisterDate(){
         return new \DateTime( $this->registerDate );
     }
-	
-	/**
-	 * Magic getter to expose protected properties.
-	 *
-	 * @param string $property
-	 * @return mixed
-	 */
-	public function __get($property)
-	{
-		if( method_exists( $this, 'get' . ucfirst( $property ) )) {
-			return $this->{'get' . ucfirst( $property ) }();
-		}
-		return $this->$property;
-	}
-	
-	/**
-	 * Magic setter to save protected properties.
-	 *
-	 * @param string $property
-	 * @param mixed $value
-	 */
-	public function __set($property, $value)
-	{
-		$this->$property = $value;
-	}
-	
+
+    /**
+     * @param mixed $disabled
+     */
+    public function setDisabled($disabled)
+    {
+        $this->disabled = $disabled;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDisabled()
+    {
+        return $this->disabled;
+    }
+
+    /**
+     * @param mixed $gruppe
+     */
+    public function setGruppe($gruppe)
+    {
+        $this->gruppe = $gruppe;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGruppe()
+    {
+        return $this->gruppe;
+    }
+
+    /**
+     * @param mixed $gruppenID
+     */
+    public function setGruppenID($gruppenID)
+    {
+        $this->gruppenID = $gruppenID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGruppenID()
+    {
+        return $this->gruppenID;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $loggedIn
+     */
+    public function setLoggedIn($loggedIn)
+    {
+        $this->loggedIn = $loggedIn;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLoggedIn()
+    {
+        return $this->loggedIn;
+    }
+
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param mixed $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
 }

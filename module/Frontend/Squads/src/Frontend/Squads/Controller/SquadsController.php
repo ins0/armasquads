@@ -87,7 +87,7 @@ class SquadsController extends AbstractFrontendController
                 /** @var \Frontend\Squads\Entity\Squad $squad */
                 $squad = $form->getData();
                 $squad->setUser(
-                    $this->getEntityManager()->getReference('Auth\Entity\Benutzer', $this->identity()->id )
+                    $this->getEntityManager()->getReference('Auth\Entity\Benutzer', $this->identity()->getId() )
                 );
 
                 // move logo
@@ -111,6 +111,7 @@ class SquadsController extends AbstractFrontendController
                         foreach($squadLogosFormat as $format)
                         {
                             $image = new \Imagick( $logoSpecs['tmp_name'] );
+                            $image->setImageBackgroundColor('white');
                             $image->stripimage();
                             $image->setimageformat('jpg');
                             $image->adaptiveresizeimage($format, $format, false);
@@ -118,17 +119,29 @@ class SquadsController extends AbstractFrontendController
                             $image->destroy();
                             $image->clear();
                             unset($image);
-
-                            $image = new \Imagick( $logoSpecs['tmp_name'] );
-                            $image->stripimage();
-                            $image->setimageformat('tga');
-                            $image->adaptiveresizeimage($format, $format, false);
-                            $image->writeImage($logoPath . $format . '_' . $logoName . '.paa');
-                            $image->destroy();
-                            $image->clear();
-                            unset($image);
                         }
 
+                        // delete old logo folder
+                        if( $squad->getLogo() )
+                        {
+                            $it = new \RecursiveDirectoryIterator(ROOT_PATH . dirname($squadEntityOriginal->getSquadLogo()), \RecursiveDirectoryIterator::SKIP_DOTS);
+                            $files = new \RecursiveIteratorIterator($it,
+                                \RecursiveIteratorIterator::CHILD_FIRST);
+                            foreach($files as $file) {
+                                if ($file->getFilename() === '.' || $file->getFilename() === '..') {
+                                    continue;
+                                }
+                                if ($file->isDir()){
+                                    rmdir($file->getRealPath());
+                                } else {
+                                    unlink($file->getRealPath());
+                                }
+                            }
+                            rmdir(ROOT_PATH . dirname($squadEntityOriginal->getSquadLogo()));
+
+                        }
+
+                        // set new logo
                         $squad->setLogo($logoName);
 
                     } Catch( \Exception $e )
@@ -182,7 +195,7 @@ class SquadsController extends AbstractFrontendController
                 /** @var \Frontend\Squads\Entity\Squad $squad */
                 $squad = $form->getData();
                 $squad->setUser(
-                    $this->getEntityManager()->getReference('Auth\Entity\Benutzer', $this->identity()->id )
+                    $this->getEntityManager()->getReference('Auth\Entity\Benutzer', $this->identity()->getId() )
                 );
 
                 // move logo
@@ -204,19 +217,11 @@ class SquadsController extends AbstractFrontendController
                     foreach($squadLogosFormat as $format)
                     {
                         $image = new \Imagick( $logoSpecs['tmp_name'] );
+                        $image->setBackgroundColor(new \ImagickPixel('transparent'));
                         $image->stripimage();
                         $image->setimageformat('jpg');
                         $image->adaptiveresizeimage($format, $format, false);
                         $image->writeImage($logoPath . $format . '_' . $logoName . '.jpg');
-                        $image->destroy();
-                        $image->clear();
-                        unset($image);
-
-                        $image = new \Imagick( $logoSpecs['tmp_name'] );
-                        $image->stripimage();
-                        $image->setimageformat('tga');
-                        $image->adaptiveresizeimage($format, $format, false);
-                        $image->writeImage($logoPath . $format . '_' . $logoName . '.paa');
                         $image->destroy();
                         $image->clear();
                         unset($image);

@@ -12,7 +12,7 @@ return array (
                     'user' => array(
                         'child_routes' => array(
                             'squads' => array(
-                                'type' => 'segment',
+                                'type' => 'literal',
                                 'options' => array(
                                     'route' => 'squads/',
                                     'defaults' => array(
@@ -23,6 +23,92 @@ return array (
                                 ),
                                 'may_terminate' => true,
                                 'child_routes' => array(
+
+                                    'xml' => array(
+                                        'type' => 'segment',
+                                        'options' => array(
+                                            'route' => 'xml/:id/',
+                                            'defaults' => array(
+                                                'controller' => 'Frontend\Squads\Controller\SquadXml',
+                                                'action' => 'squadFile'
+                                            )
+                                        ),
+                                        'may_terminate' => true,
+                                        'child_routes' => array(
+
+                                            'squad' => array(
+                                                'type' => 'literal',
+                                                'options' => array(
+                                                    'route' => 'squad.xml',
+                                                    'defaults' => array(
+                                                        'controller' => 'Frontend\Squads\Controller\SquadXml',
+                                                        'action' => 'squadFile'
+                                                    )
+                                                )
+                                            ),
+                                            'logo' => array(
+                                                'type' => 'literal',
+                                                'options' => array(
+                                                    'route' => 'squad.paa',
+                                                    'defaults' => array(
+                                                        'controller' => 'Frontend\Squads\Controller\SquadXml',
+                                                        'action' => 'logoFile'
+                                                    )
+                                                )
+                                            ),
+                                            'dtd' => array(
+                                                'type' => 'literal',
+                                                'options' => array(
+                                                    'route' => 'squad.dtd',
+                                                    'defaults' => array(
+                                                        'controller' => 'Frontend\Squads\Controller\SquadXml',
+                                                        'action' => 'dtdFile'
+                                                    )
+                                                )
+                                            ),
+                                            'xsl' => array(
+                                                'type' => 'literal',
+                                                'options' => array(
+                                                    'route' => 'squad.xsl',
+                                                    'defaults' => array(
+                                                        'controller' => 'Frontend\Squads\Controller\SquadXml',
+                                                        'action' => 'xslFile'
+                                                    )
+                                                )
+                                            ),
+                                            'css' => array(
+                                                'type' => 'literal',
+                                                'options' => array(
+                                                    'route' => 'squad.css',
+                                                    'defaults' => array(
+                                                        'controller' => 'Frontend\Squads\Controller\SquadXml',
+                                                        'action' => 'cssFile'
+                                                    )
+                                                )
+                                            ),
+                                            'png' => array(
+                                                'type' => 'literal',
+                                                'options' => array(
+                                                    'route' => 'logo.png',
+                                                    'defaults' => array(
+                                                        'controller' => 'Frontend\Squads\Controller\SquadXml',
+                                                        'action' => 'pngFile'
+                                                    )
+                                                )
+                                            ),
+                                            'jpg' => array(
+                                                'type' => 'literal',
+                                                'options' => array(
+                                                    'route' => 'squad.jpg',
+                                                    'defaults' => array(
+                                                        'controller' => 'Frontend\Squads\Controller\SquadXml',
+                                                        'action' => 'logoFile'
+                                                    )
+                                                )
+                                            ),
+                                        )
+                                    ),
+
                                     'create' => array(
                                         'type' => 'segment',
                                         'options' => array(
@@ -77,7 +163,8 @@ return array (
     'controllers' => array (
         'invokables' => array (
             'Frontend\Squads\Controller\Squads' => 'Frontend\Squads\Controller\SquadsController',
-            'Frontend\Squads\Controller\SquadMember' => 'Frontend\Squads\Controller\SquadMemberController'
+            'Frontend\Squads\Controller\SquadMember' => 'Frontend\Squads\Controller\SquadMemberController',
+            'Frontend\Squads\Controller\SquadXml' => 'Frontend\Squads\Controller\SquadXmlController'
         )
     ),
 

@@ -3,51 +3,93 @@ namespace Frontend\Login\Form;
 
 use Zend\Form\Form;
 
-class Login extends Form {
-	
-	public function init() {
+class Register extends Form {
 
-		$this->setAttribute ( 'method', 'post' );
-		
-		$username = new \Zend\Form\Element\Text('username');
-		$username->setAttribute('class', 'text');
-		$username->setAttribute('id', 'username');
-		$username->setLabel('REGISTER_LABEL_USERNAME');
-		$this->add( $username );
-		
-		$this->add ( array (
-				'name' => 'password',
-				'type' => 'Zend\Form\Element\Password',
-				'attributes' => array (
-						'class' => 'text',
-						'id' => 'password',
-				),
-				'options' => array(
-						'label' => 'REGISTER_LABEL_PASSWORD',
-				),
-		) );
+    public function __construct() {
 
-        $this->add ( array (
-            'name' => 'email',
-            'type' => 'Zend\Form\Element\Email',
-            'attributes' => array (
-                'class' => 'text',
+        parent::__construct('register');
+
+        $this->setAttribute ('method', 'post');
+        $this->setAttribute('class', 'form-horizontal');
+        $this->setUseInputFilterDefaults(false);
+
+        // Username
+        $this->add(array(
+            'name' => 'username',
+            'type' => 'Zend\Form\Element\Text',
+            'attributes' => array(
+                'id' => 'username',
+                'class' => 'form-control',
+                'placeholder' => 'Username'
             ),
             'options' => array(
-                'label' => 'REGISTER_LABEL_EMAIL',
-            ),
-        ) );
-		
-		$this->add ( array (
-				'name' => 'submit',
-				'type' => 'Zend\Form\Element\Submit',
-				'attributes' => array (
-						'id' => 'submit',
-						'value' => 'LOGIN_BUTTON_LOGIN_SUBMIT',
-						'class' => 'button ok'
-				)
-		) );
-	
-	}
+                'label_attributes' => array(
+                    'class' => 'col-lg-2 control-label'
+                ),
+                'label' => 'Username',
+            )
+        ));
 
+        // Email
+        $this->add(array(
+            'name' => 'email',
+            'type' => 'Zend\Form\Element\Email',
+            'attributes' => array(
+                'id' => 'email',
+                'class' => 'form-control',
+                'placeholder' => 'Email'
+            ),
+            'options' => array(
+                'label_attributes' => array(
+                    'class' => 'col-lg-2 control-label'
+                ),
+                'label' => 'Email',
+            )
+        ));
+
+        // Password
+        $this->add(array(
+            'name' => 'password',
+            'type' => 'Zend\Form\Element\Password',
+            'attributes' => array(
+                'id' => 'password',
+                'class' => 'form-control',
+                'placeholder' => 'Password'
+            ),
+            'options' => array(
+                'label_attributes' => array(
+                    'class' => 'col-lg-2 control-label'
+                ),
+                'label' => 'Password',
+            )
+        ));
+
+        // Password2
+        $this->add(array(
+            'name' => 'password2',
+            'type' => 'Zend\Form\Element\Password',
+            'attributes' => array(
+                'id' => 'password2',
+                'class' => 'form-control',
+                'placeholder' => 'Confirm Password'
+            ),
+            'options' => array(
+                'label_attributes' => array(
+                    'class' => 'col-lg-2 control-label'
+                ),
+                'label' => 'Confirm Password',
+            )
+        ));
+
+        $this->add ( array (
+            'name' => 'submit',
+            'type' => 'Zend\Form\Element\Submit',
+            'attributes' => array (
+                'id' => 'submit',
+                'value' => 'Get my Account!',
+                'class' => 'btn btn-success'
+            )
+        ) );
+
+    }
 }

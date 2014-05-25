@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <?php
     // titel
-    echo $this->headtitle('TITLE_STARTSEITE', 'APPEND')
+    echo $this->headtitle('Create your own Squad XML Files for ARMA based games', 'APPEND')
         ->setAutoEscape(true)
         ->setSeparator(' » ');
 
@@ -18,6 +18,7 @@
         ->appendFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
         ->appendFile('//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
         ->appendFile($this->basePath() . '/js/frontend/jquery.modal.js')
+        ->appendFile($this->basePath() . '/js/frontend/main.js')
         ->prependFile($this->basePath() . '/js/frontend/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
         ->prependFile($this->basePath() . '/js/frontend/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',));
 
@@ -41,18 +42,35 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo $this->basePath('/'); ?>">
+                <a class="navbar-brand" href="<?php echo $this->url('frontend'); ?>">
                     <img width="60px" src="<?php echo $this->basePath('images/frontend/Arma3_Trans_Logo.png') ?>" alt="Arma"/>
-                    <?php echo $this->translate('Arma Squad XML Hoster') ?>
+                    <span class="hidden-xs">
+                        <?php echo $this->translate('Armasquads.de - Squad.XML Generator') ?>
+                    </span>
                 </a>
             </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="#ex1" rel="modal:open"><?php echo $this->translate('Sign Up / Login'); ?></a></li>
-                    <li><a href="<?php echo $this->url(null, array('locale' => 'de'), true); ?>"><img src="/images/frontend/icons/languages/de.png" /></a></li>
-                    <li><a href="<?php echo $this->url(null, array('locale' => 'en'), true); ?>""><img src="/images/frontend/icons/languages/us.png" /></a></li>
-                </ul>
-            </div><!--/.nav-collapse -->
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <?php if( $this->identity() ): ?>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Menü</b> <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="<?php echo $this->url('frontend/user/home'); ?>"><?php echo $this->translate('Home'); ?></a></li>
+                                    <li><a href="<?php echo $this->url('frontend/user/squads'); ?>"><?php echo $this->translate('Squads'); ?></a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="<?php echo $this->url('frontend/logout'); ?>"><?php echo $this->translate('Logout'); ?></a></li>
+                                </ul>
+                            </li>
+                            <li><a href="<?php echo $this->url(null, array('locale' => 'de'), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
+                            <li><a href="<?php echo $this->url(null, array('locale' => 'en'), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
+                            <li class="label-primary"><a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=rieger%40henze-group%2ecom&lc=US&item_name=It%20is%20dangerous%20to%20go%20alone!%20Take%20this%20Drink!&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest">Spend me a Coffee? <span class="fa fa-coffee"></span></a></li>
+                        <?php else: ?>
+                            <li class="active"><a href="#ex1" rel="modal:open"><?php echo $this->translate('Sign Up / Login'); ?></a></li>
+                            <li><a href="<?php echo $this->url(null, array('locale' => 'de'), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
+                            <li><a href="<?php echo $this->url(null, array('locale' => 'en'), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
         </div>
     </nav>
     <div class="container">
@@ -61,84 +79,39 @@
             <?php echo $this->content; ?>
         </div>
         <hr>
+        <div class="alert alert-dismissable alert-warning">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                    <strong>Heads up!</strong> You found a nasty bug or missing an important feature?<br />
+                    <a href="https://github.com/ins0/armasquads.de/issues" target="_blank"><em><b>Post it on our GitHub Repository!</b></em></a>
+                </div>
+                <div class="col-xs-12 col-sm-6 text-right">
+                    <a href="https://github.com/ins0/armasquads.de/issues" target="_blank">
+                        <img src="<?php echo $this->basepath('images/frontend/github_logo.png'); ?>" />
+                    </a>
+                </div>
+            </div>
+        </div>
         <footer>
             <div class="row">
                 <div class="col-lg-12">
                     <ul class="list-unstyled">
                         <li class="pull-right"><a href="#top">Back to top</a></li>
                     </ul>
-                    <p>Lorem blub</p>
-                    <p>Blabla maybe some hints to Bohemia Interactive Arma blabla</p>
+                    <p>This website is not affiliated or authorized by Bohemia Interactive a.s. Bohemia Interactive, ARMA, DAYZ and all associated logos and designs are trademarks or registered trademarks of Bohemia Interactive a.s.</p>
+                    <br />
+                    <p>Created with <span class="fa fa-heart"></span> by <a href="http://racecore.de" target="_blank">racecore.de</a></p>
+                    <p>Don't have a copy of Arma 3? Buy it on <a target="_blank" href="http://store.steampowered.com/app/107410/">Steam</a>!</p>
                     <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="http://www.google.com/webfonts" rel="nofollow">Google</a>.</p>
                 </div>
             </div>
         </footer>
     </div>
-    <!-- Register/Login Modal -->
-    <div id="ex1" style="display:none;">
-        <div class="container-fluid">
-            <div class="col-xs-6">
-                <form class="form-horizontal" action="<?php echo $this->url('frontend/login'); ?>">
-                    <fieldset>
-                        <legend>Login</legend>
-                        <hr>
-                        <div class="form-group">
-                            <label for="inputEmail" class="col-lg-3 control-label">Email</label>
-                            <div class="col-lg-9">
-                                <input tabindex="1" type="text" class="form-control" id="inputEmail" placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputPassword" class="col-lg-3 control-label">Password</label>
-                            <div class="col-lg-9">
-                                <input tabindex="2" type="password" class="form-control" id="inputPassword" placeholder="Password">
-                                <div class="checkbox">
-                                    <label>
-                                        <input tabindex="3" type="checkbox"> Checkbox
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group text-left">
-                                <button type="submit" tabindex="4" class="btn btn-primary">Login</button>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="col-xs-6">
-                <form class="form-horizontal" action="<?php echo $this->url('frontend/register'); ?>">
-                    <fieldset>
-                        <legend>Register Account</legend>
-                        <hr>
-                        <div class="form-group">
-                            <label for="inputUsername" class="col-lg-3 control-label">Username</label>
-                            <div class="col-lg-9">
-                                <input tabindex="5" type="text" class="form-control" id="inputUsername" placeholder="Username">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEmail" class="col-lg-3 control-label">Email</label>
-                            <div class="col-lg-9">
-                                <input tabindex="6" type="text" class="form-control" id="inputEmail" placeholder="Email">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputPassword" class="col-lg-3 control-label">Password</label>
-                            <div class="col-lg-9">
-                                <input tabindex="7" type="password" class="form-control" id="inputPassword" placeholder="Password">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-offset-1">
-                            <button type="submit" tabindex="8" class="btn btn-primary">Register New Account</button>
-                        </div>
-
-                    </fieldset>
-                </form>
-            </div>
-
-        </div>
-
+    <?php echo $this->partial('frontend/login/form/modal'); ?>
+    <div id="delete-confirm" style="display:none;">
+        Once this is deleted, there is no going back!<br/>
+        <hr>
+        <a class="btn btn-danger btn-sm" href="#" rel="modal:confirm">I'm sure!</a> <a class="btn btn-default btn-sm" href="#" rel="modal:close">Nope</a>
     </div>
     <!-- container end -->
     <!-- JS TIME! -->

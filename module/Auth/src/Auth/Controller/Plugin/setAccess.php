@@ -35,7 +35,7 @@ class setAccess extends AbstractPlugin
 
             if( $authService->isLoggedIn() ) {
                 // display only if logged in
-                $this->getAuthService()->getMessenger()->addErrorMessage( strtoupper($ns) . '_ACCESS_NOT_ALLOWED');
+                $this->getAuthService()->getMessenger()->addErrorMessage("You don't have permission to access this page");
             }
 
             if( ! $redirectRoute ) {

@@ -1,3 +1,4 @@
+<?php $this->headtitle('My Squads'); ?>
 <div class="page-header">
     <h1 id="type"><?php echo $this->translate('My Squads'); ?></h1>
 </div>
@@ -47,7 +48,7 @@
                             </a>
                         <?php endif; ?>
                         <?php if($this->hasAccess('frontend/squads/delete') ): ?>
-                            <a class="btn btn-danger btn-sm" class="delete-confirm" href="<?php echo $this->url('frontend/user/squads/delete', array('id'=>$squad->getId())) ?>">
+                            <a class="btn btn-danger btn-sm delete-confirm" href="<?php echo $this->url('frontend/user/squads/delete', array('id'=>$squad->getId())) ?>">
                                 <span class="fa fa-minus-circle"></span>
                                 <?php echo $this->translate('Delete'); ?>
                             </a>

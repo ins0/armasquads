@@ -81,11 +81,19 @@ return array (
 		/**
 		 * VIEW MANAGER
 		 */
-		'view_manager' => array (
-				'template_path_stack' => array (
-						__DIR__ . '/../view'
-				)
-		),
+        'view_manager' => array (
+            'template_map' => array (
+
+                // error layouts
+                'frontend/login/form/modal' => __DIR__ . '/../view/login/login_modal.phtml',
+                'frontend/login/form' => __DIR__ . '/../view/login/login.phtml',
+
+
+            ),
+            'template_path_stack' => array (
+                __DIR__ . '/../view'
+            )
+        ),
 
 		/**
 		 * DOCTRINE

@@ -1,0 +1,13 @@
+<!ELEMENT squad (name, email, web?, picture?, title?, member+)>
+<!ATTLIST squad nick CDATA #REQUIRED>
+
+<!ELEMENT member (name, email, icq?, remark?)>
+<!ATTLIST member id CDATA #REQUIRED nick CDATA #REQUIRED>
+
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT email (#PCDATA)>
+<!ELEMENT icq (#PCDATA)>
+<!ELEMENT web (#PCDATA)>
+<!ELEMENT picture (#PCDATA)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT remark (#PCDATA)>

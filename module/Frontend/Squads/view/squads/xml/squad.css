@@ -1,0 +1,167 @@
+/*
+  CSS template for "squad.xml", used in "Armed Assault" (Ref: "http://www.armedassault.com")
+  and "Armed Assault 2" (Ref: "http://www.arma2.com")
+  See also the Arma-Wiki page: "http://community.bistudio.com/wiki/squad.xml"
+  Created by TomNedry, 26.Jan07
+  Reviewed by TomNedry, 15.Jul09
+  Lisence: Creative Common (http://creativecommons.org/licenses/by-nc-sa/2.5/deed.de)
+*/
+
+body
+{
+    font-family:Arial;
+    background-color:#eaece5;
+    margin:0px;
+}
+
+a:link
+{
+    text-decoration:none;
+    color:#800000;
+}
+a:visited
+{
+    text-decoration:none;
+    color:#800000;
+}
+a:hover
+{
+    text-decoration:none;
+    color:#ffffff;
+}
+a:active
+{
+    text-decoration:none;
+}
+a:focus {
+    text-decoration:none;
+}
+
+th
+{
+    background-color:#aeb399;
+    font-family:Arial;
+    font-size:10pt;
+    font-weight:bold;
+    padding:4px;
+}
+
+tr.one
+{
+    background-color:#dde4c3;
+    width:100%;
+    padding:4px;
+}
+tr.two
+{
+    background-color:#d2d9b8;
+    width:100%;
+    padding:4px;
+}
+td.one
+{
+    background-color:#aeb399;
+    width:100%;
+}
+td.two
+{
+    background-color:#e2e9c7;
+    width:100%;
+}
+.main
+{
+    text-align:center;
+    width:100%;
+    border:0px solid #333333;
+}
+div.sqd_name
+{
+    text-align:center;
+    font-family:Arial;
+    font-size:12pt;
+    font-weight:bold;
+}
+div.sqd_title
+{
+    text-align:center;
+    font-family:Arial;
+    font-size:10pt;
+}
+div.sqd_logo
+{
+    text-align:center;
+    font-size:8pt;
+    padding:5px;
+}
+.sqd_info
+{
+    border:1px dotted darkgrey;
+    width:100%;
+    padding:0px;
+    border-spacing:0px;
+}
+.sqd_website
+{
+    font-family:Arial;
+    font-size:10pt;
+    text-align:center;
+    background-color:#aeb399;
+    width:100%;
+    padding:4px;
+    border-spacing:0px;
+}
+.sqd_email
+{
+    font-family:Arial;
+    font-size:10pt;
+    text-align:center;
+    background-color:#aeb399;
+    width:100%;
+    padding:4px;
+    border-spacing:0px;
+}
+.left-row
+{
+    vertical-align:top;
+    height:100%;
+}
+.right-row
+{
+    vertical-align:top;
+    height:100%;
+}
+.member_info
+{
+    border:1px dotted darkgrey;
+    width:100%;
+    padding:0px;
+    border-spacing:0px;
+}
+.member_name
+{
+    font-family:Arial;
+    color:black;
+    font-size:10pt;
+    padding:4px;
+}
+.member_email
+{
+    font-family:Arial;
+    color:black;
+    font-size:8pt;
+    padding:4px;
+}
+.member_icq
+{
+    font-family:Arial;
+    color:black;
+    font-size:8pt;
+    padding:4px;
+}
+.member_remark
+{
+    font-family:Arial;
+    color:black;
+    font-size:8pt;
+    text-align:center;
+}

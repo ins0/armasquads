@@ -15,15 +15,35 @@
         <div class="panel-body">
             <form class="bs-component">
                 <div class="form-group">
-                    <input type="text" class="form-control" value="http://gaming-cec.de/squadurl/squad.xml" id="inputDefault">
+                    <input type="text" class="form-control" value="<?php echo 'http://' . $_SERVER['SERVER_NAME'] . ($this->url('frontend/user/squads/xml', array('id' => $this->squad->getId()))); ?>" id="inputDefault">
                 </div>
             </form>
         </div>
     </div>
 </div>
 <hr>
-<?php foreach($this->squad->getMembers() as $member ): ?>
-    <?php echo $member->getUsername(); ?><br />
-<?php endforeach; ?>
-<br /><br />
-<a href="<?php echo $this->url('frontend/user/squads'); ?>" class="btn btn-primary"><?php echo $this->translate('Back'); ?></a>
+<script>
+    function add_member() {
+        var currentCount = $('form > fieldset > fieldset').length;
+        var template = $('form > fieldset > span').data('template');
+        template = template.replace(/__index__/g, currentCount);
+        template = $(template).hide();
+        $('form > fieldset').prepend(template);
+        $('form > fieldset > fieldset').eq(0).slideDown();
+
+        return false;
+    }
+</script>
+<div class="well">
+    <?php $form->prepare(); ?>
+    <?php echo $this->form()->openTag($form); ?>
+    <a href="<?php echo $this->url('frontend/user/squads'); ?>" class="btn btn-danger"><?php echo $this->translate('Back'); ?></a>
+    <button type="submit" class="btn btn-success"><?php echo $this->translate('Save'); ?></button>
+    <div class="btn btn-primary" onclick="return add_member()">Add a new Member</div>
+    <hr>
+    <?php echo $this->formCollection( $this->form->get('members') ); ?>
+    <hr>
+    <a href="<?php echo $this->url('frontend/user/squads'); ?>" class="btn btn-danger"><?php echo $this->translate('Back'); ?></a>
+    <button type="submit" class="btn btn-success"><?php echo $this->translate('Save'); ?></button>
+    <?php echo $this->form()->closeTag($form); ?>
+</div>

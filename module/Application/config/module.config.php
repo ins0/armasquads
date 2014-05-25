@@ -19,7 +19,7 @@ return array (
 										'route' => '/[:locale/]',
 										'defaults' => array (
 												'controller' => 'Frontend\Startseite\Controller\Startseite',
-												'action' => 'index'
+												'action' => 'index',
 										),
 										'constraints' => array(
                                             'locale' => '.{2}'
@@ -35,7 +35,8 @@ return array (
 										'route' => '/[:locale/]admin/',
 										'defaults' => array (
 												'controller' => 'Administration\Dashboard\Controller\Dashboard',
-												'action' => 'index'
+												'action' => 'index',
+                                                'locale' => 'en'
 										),
 										'constraints' => array(
 												'locale' => '.{2}'
@@ -66,8 +67,10 @@ return array (
 		// ###############################################
 		'view_helpers'       => array(
 				'invokables'=> array(
-						'FlashMessenger'	=> 'Application\View\Helper\FlashMessenger',
-						//'Translate'			=> 'Application\View\Helper\Translate',
+                    'FlashMessenger'	=> 'Application\View\Helper\FlashMessenger',
+                    'formErrors'	=> 'Application\View\Helper\formErrors',
+
+                    //'Translate'			=> 'Application\View\Helper\Translate',
 						//'DateFormat'		=> 'Application\View\Helper\DateFormat',
 				)
 		),		
@@ -76,19 +79,9 @@ return array (
 				'display_not_found_reason' => true,
 				'display_exceptions' => true,
 				'doctype' => 'HTML5',
-				'not_found_template' => 'error/404',
-				'exception_template' => 'error/index',
 				'template_map' => array (
 
                     'layout/layout' => __DIR__ . '/../view/layout/default.phtml',
-
-                    /**
-                     * @TODO error auf admin und frontend auslagern - getrennt
-                     */
-                    // error layouts
-                    'error/404' => __DIR__ . '/../view/error/404.phtml',
-						'error/403' => __DIR__ . '/../view/error/403.phtml',
-						'error/index' => __DIR__ . '/../view/error/index.phtml'
 
 
 				),

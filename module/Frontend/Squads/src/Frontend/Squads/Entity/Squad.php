@@ -1,6 +1,8 @@
 <?php
 namespace Frontend\Squads\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,9 +53,45 @@ class Squad {
     protected $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="Member", mappedBy="squad")
+     * @ORM\OneToMany(targetEntity="Member", mappedBy="squad", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     protected $members;
+
+    public function __construct()
+    {
+        $this->members = new ArrayCollection();
+    }
+
+    public function addMember( Member $member )
+    {
+        $member->setSquad($this);
+        $this->members->add($member);
+        return $this;
+    }
+
+    public function addMembers($members)
+    {
+        foreach( $members as $member )
+        {
+            $this->addMember($member);
+        }
+        return $this;
+    }
+
+    public function removeMember( $member )
+    {
+        $this->members->removeElement($member);
+        return $this;
+    }
+
+    public function removeMembers( $members )
+    {
+        foreach( $members as $member )
+        {
+            $this->removeMember( $member );
+        }
+        return $this;
+    }
 
     public function getSquadLogo($size = 32)
     {

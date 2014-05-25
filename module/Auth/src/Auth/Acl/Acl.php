@@ -119,15 +119,15 @@ class Acl extends AuthenticationService {
 
 			// register as gast
 			$benutzer = new Benutzer();
-			$benutzer->username = 'Unbekannter User';
-			$benutzer->id = 0;
-            $benutzer->loggedIn = false;
+			$benutzer->setUsername('Unbekannter User');
+			$benutzer->setId(0);
+            $benutzer->setLoggedIn(false);
 
             $gruppe = new Role();
             $gruppe->id = 2;
 			$gruppe->name = 'Gast';
             $gruppe->supervisor = 0;
-			$benutzer->gruppe = $gruppe;			
+			$benutzer->setGruppe($gruppe);
 			
 			
 			if( !$benutzer ) {
@@ -139,7 +139,7 @@ class Acl extends AuthenticationService {
 		
 		// register acl in navigation
 		\Zend\View\Helper\Navigation\AbstractHelper::setDefaultAcl( $acl );
-		\Zend\View\Helper\Navigation\AbstractHelper::setDefaultRole( $this->getIdentity()->gruppe->name );
+		\Zend\View\Helper\Navigation\AbstractHelper::setDefaultRole( $this->getIdentity()->getGruppe()->name );
 
 		$this->acl = $acl;
 		$this->sm = $sm;
@@ -156,21 +156,22 @@ class Acl extends AuthenticationService {
      * @return int
      */
     public function login($username, $password) {
-	
+
+        /** @var Benutzer $benutzer */
 		$benutzer = $this->em->getRepository('Auth\Entity\Benutzer')->findOneByUsername( $username );
 
         /**
          * @TODO MD5 durch bcrpyt ersetzten
          */
-        if( $benutzer && $benutzer->password == md5( $password ) ) {
+        if( $benutzer && $benutzer->getPassword() == md5( $password ) ) {
 
-			if( $benutzer->disabled == true ) {
+			if( $benutzer->getDisabled() == true ) {
 				// user is blocked
                 return self::LOGIN_DISABLED;
 			}
 
             // success
-			$benutzer->loggedIn = true;
+			$benutzer->setLoggedIn(true);
 			$this->getStorage()->write( $benutzer );
 
 			return self::LOGIN_SUCCESS;			
@@ -178,6 +179,20 @@ class Acl extends AuthenticationService {
 		
 		return self::LOGIN_WRONG;
 	}
+
+    /**
+     * Instant Login Auth
+     *
+     * @param Benutzer $benutzer
+     * @return bool
+     */
+    public function instantLogin( Benutzer $benutzer )
+    {
+        $benutzer->setLoggedIn( true );
+        $this->getStorage()->write( $benutzer );
+
+        return true;
+    }
 
 	/**
 	 * Mithilfe dieser Methode kann ein redirect durchgeführt werden.
@@ -205,7 +220,7 @@ class Acl extends AuthenticationService {
 	 */
 	public function isLoggedIn() {
 		
-		return (bool) $this->getIdentity()->loggedIn;
+		return (bool) $this->getIdentity()->getLoggedIn();
 		
 		/**
 		if( $this->getIdentity()->gruppe->name != 'Gast' ) {
@@ -221,7 +236,7 @@ class Acl extends AuthenticationService {
         $parentHasIdentity = parent::hasIdentity();
 
         // gast account?
-        if( $parentHasIdentity && $this->getIdentity()->id === 0 ) {
+        if( $parentHasIdentity && $this->getIdentity()->getId() === 0 ) {
 
             // gast account - wie keine identity
             return false;
@@ -244,7 +259,7 @@ class Acl extends AuthenticationService {
 	 */
 	public function hasAccess( $action ) {
 
-        if( $this->getIdentity()->gruppe->supervisor === 1 )
+        if( $this->getIdentity()->getGruppe()->supervisor === 1 )
         {
             // global admin
             return true;
@@ -252,7 +267,7 @@ class Acl extends AuthenticationService {
 
 		Try {
 			return $this->acl->isAllowed(
-				$this->getIdentity()->gruppe->name,
+				$this->getIdentity()->getGruppe()->name,
 				$action
 			);
 		} Catch( \Exception $e ) {

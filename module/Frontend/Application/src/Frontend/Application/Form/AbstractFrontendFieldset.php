@@ -2,9 +2,10 @@
 namespace Frontend\Application\Form;
 
 use Zend\Form\Fieldset;
+use Zend\InputFilter\InputFilterProviderInterface;
 use Zend\ServiceManager\ServiceManager;
 
-abstract class AbstractFrontendFieldset extends Fieldset {
+abstract class AbstractFrontendFieldset extends Fieldset implements InputFilterProviderInterface {
 
     /**
      * @var \Doctrine\ORM\EntityManager

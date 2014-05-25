@@ -20,10 +20,10 @@ return array(
     		/**
     		 * Administration
     		 */
-    		'Administration\Application',
-    		'Administration\Login',
-    		'Administration\Dashboard',
-            'Administration\Benutzer',
+    		//'Administration\Application',
+            //'Administration\Login',
+            //'Administration\Dashboard',
+            //'Administration\Benutzer',
 
                 /**
                  *  ADMIN MODULES

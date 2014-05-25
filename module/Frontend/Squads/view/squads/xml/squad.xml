@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE squad SYSTEM "squad.dtd">
+<squad nick="<?php echo $this->escapeHtml($this->squad->getTag()); ?>">
+    <name><?php echo $this->squad->getName() ? $this->escapeHtml($this->squad->getName()) : 'N/A'; ?></name>
+    <email><?php echo $this->squad->getEmail() ? $this->escapeHtml($this->squad->getEmail()) : 'N/A'; ?></email>
+    <web>N/A</web>
+    <picture><?php echo $this->squad->getLogo() ? 'squad.jpg' : '' ?></picture>
+    <title><?php echo $this->squad->getTitle() ? $this->escapeHtml($this->squad->getTitle()) : 'N/A'; ?></title>
+    <?php foreach($this->squad->getMembers() as $member ): ?>
+        <member id="<?php echo $member->getUuid(); ?>" nick="<?php echo $member->getUsername(); ?>">
+            <name><?php echo $member->getName(); ?></name>
+            <email><?php echo $member->getEmail() ? $this->escapeHtml($member->getEmail()) : 'N/A'; ?></email>
+            <icq><?php echo $member->getIcq() ? $this->escapeHtml($member->getIcq()) : 'N/A'; ?></icq>
+            <remark><?php echo $member->getRemark() ? $this->escapeHtml($member->getRemark()) : 'N/A'; ?></remark>
+        </member>
+    <?php endforeach; ?>
+</squad>

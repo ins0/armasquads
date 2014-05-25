@@ -7,6 +7,14 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^.*$ - [NC,L]
 
 # add trailing slash at the end
+RewriteCond %{REQUEST_URI} !squad\.paa$
+RewriteCond %{REQUEST_URI} !squad\.png$
+RewriteCond %{REQUEST_URI} !squad\.jpg$
+
+RewriteCond %{REQUEST_URI} !squad\.dtd$
+RewriteCond %{REQUEST_URI} !squad\.xml$
+RewriteCond %{REQUEST_URI} !squad\.xsl$
+RewriteCond %{REQUEST_URI} !squad\.css$
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_URI} !(.*)/$
 RewriteRule (.*)$ http://%{HTTP_HOST}/$1/ [L,R=301]

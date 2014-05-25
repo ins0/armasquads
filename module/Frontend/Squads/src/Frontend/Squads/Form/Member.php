@@ -13,41 +13,30 @@ class Member extends AbstractFrontendForm implements ServiceManagerAwareInterfac
         parent::__construct('squad');
     }
 
-    public function init( \Frontend\Squads\Entity\Member $object = null )
+    public function init( $object = null )
     {
         $this->setHydrator(new DoctrineObject($this->getEntityManager()));
-
-        if( $object ) {
-            $this->bind( $object );
-        } else {
-            $this->bind(new \Frontend\Squads\Entity\Squad() );
-        }
 
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'form-horizontal');
 
-        $this->setInputFilter(new \Frontend\Squads\Form\Filter\Squad(
-            $this->getEntityManager()
-        ));
+        $memberFieldset =  new MemberFieldset();
+        $memberFieldset->setHydrator(new DoctrineObject($this->getEntityManager()));
+        $memberFieldset->setEntityManager( $this->getEntityManager() );
+        //$memberFieldset->setUseAsBaseFieldset(true);
 
         $this->add(array(
-            'type' => 'Frontend\Squads\Form\MemberFieldset',
+            'name' => 'members',
+            'type' => 'Zend\Form\Element\Collection',
             'options' => array(
-                'use_as_base_fieldset' => true
+                'count' => count($object->getMembers()),
+                'should_create_template' => true,
+                'target_element' => $memberFieldset,
+                'allow_remove' => true,
+                'allow_add' => true
             )
         ));
 
-        // Submit
-        $this->add(array(
-            'name' => 'submit',
-            'type' => 'Zend\Form\Element\Submit',
-            'attributes' => array(
-                'id' => 'submit',
-                'class' => 'btn btn-success',
-            ),
-            'options' => array(
-                'label' => '',
-            )
-        ));
+        $this->bind($object);
     }
 }

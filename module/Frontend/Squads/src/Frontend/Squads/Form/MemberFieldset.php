@@ -1,111 +1,137 @@
 <?php
 namespace Frontend\Squads\Form;
 
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Frontend\Application\Form\AbstractFrontendFieldset;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 
 class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerAwareInterface
 {
-
     public function __construct()
     {
-        parent::__construct('squad');
-    }
+        parent::__construct('member');
+        $this->setObject(new \Frontend\Squads\Entity\Member());
+        $this->setLabel('Member');
 
-    public function init( \Frontend\Squads\Entity\Member $object = null )
-    {
-        $this->setHydrator(new DoctrineObject($this->getEntityManager()));
-
-        if( $object ) {
-            $this->bind( $object );
-        } else {
-            $this->bind(new \Frontend\Squads\Entity\Squad() );
-        }
-
-        $this->setAttribute('method', 'post');
-        $this->setAttribute('class', 'form-horizontal');
-
-        $this->setInputFilter(new \Frontend\Squads\Form\Filter\Squad(
-            $this->getEntityManager()
-        ));
-
-        // Tag
+        // uuid
         $this->add(array(
-            'name' => 'tag',
+            'name' => 'uuid',
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
-                'id' => 'tag',
-                'class' => 'form-control',
+                'id' => 'uuid',
+                'class' => 'col-xs-12 col-lg-8',
+            ),
+            'options' => array(
+                'label_attributes' => array(
+                    'class' => 'col-xs-12 col-lg-2 control-label'
+                ),
+                'label' => 'UUID',
+            )
+        ));
+
+        // username
+        $this->add(array(
+            'name' => 'username',
+            'type' => 'Zend\Form\Element\Text',
+            'attributes' => array(
+                'id' => 'username',
+                'class' => 'col-lg-8',
             ),
             'options' => array(
                 'label_attributes' => array(
                     'class' => 'col-lg-2 control-label'
                 ),
-                'label' => 'Squad Tag',
+                'label' => 'Username',
             )
         ));
 
+        // Name
         $this->add(array(
             'name' => 'name',
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
                 'id' => 'name',
-                'class' => 'form-control',
+                'class' => 'col-lg-8',
             ),
             'options' => array(
                 'label_attributes' => array(
                     'class' => 'col-lg-2 control-label'
                 ),
-                'label' => 'Squad Name',
+                'label' => 'Name',
             )
         ));
 
-        $this->add(array(
-            'name' => 'title',
-            'type' => 'Zend\Form\Element\Text',
-            'attributes' => array(
-                'id' => 'title',
-                'class' => 'form-control',
-            ),
-            'options' => array(
-                'label_attributes' => array(
-                    'class' => 'col-lg-2 control-label'
-                ),
-                'label' => 'Squad Title',
-            )
-        ));
-
+        // Email
         $this->add(array(
             'name' => 'email',
             'type' => 'Zend\Form\Element\Email',
             'attributes' => array(
                 'id' => 'email',
-                'class' => 'form-control',
+                'class' => 'col-lg-8',
             ),
             'options' => array(
                 'label_attributes' => array(
                     'class' => 'col-lg-2 control-label'
                 ),
-                'label' => 'Squad Email',
+                'label' => 'Email',
             )
         ));
 
+        // icq
         $this->add(array(
-            'name' => 'logo',
-            'type' => 'Zend\Form\Element\File',
+            'name' => 'icq',
+            'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
-                'id' => 'logo',
-                'class' => 'form-control',
-                'accept' => 'image/jpg,image/jpeg,image/gif,image/png'
+                'id' => 'icq',
+                'class' => 'col-lg-8',
             ),
             'options' => array(
                 'label_attributes' => array(
                     'class' => 'col-lg-2 control-label'
                 ),
-                'label' => 'Logo',
+                'label' => 'ICQ',
             )
         ));
 
+        // remark
+        $this->add(array(
+            'name' => 'remark',
+            'type' => 'Zend\Form\Element\Text',
+            'attributes' => array(
+                'id' => 'remark',
+                'class' => 'col-lg-8',
+            ),
+            'options' => array(
+                'label_attributes' => array(
+                    'class' => 'col-lg-2 control-label',
+                    'required' => 'required'
+                ),
+                'label' => 'Remark',
+            )
+        ));
+
+        // remark
+        $this->add(array(
+            'name' => 'delete',
+            'type' => 'Zend\Form\Element\Button',
+            'attributes' => array(
+                'id' => 'delete',
+                'class' => 'btn btn-danger',
+                'onClick' => 'javascript:$(this).parent().parent().slideUp(function(){$(this).remove()});'
+            ),
+            'options' => array(
+                'label_attributes' => array(
+                    'class' => ''
+                ),
+                'label' => 'Remove Member',
+            )
+        ));
     }
+
+    public function getInputFilterSpecification()
+    {
+        return array(
+
+        );
+    }
+
 }

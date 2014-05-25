@@ -1,3 +1,4 @@
+<?php $this->headtitle('Create new Squad'); ?>
 <div class="page-header">
     <h1 id="type"><?php echo $this->translate('Create new Squad'); ?></h1>
 </div>
@@ -33,14 +34,15 @@
             <?php echo $this->formLabel( $this->form->get('logo') ); ?>
             <div class="col-lg-10">
                 <?php echo $this->formFile( $this->form->get('logo') ); ?>
+                <p><?php echo $this->translate('Notice! Currently the Arma Gameserver receive your Squad Logo non transparent! I work hard to get this fixed!'); ?></p>
             </div>
         </div>
 
 
         <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
-                <button type="submit" class="btn btn-primary"><?php echo $this->translate('Create my awesome Squad!'); ?></button>
                 <a class="btn btn-danger" href="<?php echo $this->url('frontend/user/squads'); ?>">Cancel</a>
+                <button type="submit" class="btn btn-primary"><?php echo $this->translate('Create my awesome Squad!'); ?></button>
             </div>
         </div>
     </fieldset>
