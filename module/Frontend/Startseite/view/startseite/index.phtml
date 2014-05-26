@@ -27,6 +27,10 @@
             <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_NOADS'); ?>
         </li>
     </ul>
-    <p><a href="#ex1" rel="modal:open" class="btn btn-primary btn-lg"> <?php echo $this->translate('FRONTEND_STARTSEITE_BUTTON_START'); ?></a></p>
+    <?php if( $this->identity() ): ?>
+        <p><a href="<?php echo $this->url('frontend/user/squads/create'); ?>" class="btn btn-primary btn-lg"> <?php echo $this->translate('FRONTEND_STARTSEITE_BUTTON_START'); ?></a></p>
+    <?php else: ?>
+        <p><a href="#ex1" rel="modal:open" class="btn btn-primary btn-lg"> <?php echo $this->translate('FRONTEND_STARTSEITE_BUTTON_START'); ?></a></p>
+    <?php endif; ?>
 </div>
 

@@ -1,7 +1,7 @@
 <?php
 return array(
 
-    'FRONTEND_STARTSEITE_HEADING'       => 'Create your own Arma Squad.xml files within 5 Minutes!',
+    'FRONTEND_STARTSEITE_HEADING'       => 'Create your own ARMA Squad file within 5 Minutes!',
     'FRONTEND_STARTSEITE_SUBHEADING'    => 'This website is <u>non official</u> from Bohemia Interactive - This is a private website i programmed to help you creating Squad Files for Arma based games.',
 
     'FRONTEND_STARTSEITE_LIST_FREE'     =>  '100% free',
