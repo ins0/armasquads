@@ -4,7 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <?php
     // titel
-    $this->headtitle('ARMA Games Squad.xml Generator and Hoster');
     echo $this->headtitle('armasquads.de', 'APPEND')
         ->setAutoEscape(true)
         ->setSeparator(' » ');
@@ -28,8 +27,8 @@
         ->appendStylesheet('//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css')
         ->appendStylesheet($this->basePath() . '/css/frontend/jquery.modal.css')
         ->appendStylesheet($this->basePath() . '/css/frontend/style.css')
-        ->appendAlternate($this->url(null, array('locale' => 'de'), true), null, null, array('hreflang' => 'de'))
-        ->appendAlternate($this->url(null, array('locale' => 'en'), true), null, null, array('hreflang' => 'en'));
+        ->appendAlternate($this->url('frontend', array('locale' => 'de'), true), null, null, array('hreflang' => 'de'))
+        ->appendAlternate($this->url('frontend', array('locale' => 'en'), true), null, null, array('hreflang' => 'en'));
     ?>
 </head>
 <body>
@@ -60,13 +59,13 @@
                                 <li><a href="<?php echo $this->url('frontend/logout'); ?>"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGOUT'); ?></a></li>
                             </ul>
                         </li>
-                        <li><a href="<?php echo $this->url(null, array('locale' => 'de'), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
-                        <li><a href="<?php echo $this->url(null, array('locale' => 'en'), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
+                        <li><a href="<?php echo $this->url('frontend', array('locale' => 'de'), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
+                        <li><a href="<?php echo $this->url('frontend', array('locale' => 'en'), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
                         <li class="label-primary"><a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=rieger%40henze-group%2ecom&lc=US&item_name=It%20is%20dangerous%20to%20go%20alone!%20Take%20this%20Drink!&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest"><?php echo $this->translate('FRONTEND_BUY_ME_A_DRING'); ?> <span class="fa fa-coffee"></span></a></li>
                     <?php else: ?>
                         <li class="active"><a href="#ex1" rel="modal:open"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGIN'); ?></a></li>
-                        <li><a href="<?php echo $this->url(null, array('locale' => 'de'), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
-                        <li><a href="<?php echo $this->url(null, array('locale' => 'en'), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
+                        <li><a href="<?php echo $this->url('frontend', array('locale' => 'de'), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
+                        <li><a href="<?php echo $this->url('frontend', array('locale' => 'en'), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
                     <?php endif; ?>
                 </ul>
             </div>
