@@ -1,128 +1,136 @@
 <?php echo $this->doctype('HTML5') ?>
 <html lang="de">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <?php
-    // titel
-    $this->headtitle('Woooopsss something went wrong :/');
-    echo $this->headtitle('armasquads.de', 'APPEND')
-        ->setAutoEscape(true)
-        ->setSeparator(' » ');
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <?php
+        // titel
+        $this->headtitle('Woooopsss something went wrong :/');
+        echo $this->headtitle('armasquads.de', 'APPEND')
+            ->setAutoEscape(true)
+            ->setSeparator(' » ');
 
-    echo $this->headMeta()
-        ->appendName('viewport', 'width=device-width, initial-scale=1.0')
-        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
+        echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
 
-    $this->headScript()
-        ->appendFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
-        ->appendFile('//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
-        ->appendFile($this->basePath() . '/js/frontend/jquery.modal.js')
-        ->prependFile($this->basePath() . '/js/frontend/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
-        ->prependFile($this->basePath() . '/js/frontend/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',));
+        $this->headScript()
+            ->appendFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+            ->appendFile('//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
+            ->appendFile($this->basePath() . '/js/frontend/jquery.modal.js')
+            ->prependFile($this->basePath() . '/js/frontend/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+            ->prependFile($this->basePath() . '/js/frontend/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',));
 
-    // css
-    echo $this->headLink()
-        ->appendStylesheet('//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css')
-        ->appendStylesheet('//fonts.googleapis.com/css?family=Open+Sans:400,300,700')
-        ->appendStylesheet('//fonts.googleapis.com/css?family=Lato:400,700')
-        ->appendStylesheet('//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css')
-        ->appendStylesheet($this->basePath() . '/css/frontend/jquery.modal.css')
-        ->appendStylesheet($this->basePath() . '/css/frontend/style.css');
-    ?>
-</head>
-<body>
-<nav class="navbar navbar-default navbar-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="<?php echo $this->url('frontend'); ?>">
-                <img width="60px" src="<?php echo $this->basePath('images/frontend/Arma3_Trans_Logo.png') ?>" alt="Arma"/>
-                    <span class="hidden-xs">
-                        <?php echo $this->translate('Armasquads.de - Squad.XML Generator') ?>
-                    </span>
-            </a>
-        </div>
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <?php if( $this->identity() ): ?>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><?php echo $this->translate('FRONTEND_APPLICATION_NAV_MENUE'); ?></b> <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="<?php echo $this->url('frontend/user/home'); ?>"><?php echo $this->translate('FRONTEND_DASHBOARD_NAV_LABEL'); ?></a></li>
-                            <li><a href="<?php echo $this->url('frontend/user/squads'); ?>"><?php echo $this->translate('FRONTEND_SQUADS_NAV_LABEL'); ?></a></li>
-                            <li class="divider"></li>
-                            <li><a href="<?php echo $this->url('frontend/logout'); ?>"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGOUT'); ?></a></li>
-                        </ul>
-                    </li>
-                    <li><a href="<?php echo $this->url('frontend', array('locale' => 'de'), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
-                    <li><a href="<?php echo $this->url('frontend', array('locale' => 'en'), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
-                    <li class="label-primary"><a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=rieger%40henze-group%2ecom&lc=US&item_name=It%20is%20dangerous%20to%20go%20alone!%20Take%20this%20Drink!&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest"><?php echo $this->translate('FRONTEND_BUY_ME_A_DRING'); ?> <span class="fa fa-coffee"></span></a></li>
-                <?php else: ?>
-                    <li class="active"><a href="#ex1" rel="modal:open"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGIN'); ?></a></li>
-                    <li><a href="<?php echo $this->url('frontend', array('locale' => 'de'), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
-                    <li><a href="<?php echo $this->url('frontend', array('locale' => 'en'), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
-                <?php endif; ?>
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="container">
-    <div class="main-content">
-        <div class="page-header">
-            <h1 id="type">Wwwooooppss! 404</h1>
-        </div>
-        Page not found
-    </div>
-    <footer>
-        <hr>
-        <div class="alert alert-dismissable alert-warning">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6">
-                    <?php echo $this->translate('FRONTEND_LAYOUT_GITHUB_HINT'); ?>
-                </div>
-                <div class="col-xs-12 col-sm-6 text-right">
-                    <a href="https://github.com/ins0/armasquads.de/issues" target="_blank">
-                        <img src="<?php echo $this->basepath('images/frontend/github_logo.png'); ?>" />
+        // css
+        echo $this->headLink()
+            ->appendStylesheet('//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css')
+            ->appendStylesheet('//fonts.googleapis.com/css?family=Open+Sans:400,300,700')
+            ->appendStylesheet('//fonts.googleapis.com/css?family=Lato:400,700')
+            ->appendStylesheet('//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css')
+            ->appendStylesheet($this->basePath() . '/css/frontend/jquery.modal.css')
+            ->appendStylesheet($this->basePath() . '/css/frontend/style.css');
+        ?>
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="<?php echo $this->url('frontend'); ?>">
+                        <img width="60px" src="<?php echo $this->basePath('images/frontend/Arma3_Trans_Logo.png') ?>" alt="Arma"/>
+                            <span class="hidden-xs">
+                                <?php echo $this->translate('Armasquads.de - Squad.XML Generator') ?>
+                            </span>
                     </a>
                 </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <?php if( $this->identity() ): ?>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><?php echo $this->translate('FRONTEND_APPLICATION_NAV_MENUE'); ?></b> <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="<?php echo $this->url('frontend/user/home'); ?>"><?php echo $this->translate('FRONTEND_DASHBOARD_NAV_LABEL'); ?></a></li>
+                                    <li><a href="<?php echo $this->url('frontend/user/squads'); ?>"><?php echo $this->translate('FRONTEND_SQUADS_NAV_LABEL'); ?></a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="<?php echo $this->url('frontend/logout'); ?>"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGOUT'); ?></a></li>
+                                </ul>
+                            </li>
+                            <li><a href="<?php echo $this->url('frontend', array('locale' => 'de'), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
+                            <li><a href="<?php echo $this->url('frontend', array('locale' => 'en'), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
+                            <li class="label-primary"><a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=rieger%40henze-group%2ecom&lc=US&item_name=It%20is%20dangerous%20to%20go%20alone!%20Take%20this%20Drink!&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest"><?php echo $this->translate('FRONTEND_BUY_ME_A_DRING'); ?> <span class="fa fa-coffee"></span></a></li>
+                        <?php else: ?>
+                            <li class="active"><a href="#ex1" rel="modal:open"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGIN'); ?></a></li>
+                            <li><a href="<?php echo $this->url('frontend', array('locale' => 'de'), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
+                            <li><a href="<?php echo $this->url('frontend', array('locale' => 'en'), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <ul class="list-unstyled">
-                    <li class="pull-right"><a href="#top">Back to top</a></li>
-                </ul>
-                <p>This website is not affiliated or authorized by Bohemia Interactive a.s. Bohemia Interactive, ARMA, DAYZ and all associated logos and designs are trademarks or registered trademarks of Bohemia Interactive a.s.</p>
-                <br />
-                <p>Created with <span class="fa fa-heart"></span> by <a href="http://racecore.de" target="_blank">racecore.de</a></p>
-                <p>Don't have a copy of Arma 3? Buy it on <a target="_blank" href="http://store.steampowered.com/app/107410/">Steam</a>!</p>
-                <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="http://www.google.com/webfonts" rel="nofollow">Google</a>.</p>
+        </nav>
+        <div class="container">
+            <div class="main-content">
+                <div class="page-header">
+                    <h1 id="type">Wwwooooppss! 404</h1>
+                </div>
+                Page not found
             </div>
+            <footer>
+                <hr>
+                <div class="alert alert-dismissable alert-warning">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <?php echo $this->translate('FRONTEND_LAYOUT_GITHUB_HINT'); ?>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 text-right">
+                            <a href="https://github.com/ins0/armasquads.de/issues" target="_blank">
+                                <img src="<?php echo $this->basepath('images/frontend/github_logo.png'); ?>" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="list-unstyled">
+                            <li class="pull-right"><a href="#top">Back to top</a></li>
+                        </ul>
+                        <p>This website is not affiliated or authorized by Bohemia Interactive a.s. Bohemia Interactive, ARMA, DAYZ and all associated logos and designs are trademarks or registered trademarks of Bohemia Interactive a.s.</p>
+                        <br />
+                        <p>Created with <span class="fa fa-heart"></span> by <a href="http://racecore.de" target="_blank">racecore.de</a></p>
+                        <p>Don't have a copy of Arma 3? Buy it on <a target="_blank" href="http://store.steampowered.com/app/107410/">Steam</a>!</p>
+                        <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="http://www.google.com/webfonts" rel="nofollow">Google</a>.</p>
+                    </div>
+                </div>
+            </footer>
         </div>
-    </footer>
-</div>
-<?php if( $this->identity() ): ?>
-    <?php $this->inlineScript()->appendFile($this->basePath() . '/js/frontend/main.js'); ?>
-    <div id="delete-confirm" style="display:none;">
-        <?php echo $this->translate('FRONTEND_LAYOUT_DELETE_MODAL'); ?><br/>
-        <hr>
-        <a class="btn btn-danger btn-sm" href="#" rel="modal:confirm">
-            <?php echo $this->translate('FRONTEND_LAYOUT_DELETE_MODAL_OK'); ?>
-        </a>
-        <a class="btn btn-default btn-sm" href="#" rel="modal:close">
-            <?php echo $this->translate('FRONTEND_LAYOUT_DELETE_MODAL_ABORT'); ?>
-        </a>
-    </div>
-<?php else: ?>
-    <?php echo $this->partial('frontend/login/form/modal'); ?>
-<?php endif; ?>
-<!-- container end -->
-<!-- JS TIME! -->
-<?php echo $this->headscript(); ?>
-<?php echo $this->inlinescript(); ?>
-</body>
+        <?php if( $this->identity() ): ?>
+            <?php $this->inlineScript()->appendFile($this->basePath() . '/js/frontend/main.js'); ?>
+            <div id="delete-confirm" style="display:none;">
+                <?php echo $this->translate('FRONTEND_LAYOUT_DELETE_MODAL'); ?><br/>
+                <hr>
+                <a class="btn btn-danger btn-sm" href="#" rel="modal:confirm">
+                    <?php echo $this->translate('FRONTEND_LAYOUT_DELETE_MODAL_OK'); ?>
+                </a>
+                <a class="btn btn-default btn-sm" href="#" rel="modal:close">
+                    <?php echo $this->translate('FRONTEND_LAYOUT_DELETE_MODAL_ABORT'); ?>
+                </a>
+            </div>
+        <?php else: ?>
+            <?php echo $this->partial('frontend/login/form/modal'); ?>
+        <?php endif; ?>
+        <!-- container end -->
+        <!-- JS TIME! -->
+        <?php echo $this->headscript(); ?>
+        <?php echo $this->inlinescript(); ?>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-47467616-2', 'armasquads.de');
+            ga('send', 'pageview');
+        </script>
+    </body>
 </html>
