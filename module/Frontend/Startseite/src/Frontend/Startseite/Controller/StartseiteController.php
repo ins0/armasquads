@@ -11,7 +11,7 @@ class StartseiteController extends AbstractFrontendController
     public function indexAction(){
 
         $viewModel = new ViewModel();
-        $viewModel->setTemplate('/startseite/index.phtml');
+        $viewModel->setTemplate('frontend/startseite');
 
         return $viewModel;
     }
