@@ -93,11 +93,11 @@ class LoginController extends AbstractFrontendController
 
     		if( $loggedIn == Acl::LOGIN_WRONG ) {
 
-    			$this->Message()->addErrorMessage('Username/Password combination wrong!');
+    			$this->Message()->addErrorMessage('FRONTEND_LOGIN_AUTH_WRONG');
 
     		} elseif( $loggedIn == Acl::LOGIN_DISABLED ) {
 
-    			$this->Message()->addInfoMessage('Your Account was banned!');
+    			$this->Message()->addInfoMessage('FRONTEND_LOGIN_AUTH_BANNED');
     		
     		} elseif ( $loggedIn == Acl::LOGIN_SUCCESS ) {
 
@@ -132,7 +132,7 @@ class LoginController extends AbstractFrontendController
         if( $authService->hasIdentity() ) {
 
             $authService->clearIdentity();
-            $this->Message()->addSuccessMessage('LOGIN_TEXT_LOGOUT_SUCCESS');
+            $this->Message()->addSuccessMessage('FRONTEND_LOGIN_AUTH_LOGOUT');
         }
 
     	return $this->redirect()->toRoute('frontend');

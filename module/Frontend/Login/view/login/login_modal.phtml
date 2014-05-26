@@ -7,12 +7,12 @@
     <?php echo $this->formErrors( $this->registerForm ); ?>
     <?php echo $this->formErrors( $this->loginForm ); ?>
     <div class="page-header">
-        <h1><?php echo $this->translate('Login'); ?></h1>
+        <h1><?php echo $this->translate('FRONTEND_LOGIN_TITLE'); ?></h1>
     </div>
     <div class="row">
         <div class="col-lg-6">
             <div class="well bs-component">
-                <legend><?php echo $this->translate('Login with Account'); ?></legend><br />
+                <legend><?php echo $this->translate('FRONTEND_LOGIN_LABEL_LOGIN'); ?></legend><br />
                 <?php $this->loginForm->setAttribute('action', $this->url('frontend/login'))->prepare(); ?>
                 <?php echo $this->form()->openTag($this->loginForm); ?>
                 <fieldset>
@@ -39,7 +39,7 @@
         </div>
         <div class="col-lg-6">
             <div class="well bs-component">
-                <legend><?php echo $this->translate('Register new Account'); ?></legend><br />
+                <legend><?php echo $this->translate('FRONTEND_LOGIN_LABEL_REGISTER'); ?></legend><br />
                 <?php $this->registerForm->setAttribute('action', $this->url('frontend/register'))->prepare(); ?>
                 <?php echo $this->form()->openTag($this->registerForm); ?>
                 <fieldset>

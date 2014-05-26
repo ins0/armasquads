@@ -1,16 +1,14 @@
 <?php
 return array(
 
-    /**
-     * LOGIN MODULE
-     */
-    'ADMIN_LOGIN_LABEL_USERNAME' 		=> 'Benutzername',
-    'ADMIN_LOGIN_LABEL_PASSWORD' 		=> 'Password',
-    'ADMIN_LOGIN_LABEL_REMEMBER_ME' 	=> 'Eingeloggt bleiben',
-    'ADMIN_LOGIN_BUTTON_LOGIN_SUBMIT'   => 'Anmelden',
+    'FRONTEND_LOGIN_NAV_LOGIN'          =>  'Anmelden / Registrieren',
+    'FRONTEND_LOGIN_NAV_LOGOUT'         =>  'Abmelden',
+    'FRONTEND_LOGIN_TITLE'              =>  'Anmelden / Registrieren',
+    'FRONTEND_LOGIN_LABEL_LOGIN'        =>  'Anmelden mit Account',
+    'FRONTEND_LOGIN_LABEL_REGISTER'     =>  'Neuen Account erstellen',
 
-    'ADMIN_LOGIN_TEXT_LOGIN_WRONG' 		=> 'Benutzer/Password kombination falsch!',
-    'ADMIN_LOGIN_TEXT_LOGIN_DISABLED' 	=> 'Benutzer gesperrt!',
-    'ADMIN_LOGIN_TEXT_LOGOUT_SUCCESS' 	=> 'Sie wurden vom System abgemeldet',
+    'FRONTEND_LOGIN_AUTH_WRONG'     =>  'Benutzer/Passwort falsch!',
+    'FRONTEND_LOGIN_AUTH_BANNED'    =>  'Dein Account wurde gesperrt!',
+    'FRONTEND_LOGIN_AUTH_LOGOUT'    =>  'Du hast dich erfolgreich vom System abgemeldet.',
 
 );

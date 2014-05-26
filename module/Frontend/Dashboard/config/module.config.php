@@ -41,6 +41,19 @@ return array (
         )
     ),
 
+    'translator' => array (
+        'translation_file_patterns' => array (
+            // FRONTED TRANSLATION
+            array (
+                'type' => 'phpArray',
+                'base_dir' => __DIR__ . '/../language/',
+                'pattern' => '%s.php',
+                'text_domain' => 'default'
+            ),
+
+        )
+    ),
+
     'controllers' => array (
         'invokables' => array (
             'Frontend\Dashboard\Controller\Dashboard' => 'Frontend\Dashboard\Controller\DashboardController'

@@ -1,11 +1,11 @@
 <?php echo $this->doctype('HTML5') ?>
-<?php $this->plugin('translate')->setTranslatorTextDomain('administration'); ?>
 <html lang="de">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <?php
     // titel
-    echo $this->headtitle('Create your own Squad XML Files for ARMA based games', 'APPEND')
+    $this->headtitle('ARMA Games Squad.xml Generator and Hoster');
+    echo $this->headtitle('armasquads.de', 'APPEND')
         ->setAutoEscape(true)
         ->setSeparator(' » ');
 
@@ -13,12 +13,10 @@
         ->appendName('viewport', 'width=device-width, initial-scale=1.0')
         ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
 
-
     $this->headScript()
         ->appendFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
         ->appendFile('//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
         ->appendFile($this->basePath() . '/js/frontend/jquery.modal.js')
-        ->appendFile($this->basePath() . '/js/frontend/main.js')
         ->prependFile($this->basePath() . '/js/frontend/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
         ->prependFile($this->basePath() . '/js/frontend/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',));
 
@@ -29,8 +27,9 @@
         ->appendStylesheet('//fonts.googleapis.com/css?family=Lato:400,700')
         ->appendStylesheet('//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css')
         ->appendStylesheet($this->basePath() . '/css/frontend/jquery.modal.css')
-        ->appendStylesheet($this->basePath() . '/css/frontend/style.css');
-
+        ->appendStylesheet($this->basePath() . '/css/frontend/style.css')
+        ->appendAlternate($this->url(null, array('locale' => 'de'), true), null, null, array('hreflang' => 'de'))
+        ->appendAlternate($this->url(null, array('locale' => 'en'), true), null, null, array('hreflang' => 'en'));
     ?>
 </head>
 <body>
@@ -53,19 +52,19 @@
                     <ul class="nav navbar-nav navbar-right">
                         <?php if( $this->identity() ): ?>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Menü</b> <b class="caret"></b></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><?php echo $this->translate('FRONTEND_APPLICATION_NAV_MENUE'); ?></b> <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="<?php echo $this->url('frontend/user/home'); ?>"><?php echo $this->translate('Home'); ?></a></li>
-                                    <li><a href="<?php echo $this->url('frontend/user/squads'); ?>"><?php echo $this->translate('Squads'); ?></a></li>
+                                    <li><a href="<?php echo $this->url('frontend/user/home'); ?>"><?php echo $this->translate('FRONTEND_DASHBOARD_NAV_LABEL'); ?></a></li>
+                                    <li><a href="<?php echo $this->url('frontend/user/squads'); ?>"><?php echo $this->translate('FRONTEND_SQUADS_NAV_LABEL'); ?></a></li>
                                     <li class="divider"></li>
-                                    <li><a href="<?php echo $this->url('frontend/logout'); ?>"><?php echo $this->translate('Logout'); ?></a></li>
+                                    <li><a href="<?php echo $this->url('frontend/logout'); ?>"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGOUT'); ?></a></li>
                                 </ul>
                             </li>
                             <li><a href="<?php echo $this->url(null, array('locale' => 'de'), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
                             <li><a href="<?php echo $this->url(null, array('locale' => 'en'), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
-                            <li class="label-primary"><a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=rieger%40henze-group%2ecom&lc=US&item_name=It%20is%20dangerous%20to%20go%20alone!%20Take%20this%20Drink!&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest">Spend me a Coffee? <span class="fa fa-coffee"></span></a></li>
+                            <li class="label-primary"><a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=rieger%40henze-group%2ecom&lc=US&item_name=It%20is%20dangerous%20to%20go%20alone!%20Take%20this%20Drink!&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest"><?php echo $this->translate('FRONTEND_BUY_ME_A_DRING'); ?> <span class="fa fa-coffee"></span></a></li>
                         <?php else: ?>
-                            <li class="active"><a href="#ex1" rel="modal:open"><?php echo $this->translate('Sign Up / Login'); ?></a></li>
+                            <li class="active"><a href="#ex1" rel="modal:open"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGIN'); ?></a></li>
                             <li><a href="<?php echo $this->url(null, array('locale' => 'de'), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
                             <li><a href="<?php echo $this->url(null, array('locale' => 'en'), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
                         <?php endif; ?>
@@ -78,21 +77,20 @@
             <?php echo $this->flashmessenger()->render(); ?>
             <?php echo $this->content; ?>
         </div>
-        <hr>
-        <div class="alert alert-dismissable alert-warning">
-            <div class="row">
-                <div class="col-xs-12 col-sm-6">
-                    <strong>Heads up!</strong> You found a nasty bug or missing an important feature?<br />
-                    <a href="https://github.com/ins0/armasquads.de/issues" target="_blank"><em><b>Post it on our GitHub Repository!</b></em></a>
-                </div>
-                <div class="col-xs-12 col-sm-6 text-right">
-                    <a href="https://github.com/ins0/armasquads.de/issues" target="_blank">
-                        <img src="<?php echo $this->basepath('images/frontend/github_logo.png'); ?>" />
-                    </a>
+        <footer>
+            <hr>
+            <div class="alert alert-dismissable alert-warning">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6">
+                        <?php echo $this->translate('FRONTEND_LAYOUT_GITHUB_HINT'); ?>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 text-right">
+                        <a href="https://github.com/ins0/armasquads.de/issues" target="_blank">
+                            <img src="<?php echo $this->basepath('images/frontend/github_logo.png'); ?>" />
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <footer>
             <div class="row">
                 <div class="col-lg-12">
                     <ul class="list-unstyled">
@@ -107,12 +105,21 @@
             </div>
         </footer>
     </div>
-    <?php echo $this->partial('frontend/login/form/modal'); ?>
-    <div id="delete-confirm" style="display:none;">
-        Once this is deleted, there is no going back!<br/>
-        <hr>
-        <a class="btn btn-danger btn-sm" href="#" rel="modal:confirm">I'm sure!</a> <a class="btn btn-default btn-sm" href="#" rel="modal:close">Nope</a>
-    </div>
+    <?php if( $this->identity() ): ?>
+        <?php $this->inlineScript()->appendFile($this->basePath() . '/js/frontend/main.js'); ?>
+        <div id="delete-confirm" style="display:none;">
+            <?php echo $this->translate('FRONTEND_LAYOUT_DELETE_MODAL'); ?><br/>
+            <hr>
+            <a class="btn btn-danger btn-sm" href="#" rel="modal:confirm">
+                <?php echo $this->translate('FRONTEND_LAYOUT_DELETE_MODAL_OK'); ?>
+            </a>
+            <a class="btn btn-default btn-sm" href="#" rel="modal:close">
+                <?php echo $this->translate('FRONTEND_LAYOUT_DELETE_MODAL_ABORT'); ?>
+            </a>
+        </div>
+    <?php else: ?>
+        <?php echo $this->partial('frontend/login/form/modal'); ?>
+    <?php endif; ?>
     <!-- container end -->
     <!-- JS TIME! -->
     <?php echo $this->headscript(); ?>

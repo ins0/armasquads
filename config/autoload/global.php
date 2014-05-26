@@ -22,7 +22,7 @@ return array(
                 'params' => array(
                     'host'     => 'localhost',
                     'port'     => '3306',
-                    'user'     => 'armasquads',
+                    'user'     => 'root',
                     'password' => '***REMOVED***',
                     'dbname'   => 'armasquads',
                     'charset'  => 'utf8',
@@ -30,7 +30,6 @@ return array(
                         \PDO::MYSQL_ATTR_INIT_COMMAND       => 'SET NAMES utf8',
                     )
                 )
-
             )
         )
     ),
