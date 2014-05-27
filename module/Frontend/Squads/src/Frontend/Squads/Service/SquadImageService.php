@@ -133,7 +133,7 @@ class SquadImageService
             $image->clear();
 
             // convert to paa
-            $this->convert($saveLogoPath, $saveLogoPAAPath);
+            //$this->convert($saveLogoPath, $saveLogoPAAPath);
         } catch ( \Exception $e )
         {
             return false;

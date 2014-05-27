@@ -96,6 +96,16 @@ return array (
                                                     )
                                                 )
                                             ),
+                                            'jpg' => array(
+                                                'type' => 'literal',
+                                                'options' => array(
+                                                    'route' => 'logo.jpg',
+                                                    'defaults' => array(
+                                                        'controller' => 'Frontend\Squads\Controller\SquadXml',
+                                                        'action' => 'logoFile'
+                                                    )
+                                                )
+                                            ),
                                         )
                                     ),
 
