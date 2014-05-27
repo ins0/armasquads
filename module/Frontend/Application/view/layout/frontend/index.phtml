@@ -73,6 +73,14 @@
         </nav>
         <div class="container">
             <div class="main-content">
+                <?php if ($this->identity() ): ?>
+                <div class="alert alert-dismissable alert-info">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>Woohoo!</strong><br />
+                    Squad Logos can now be uploaded and get converted automatically to paa files to support transparent logos for ArmA game server!<br />
+                    Unfortunately you need to reupload your squad logo :'(
+                </div>
+                <?php endif; ?>
                 <?php echo $this->flashmessenger()->render(); ?>
                 <?php echo $this->content; ?>
             </div>
