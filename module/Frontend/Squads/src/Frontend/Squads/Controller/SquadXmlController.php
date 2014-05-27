@@ -69,6 +69,7 @@ class SquadXmlController extends AbstractFrontendController
         flush();
 
         $image = new \Imagick( $squadLogoPath );
+        $image->setImageBackgroundColor('transparent');
         $image->setimageformat('jpg');
         echo $image;
         die();
