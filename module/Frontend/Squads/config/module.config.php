@@ -99,7 +99,7 @@ return array (
                                             'jpg' => array(
                                                 'type' => 'literal',
                                                 'options' => array(
-                                                    'route' => 'logo.jpg',
+                                                    'route' => 'squad.jpg',
                                                     'defaults' => array(
                                                         'controller' => 'Frontend\Squads\Controller\SquadXml',
                                                         'action' => 'logoFile'
