@@ -44,7 +44,7 @@ class SquadXmlController extends AbstractFrontendController
 
         /** @var Squad $squad */
         $squad = $squadReposiory->find( $squadID );
-        $squadLogoPath = ROOT_PATH . $squad->getSquadLogo(64);
+        $squadLogoPath = ROOT_PATH . $squad->getSquadLogoPaa();
 
         if( ! $squad || !$squadLogoPath || !file_exists($squadLogoPath) )
         {
@@ -59,7 +59,7 @@ class SquadXmlController extends AbstractFrontendController
 
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=squad.jpg');
+        header('Content-Disposition: attachment; filename=squad.paa');
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

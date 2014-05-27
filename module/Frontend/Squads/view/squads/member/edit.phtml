@@ -1,7 +1,7 @@
 <div class="page-header">
     <h1 id="type">
         <?php if( $this->squad->getLogo() ): ?>
-            <img src="<?php echo $this->basePath( $squad->getSquadLogo(64) ); ?>" class="img-circle" />
+            <img width="64" height="64" src="<?php echo $this->basePath( $squad->getSquadLogo() ); ?>" class="img-circle" />
         <?php endif; ?>
         »<em><?php echo $this->escapeHtml( $this->squad->getTag() ); ?></em>«
         <?php echo $this->escapeHtml( $this->squad->getName() ); ?>

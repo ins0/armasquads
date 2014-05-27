@@ -1,4 +1,5 @@
 <?php $this->headtitle('Edit Squad'); ?>
+<?php echo $this->formErrors( $this->form ); ?>
 <div class="page-header">
     <h1 id="type"><?php echo $this->translate('Edit Squad'); ?></h1>
 </div>
@@ -33,14 +34,17 @@
             <?php echo $this->formLabel( $this->form->get('logo') ); ?>
             <div class="col-lg-10">
                 <?php echo $this->formFile( $this->form->get('logo') ); ?>
-                <p><?php echo $this->translate('Notice! Currently the Arma Gameserver receive your Squad Logo non transparent! I work hard to get this fixed!'); ?></p>
                 <?php if( $this->form->getObject()->getLogo() ): ?>
                     <br />
                     <?php echo $this->translate('Current Squad Image'); ?>:
-                    <img src="<?php echo $this->basepath( $this->form->getObject()->getSquadLogo(64) ); ?>" />
+                    <img width="64" height="64" src="<?php echo $this->basepath( $this->form->getObject()->getSquadLogo() ); ?>" />
+                    <br />
+                    <?php echo $this->formLabel( $this->form->get('deleteLogo') ); ?>
+                    <?php echo $this->formCheckbox( $this->form->get('deleteLogo') ); ?><br />
                 <?php endif; ?>
             </div>
         </div>
+        <br />
         <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
                 <a class="btn btn-danger" href="<?php echo $this->url('frontend/user/squads'); ?>">Cancel</a>

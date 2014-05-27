@@ -93,20 +93,20 @@ class Squad {
         return $this;
     }
 
-    public function getSquadLogo($size = 32)
+    public function getSquadLogo()
     {
         if( ! $this->getLogo() )
             return false;
 
-        return '/uploads/logos/' . $this->getLogo() . '/' . $size . '_' . $this->getLogo() . '.jpg';
+        return '/uploads/logos/' . $this->getLogo() . '/' . $this->getLogo() . '.png';
     }
 
-    public function getSquadLogoPaa($size = 32)
+    public function getSquadLogoPaa()
     {
         if( ! $this->getLogo() )
             return false;
 
-        return '/uploads/logos/' . $this->getLogo() . '/' . $size . '_' . $this->getLogo() . '.paa';
+        return '/uploads/logos/' . $this->getLogo() . '/' . $this->getLogo() . '.paa';
     }
 
     /**

@@ -96,16 +96,6 @@ return array (
                                                     )
                                                 )
                                             ),
-                                            'jpg' => array(
-                                                'type' => 'literal',
-                                                'options' => array(
-                                                    'route' => 'squad.jpg',
-                                                    'defaults' => array(
-                                                        'controller' => 'Frontend\Squads\Controller\SquadXml',
-                                                        'action' => 'logoFile'
-                                                    )
-                                                )
-                                            ),
                                         )
                                     ),
 
@@ -181,6 +171,15 @@ return array (
                 'text_domain' => 'default'
             )
         )
+    ),
+
+    /**
+     * SERVICE MANAGER
+     */
+    'service_manager' => array(
+        'factories' => array(
+            'SquadImageService' => 'Frontend\Squads\Service\SquadImageServiceFactory',
+        ),
     ),
 
     /**

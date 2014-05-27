@@ -56,6 +56,8 @@ class SquadsController extends AbstractFrontendController
         $squadID = (int) $this->params('id', null);
 
         $squadRepo = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
+
+        /** @var \Frontend\Squads\Entity\Squad $squadEntity */
         $squadEntity = $squadRepo->findOneBy(array(
             'user' => $this->identity(),
             'id' => $squadID
@@ -90,70 +92,37 @@ class SquadsController extends AbstractFrontendController
                     $this->getEntityManager()->getReference('Auth\Entity\Benutzer', $this->identity()->getId() )
                 );
 
-                // move logo
-                $logoSpecs = $squad->getLogo();
-                if( $logoSpecs && $logoSpecs['error'] != 4 )
+                $squadImageService = $this->getServiceLocator()->get('SquadImageService');
+                $uploadedLogoSpecs = $squad->getLogo();
+
+                // delete logo
+                if( $this->getRequest()->getPost('deleteLogo', 0) == 1 && $squadEntityOriginal->getLogo() )
                 {
-                    $logoName =  md5(microtime(true) . uniqid(microtime(true)));
-                    $logoPath = ROOT_PATH . '/uploads/logos/' . $logoName . '/';
-
-                    $image = new \Imagick( $logoSpecs['tmp_name'] );
-                    $image->stripimage();
-                    $image->writeImage($logoSpecs['tmp_name']);
-                    $image->destroy();
-                    $image->clear();
-                    unset($image);
-
-                    // logo convert
-                    Try {
-                        mkdir( $logoPath );
-                        $squadLogosFormat = array(32, 64);
-                        foreach($squadLogosFormat as $format)
-                        {
-                            $image = new \Imagick( $logoSpecs['tmp_name'] );
-                            $image->setImageBackgroundColor('white');
-                            $image->stripimage();
-                            $image->setimageformat('jpg');
-                            $image->adaptiveresizeimage($format, $format, false);
-                            $image->writeImage($logoPath . $format . '_' . $logoName . '.jpg');
-                            $image->destroy();
-                            $image->clear();
-                            unset($image);
-                        }
-
-                        // delete old logo folder
-                        if( $squad->getLogo() )
-                        {
-                            $it = new \RecursiveDirectoryIterator(ROOT_PATH . dirname($squadEntityOriginal->getSquadLogo()), \RecursiveDirectoryIterator::SKIP_DOTS);
-                            $files = new \RecursiveIteratorIterator($it,
-                                \RecursiveIteratorIterator::CHILD_FIRST);
-                            foreach($files as $file) {
-                                if ($file->getFilename() === '.' || $file->getFilename() === '..') {
-                                    continue;
-                                }
-                                if ($file->isDir()){
-                                    rmdir($file->getRealPath());
-                                } else {
-                                    unlink($file->getRealPath());
-                                }
-                            }
-                            rmdir(ROOT_PATH . dirname($squadEntityOriginal->getSquadLogo()));
-
-                        }
-
-                        // set new logo
-                        $squad->setLogo($logoName);
-
-                    } Catch( \Exception $e )
-                    {
-                        $squad->setLogo(null);
-                    }
+                    $squadImageService->deleteLogo(
+                        $squadEntityOriginal->getLogo()
+                    );
+                    $squad->setLogo(null);
                 } else {
 
                     // no logo change
                     $squad->setLogo(
                         $squadEntityOriginal->getLogo()
                     );
+                }
+
+                // set new logo?
+                if( $uploadedLogoSpecs && $uploadedLogoSpecs['error'] != 4 )
+                {
+                    $squadLogoID = $squadImageService->saveLogo(
+                        $uploadedLogoSpecs
+                    );
+
+                    if( $squadLogoID !== false )
+                    {
+                        $squad->setLogo($squadLogoID);
+                    } else {
+                        $squad->setLogo(null);
+                    }
                 }
 
                 $this->getEntityManager()->merge( $squad );
@@ -198,39 +167,23 @@ class SquadsController extends AbstractFrontendController
                     $this->getEntityManager()->getReference('Auth\Entity\Benutzer', $this->identity()->getId() )
                 );
 
-                // move logo
-                $logoSpecs = $squad->getLogo();
-                $logoName =  md5(microtime(true) . uniqid(microtime(true)));
-                $logoPath = ROOT_PATH . '/uploads/logos/' . $logoName . '/';
+                $squadImageService = $this->getServiceLocator()->get('SquadImageService');
+                $uploadedLogoSpecs = $squad->getLogo();
 
-                $image = new \Imagick( $logoSpecs['tmp_name'] );
-                $image->stripimage();
-                $image->writeImage($logoSpecs['tmp_name']);
-                $image->destroy();
-                $image->clear();
-                unset($image);
-
-                // logo convert
-                Try {
-                    mkdir( $logoPath );
-                    $squadLogosFormat = array(32, 64);
-                    foreach($squadLogosFormat as $format)
-                    {
-                        $image = new \Imagick( $logoSpecs['tmp_name'] );
-                        $image->setBackgroundColor(new \ImagickPixel('transparent'));
-                        $image->stripimage();
-                        $image->setimageformat('jpg');
-                        $image->adaptiveresizeimage($format, $format, false);
-                        $image->writeImage($logoPath . $format . '_' . $logoName . '.jpg');
-                        $image->destroy();
-                        $image->clear();
-                        unset($image);
-                    }
-
-                    $squad->setLogo($logoName);
-
-                } Catch( \Exception $e )
+                // logo set?
+                if( $uploadedLogoSpecs && $uploadedLogoSpecs['error'] != 4 )
                 {
+                    $squadLogoID = $squadImageService->saveLogo(
+                        $uploadedLogoSpecs
+                    );
+                    if( $squadLogoID !== false )
+                    {
+                        $squad->setLogo($squadLogoID);
+                    } else {
+                        $squad->setLogo(null);
+                    }
+                } else {
+                    // no logo change
                     $squad->setLogo(null);
                 }
 

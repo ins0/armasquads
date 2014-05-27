@@ -27,7 +27,7 @@
                     <td><?php echo $this->escapeHtml( $squad->getId() ); ?></td>
                     <td>
                         <?php if( $squad->getLogo() ): ?>
-                            <img src="<?php echo $this->basePath( $squad->getSquadLogo(32) ); ?>" class="img-circle" />
+                            <img width="32" height="32" src="<?php echo $this->basePath( $squad->getSquadLogo() ); ?>" class="img-circle" />
                         <?php else: ?>
                             <?php echo $this->translate('No Image'); ?>
                         <?php endif; ?>

@@ -29,7 +29,7 @@ class Squad extends InputFilter {
                         'break_chain_on_failure' => true,
                         'options' => array(
                             'messages' => array(
-                                \Zend\Validator\NotEmpty::IS_EMPTY=> 'This squad needs a name!'
+                                \Zend\Validator\NotEmpty::IS_EMPTY=> 'The squad needs a name!'
                             )
                         )
                     )
@@ -57,6 +57,16 @@ class Squad extends InputFilter {
             )
         );
 
+        // DeleteLogo
+        $this->add(
+            array(
+                'name'       => 'deleteLogo',
+                'required'   => false,
+                'filters'    => array(),
+                'validators' => array()
+            )
+        );
+
         // Upload
         $this->add(
             array(
@@ -74,6 +84,32 @@ class Squad extends InputFilter {
                             )
                         )
                     ),
+                    array(
+                        'name'     => 'Callback',
+                        'options' => array(
+                            'message' => array(
+                                \Zend\Validator\Callback::INVALID_VALUE => 'FRONTEND_SQUAD_LOGO_INVALID_FORMAT',
+                            ),
+                            'callback' => function($value) {
+                                if( $value['error'] != 0 )
+                                    return false;
+
+                                Try {
+                                    $image = new \Imagick( $value['tmp_name'] );
+                                    if( $image->getimageheight() % 2 == 0 && $image->getimagewidth() % 2 == 0 && $image->getimagewidth() == $image->getimageheight() && $image->getimageheight() <= 256 && $image->getimageheight() >= 16 )
+                                    {
+                                        return true;
+                                    } else {
+                                        return false;
+                                    }
+                                } Catch ( \Exception $e )
+                                {
+                                    return false;
+                                }
+                                return false;
+                            },
+                        ),
+                    )
                 ),
             )
         );
