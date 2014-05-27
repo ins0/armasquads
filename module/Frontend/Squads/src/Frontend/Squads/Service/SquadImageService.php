@@ -6,7 +6,7 @@ class SquadImageService
 
     public function convert($sourceImage, $destinationImage)
     {
-        $ch = curl_init();
+        $ch = \curl_init();
         $cfile = curl_file_create($sourceImage);
         $data = array(
             'type_convert' => 'image',
@@ -16,15 +16,15 @@ class SquadImageService
             'keep_prop' => 'true',
             'attach1' => $cfile
         );
-        curl_setopt($ch, CURLOPT_VERBOSE, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, 'http://foc.mooo.com/converter.php');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $response = curl_exec($ch);
-        curl_close($ch);
+        \curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        \curl_setopt($ch, CURLOPT_HEADER, 1);
+        \curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        \curl_setopt($ch, CURLOPT_URL, 'http://foc.mooo.com/converter.php');
+        \curl_setopt($ch, CURLOPT_POST, 1);
+        \curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $response = \curl_exec($ch);
+        \curl_close($ch);
 
         preg_match('#id=([a-z0-9]+)#i', $response, $matches);
         if( count( $matches ) == 2 )
