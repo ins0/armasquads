@@ -7,7 +7,7 @@ class SquadImageService
     public function convert($sourceImage, $destinationImage)
     {
         $ch = \curl_init();
-        $cfile = curl_file_create($sourceImage);
+        $cfile = \curl_file_create($sourceImage);
         $data = array(
             'type_convert' => 'image',
             'output_format' => 'DDS',
