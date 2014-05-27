@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?php echo '<?xml version="1.0"?>'; ?>
 <!DOCTYPE squad SYSTEM "squad.dtd">
 <squad nick="<?php echo $this->escapeHtml($this->squad->getTag()); ?>">
     <name><?php echo $this->squad->getName() ? $this->escapeHtml($this->squad->getName()) : 'N/A'; ?></name>
