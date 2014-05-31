@@ -96,7 +96,7 @@ class Squad extends InputFilter {
 
                                 Try {
                                     $image = new \Imagick( $value['tmp_name'] );
-                                    if( $image->getimageheight() % 2 == 0 && $image->getimagewidth() % 2 == 0 && $image->getimagewidth() == $image->getimageheight() && $image->getimageheight() <= 256 && $image->getimageheight() >= 16 )
+                                    if( $image->getimageheight() % 2 == 0 && $image->getimagewidth() % 2 == 0 && $image->getimagewidth() == $image->getimageheight() && $image->getimageheight() <= 512 && $image->getimageheight() >= 16 )
                                     {
                                         return true;
                                     } else {
