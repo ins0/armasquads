@@ -29,9 +29,25 @@ class SquadXmlController extends AbstractFrontendController
             $headers->addHeaderLine('Content-Type', 'application/xml');
         }
 
+        // check logo
+        $squadImageService = $this->getServiceLocator()->get('SquadImageService');
+        $squadLogoFile = $squadImageService->getServerSquadLogo( $squad );
+        if( $squadLogoFile )
+        {
+            if( $squad->getSquadLogoPaa() )
+            {
+                $squadLogoFile = 'squad.paa';
+            } else {
+                $squadLogoFile = 'squad.jpg';
+            }
+        } else {
+            $squadLogoFile = false;
+        }
+
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true);
         $viewModel->setVariable('squad', $squad);
+        $viewModel->setVariable('logoFile', $squadLogoFile);
         $viewModel->setTemplate('/squads/xml/squad.xml');
 
         return $viewModel;
@@ -44,11 +60,24 @@ class SquadXmlController extends AbstractFrontendController
 
         /** @var Squad $squad */
         $squad = $squadReposiory->find( $squadID );
-        $squadLogoPath = ROOT_PATH . $squad->getSquadLogo();
 
-        if( ! $squad || !$squadLogoPath || !file_exists($squadLogoPath) )
+        if( ! $squad )
         {
-            return $this->getResponse()->setStatusCode(404);
+            $response = $this->getResponse();
+            $response->setStatusCode(404);
+            $response->setContent('');
+            return $response;
+        }
+
+        $squadImageService = $this->getServiceLocator()->get('SquadImageService');
+        $squadLogoPath = $squadImageService->getServerSquadLogo( $squad );
+
+        if( ! $squadLogoPath )
+        {
+            $response = $this->getResponse();
+            $response->setStatusCode(404);
+            $response->setContent('');
+            return $response;
         }
 
         $response = $this->getResponse();
@@ -57,6 +86,26 @@ class SquadXmlController extends AbstractFrontendController
             $headers->addHeaderLine('Content-Type', 'image/plain');
         }
 
+        if( $squad->getSquadLogoPaa() )
+        {
+            // return paa
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename=squad.paa');
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize(ROOT_PATH . $squad->getSquadLogoPaa() ));
+            ob_clean();
+            flush();
+
+            readfile( ROOT_PATH . $squad->getSquadLogoPaa() );
+            die();
+
+        }
+
+        // return normal image
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename=squad.jpg');
@@ -64,12 +113,12 @@ class SquadXmlController extends AbstractFrontendController
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Pragma: public');
-        header('Content-Length: ' . filesize($squadLogoPath));
+        header('Content-Length: ' . filesize(ROOT_PATH . $squad->getSquadLogo() ));
         ob_clean();
         flush();
 
-        $image = new \Imagick( $squadLogoPath );
-        $image->setImageBackgroundColor('transparent');
+        $image = new \Imagick( ROOT_PATH . $squad->getSquadLogo() );
+        $image->setImageBackgroundColor('white');
         $image->setimageformat('jpg');
         echo $image;
         die();

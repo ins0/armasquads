@@ -66,6 +66,7 @@ return array (
                                                     )
                                                 )
                                             ),
+                                            /*
                                             'xsl' => array(
                                                 'type' => 'literal',
                                                 'options' => array(
@@ -86,6 +87,7 @@ return array (
                                                     )
                                                 )
                                             ),
+
                                             'png' => array(
                                                 'type' => 'literal',
                                                 'options' => array(
@@ -106,6 +108,7 @@ return array (
                                                     )
                                                 )
                                             ),
+                                            */
                                         )
                                     ),
 

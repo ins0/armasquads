@@ -1,88 +1,51 @@
 <?php
 namespace Frontend\Squads\Service;
 
+use Frontend\Squads\Entity\Squad;
+
 class SquadImageService
 {
-
-    public function convert($sourceImage, $destinationImage)
+    public function getServerSquadLogo( Squad $squad )
     {
-        $ch = curl_init();
+        // squad have no logo
+        if( !$squad->getLogo() )
+            return false;
 
-        if( function_exists('curl_file_create') )
+        if( !$squad->getSquadLogoPaa() )
         {
-            $cfile = curl_file_create();
-            $data = array(
-                'type_convert' => 'image',
-                'output_format' => 'DDS',
-                'format' => 'DXT5',
-                'mipmap' => 'no',
-                'keep_prop' => 'true',
-                'attach1' => $cfile
-            );
-        } else {
-            $data = array(
-                'type_convert' => 'image',
-                'output_format' => 'DDS',
-                'format' => 'DXT5',
-                'mipmap' => 'no',
-                'keep_prop' => 'true',
-                'attach1' => '@' . $sourceImage
-            );
+            // logo provided but not converted
+            $converted = $this->convert( ROOT_PATH . $squad->getSquadLogo() );
+
+            if( ! $converted )
+            {
+                // convert failed return normal image
+                return $squad->getSquadLogo();
+            }
         }
 
-        curl_setopt($ch, CURLOPT_VERBOSE, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL, 'http://foc.mooo.com/converter.php');
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $response = curl_exec($ch);
-        curl_close($ch);
+        return $squad->getSquadLogoPaa();
+    }
 
-        preg_match('#id=([a-z0-9]+)#i', $response, $matches);
-        if( count( $matches ) == 2 )
+
+    public function convert($sourceImage)
+    {
+        Try {
+            // convert to paa
+            $command = 'cd '.escapeshellarg(dirname($sourceImage)).' && wine /var/www/racecore/library/TexView2/Pal2PacE.exe ' . escapeshellarg(basename($sourceImage)) . ' ' . escapeshellarg(basename($sourceImage, '.png') . '.paa');
+            exec($command);
+
+        } Catch( \Exception $e )
         {
-            $imageDDSData = file_get_contents('http://foc.mooo.com/upload/' . trim($matches[1]));
-            $imageDDSData = substr($imageDDSData, 128, strlen($imageDDSData));
-
-            $pngImage = new \Imagick($sourceImage);
-            $newImageFormat = fopen($destinationImage, 'wb');
-
-            // write typeofpaa
-            fwrite($newImageFormat, pack('n', 0x05FF));
-
-            // write tags
-            // avarage color
-            fwrite($newImageFormat, pack('a4a4IN', "GGAT", "CGVA", 4, 0xFFFFFFFFF));
-
-            // maxct
-            fwrite($newImageFormat, pack('a4a4IN', "GGAT", "CXAM", 4, 0xFFFFFFFFF));
-
-            // mark as transparent
-            fwrite($newImageFormat, pack('a4a4II', "GGAT", "GALF", 4, 2));
-
-            // offsets
-            fwrite($newImageFormat, pack('a4a4IIx62', "GGAT", "SFFO", 0x40, 0x80));
-
-            // image width & heigh
-            fwrite($newImageFormat, pack('ss', $pngImage->getimagewidth(), $pngImage->getimageheight()));
-
-            // write first mipmap
-            fwrite($newImageFormat, pack('sx', strlen($imageDDSData)));
-
-            // write image
-            fwrite($newImageFormat, $imageDDSData);
-
-            // mark end of mipmap
-            fwrite($newImageFormat, pack('x4x2'));
-
-            fclose($newImageFormat);
-
-            return $destinationImage;
+            return false;
         }
 
-        return false;
+        // check if paa exists
+        if( file_exists(dirname($sourceImage) .'/'. basename( $sourceImage, '.png') . '.paa' ))
+        {
+            return true;
+        }
+
+        return true;
     }
 
     public function deleteLogo( $logo )
@@ -119,11 +82,11 @@ class SquadImageService
             $logoPath = ROOT_PATH . '/uploads/logos/' . $logoName . '/';
 
             mkdir($logoPath, 0777);
+            chmod($logoPath, 0777);
 
             $image = new \Imagick( $logoSpecs['tmp_name'] );
 
             $saveLogoPath = $logoPath . $logoName . '.png';
-            $saveLogoPAAPath = $logoPath . $logoName . '.paa';
 
             $image->setImageBackgroundColor('transparent');
             $image->stripimage();
@@ -133,13 +96,16 @@ class SquadImageService
             $image->clear();
 
             // convert to paa
-            //$this->convert($saveLogoPath, $saveLogoPAAPath);
+            $this->convert($saveLogoPath);
+
+            return $logoName;
+
         } catch ( \Exception $e )
         {
             return false;
         }
 
-        return $logoName;
+        return false;
     }
 
 }

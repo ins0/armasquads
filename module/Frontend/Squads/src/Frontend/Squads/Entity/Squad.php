@@ -95,18 +95,20 @@ class Squad {
 
     public function getSquadLogo()
     {
-        if( ! $this->getLogo() )
+        $logoPath = '/uploads/logos/' . $this->getLogo() . '/' . $this->getLogo() . '.png';
+        if( ! file_exists( ROOT_PATH . $logoPath ) )
             return false;
 
-        return '/uploads/logos/' . $this->getLogo() . '/' . $this->getLogo() . '.png';
+        return $logoPath;
     }
 
     public function getSquadLogoPaa()
     {
-        if( ! $this->getLogo() )
+        $logoPath = '/uploads/logos/' . $this->getLogo() . '/' . $this->getLogo() . '.paa';
+        if( ! file_exists( ROOT_PATH . $logoPath ) )
             return false;
 
-        return '/uploads/logos/' . $this->getLogo() . '/' . $this->getLogo() . '.paa';
+        return $logoPath;
     }
 
     /**
