@@ -41,6 +41,15 @@ class SquadsController extends AbstractFrontendController
         }
         else
         {
+            // delete logos
+            if( $squadEntity->getLogo() )
+            {
+                $squadImageService = $this->getServiceLocator()->get('SquadImageService');
+                $squadImageService->deleteLogo(
+                    $squadEntity->getLogo()
+                );
+            }
+
             $this->flashMessenger()->addSuccessMessage('Squad successfully deleted!');
             $this->getEntityManager()->remove($squadEntity);
             $this->getEntityManager()->flush();
@@ -113,6 +122,14 @@ class SquadsController extends AbstractFrontendController
                 // set new logo?
                 if( $uploadedLogoSpecs && $uploadedLogoSpecs['error'] != 4 )
                 {
+                    // delete old first
+                    if($squadEntityOriginal->getLogo())
+                    {
+                        $squadImageService->deleteLogo(
+                            $squadEntityOriginal->getLogo()
+                        );
+                    }
+
                     $squadLogoID = $squadImageService->saveLogo(
                         $uploadedLogoSpecs
                     );
@@ -128,7 +145,7 @@ class SquadsController extends AbstractFrontendController
                 $this->getEntityManager()->merge( $squad );
                 $this->getEntityManager()->flush();
 
-                $this->flashMessenger()->addSuccessMessage('Squad sucessfully edited!');
+                $this->flashMessenger()->addSuccessMessage('Squad successfully edited!');
                 return $this->redirect()->toRoute('frontend/user/squads');
             }
             else
@@ -190,7 +207,7 @@ class SquadsController extends AbstractFrontendController
                 $this->getEntityManager()->persist( $squad );
                 $this->getEntityManager()->flush();
 
-                $this->flashMessenger()->addSuccessMessage('Squad sucessfully created!');
+                $this->flashMessenger()->addSuccessMessage('Squad successfully created!');
                 return $this->redirect()->toRoute('frontend/user/squads');
             }
             else

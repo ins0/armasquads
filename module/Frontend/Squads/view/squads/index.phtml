@@ -3,59 +3,57 @@
     <h1 id="type"><?php echo $this->translate('My Squads'); ?></h1>
 </div>
 
-<a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/create') ?>">
+<a class="btn btn-success btn-sm" href="<?php echo $this->url('frontend/user/squads/create') ?>">
     <?php echo $this->translate('Create new Squad-File'); ?>
 </a>
 <br />
 <br />
-<div class="table-responsive">
-    <table class="table table-striped table-hover ">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th><?php echo $this->translate('Logo'); ?></th>
-            <th><?php echo $this->translate('Tag'); ?></th>
-            <th><?php echo $this->translate('Name'); ?></th>
-            <th><?php echo $this->translate('Title'); ?></th>
-            <th><?php echo $this->translate('E-Mail'); ?></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-            <?php foreach($this->squads as $squad ): ?>
-                <tr>
-                    <td><?php echo $this->escapeHtml( $squad->getId() ); ?></td>
-                    <td>
-                        <?php if( $squad->getLogo() ): ?>
-                            <img width="32" height="32" src="<?php echo $this->basePath( $squad->getSquadLogo() ); ?>" class="img-circle" />
-                        <?php else: ?>
-                            <?php echo $this->translate('No Image'); ?>
-                        <?php endif; ?>
-                    </td>
-                    <td><?php echo $this->escapeHtml( $squad->getTag() ); ?></td>
-                    <td><?php echo $this->escapeHtml( $squad->getName() ); ?></td>
-                    <td><?php echo $this->escapeHtml( $squad->getTitle() ); ?></td>
-                    <td><?php echo $this->escapeHtml( $squad->getEmail() ); ?></td>
-                    <td>
-                        <?php if($this->hasAccess('frontend/squads/create') ): ?>
-                            <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/edit', array('id'=>$squad->getId())) ?>">
-                                <span class="fa fa-edit"></span>
-                                <?php echo $this->translate('Edit'); ?>
-                            </a>
-                            <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/member', array('id'=>$squad->getId())) ?>">
-                                <span class="fa fa-users"></span>
-                                <?php echo $this->translate('Members'); ?>
-                            </a>
-                        <?php endif; ?>
-                        <?php if($this->hasAccess('frontend/squads/delete') ): ?>
-                            <a class="btn btn-danger btn-sm delete-confirm" href="<?php echo $this->url('frontend/user/squads/delete', array('id'=>$squad->getId())) ?>">
-                                <span class="fa fa-minus-circle"></span>
-                                <?php echo $this->translate('Delete'); ?>
-                            </a>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
+<?php foreach($this->squads as $squad ): ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-12 col-sm-1 text-center">
+                    <?php if( $squad->getLogo() ): ?>
+                        <img width="64" height="64" style="border: 1px solid white;" src="<?php echo $this->basePath( $squad->getSquadLogo() ); ?>" class="img-circle" />
+                    <?php else: ?>
+                        <span style="font-size: 64px" class="fa fa-times-circle"></span>
+                    <?php endif; ?>
+                </div>
+                <div class="col-xs-12 col-sm-7">
+                    <h3 class="list-group-item-heading">
+                        »<em><?php echo $this->escapeHtml( $squad->getTag() ); ?></em>«
+                        <b><?php echo $this->escapeHtml( $squad->getName() ); ?></b>
+                    </h3>
+                    <p class="list-group-item-text">
+                        <?php echo $this->escapeHtml( $squad->getTitle() ); ?>
+                    </p>
+                </div>
+                <div class="col-xs-12 col-sm-4 text-right-not-xs">
+                    <hr class="visible-xs">
+                    <?php echo count($squad->getMembers()) . ' ' . $this->translatePlural( 'Member', 'Members', count($squad->getMembers()) ); ?><br />
+                    <?php echo $this->escapeHtml( $squad->getEmail() ); ?>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <input type="text" class="form-control" value="<?php echo 'http://' . $_SERVER['SERVER_NAME'] . ($this->url('frontend/user/squads/xml', array('id' => $squad->getId()))); ?>" id="inputDefault">
+            <hr>
+            <?php if($this->hasAccess('frontend/squads/create') ): ?>
+                <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/edit', array('id'=>$squad->getId())) ?>">
+                    <span class="fa fa-edit"></span>
+                    <?php echo $this->translate('Edit'); ?>
+                </a>
+                <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/member', array('id'=>$squad->getId())) ?>">
+                    <span class="fa fa-users"></span>
+                    <?php echo $this->translate('Members'); ?>
+                </a>
+            <?php endif; ?>
+            <?php if($this->hasAccess('frontend/squads/delete') ): ?>
+                <a class="btn btn-danger btn-sm delete-confirm" href="<?php echo $this->url('frontend/user/squads/delete', array('id'=>$squad->getId())) ?>">
+                    <span class="fa fa-minus-circle"></span>
+                    <?php echo $this->translate('Delete'); ?>
+                </a>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endforeach; ?>

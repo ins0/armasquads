@@ -1,6 +1,10 @@
 <?php
 return array(
 
+    '' => array(
+        'plural_forms' => 'nplurals=2; plural=n!=1;'
+    ),
+
     'ARMA Games Squad.xml Generator and Hoster' => 'ARMA Games Squad.xml Generator und Hoster',
 
     'FRONTEND_LAYOUT_GITHUB_HINT'               => '<strong>Aufgepasst!</strong> Du hast einen Bug gefunden oder vermisst eine wichtige Funktion?<br />
