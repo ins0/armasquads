@@ -26,6 +26,31 @@ class SquadXmlController extends AbstractFrontendController
             return $this->getResponse()->setStatusCode(404);
         }
 
+        // tracking
+        Try {
+            $tracker = new GATracking('UA-47467616-2');
+            $tracker->setClientID($squad->getId());
+
+            $eventTracker = new Event();
+            $eventTracker->setEventCategory('Squadfile');
+            $eventTracker->setEventAction('Request');
+            $eventTracker->setEventLabel($squad->getTitle());
+            $eventTracker->setEventValue($squad->getId());
+
+            $pageTracker = new Page();
+            $pageTracker->setDocumentHost('armasquads.de');
+            $pageTracker->setDocumentPath($_SERVER['REQUEST_URI']);
+            $pageTracker->getDocumentTitle('Gameserver request for ' . $squad->getTitle() . ' - ' . $squad->getId() );
+
+            $tracker->addTracking($eventTracker);
+            $tracker->addTracking($pageTracker);
+
+            $tracker->send();
+        } Catch( \Exception $e )
+        {
+            // dont track :(
+        }
+
         $response = $this->getResponse();
         if ($response instanceof Response) {
             $headers = $this->response->getHeaders();
@@ -72,30 +97,6 @@ class SquadXmlController extends AbstractFrontendController
             return $response;
         }
 
-        // tracking
-        Try {
-            $tracker = new GATracking('UA-47467616-2');
-            $tracker->setClientID($squad->getId());
-
-            $eventTracker = new Event();
-            $eventTracker->setEventCategory('Squadfile');
-            $eventTracker->setEventAction('Request');
-            $eventTracker->setEventLabel($squad->getTitle());
-            $eventTracker->setEventValue($squad->getId());
-
-            $pageTracker = new Page();
-            $pageTracker->setDocumentHost('armasquads.de');
-            $pageTracker->setDocumentPath($_SERVER['REQUEST_URI']);
-            $pageTracker->getDocumentTitle('Gameserver request for ' . $squad->getTitle() . ' - ' . $squad->getId() );
-
-            $tracker->addTracking($eventTracker);
-            $tracker->addTracking($pageTracker);
-
-            $tracker->send();
-        } Catch( \Exception $e )
-        {
-            // dont track :(
-        }
         $squadImageService = $this->getServiceLocator()->get('SquadImageService');
         $squadLogoPath = $squadImageService->getServerSquadLogo( $squad );
 
