@@ -12,6 +12,7 @@
         "php": ">=5.3.3",
         "zendframework/zendframework": "dev-master",
         "doctrine/doctrine-orm-module": "dev-master",
-        "phpunit/phpunit": "dev-master"
+        "phpunit/phpunit": "dev-master",
+        "ins0/google-measurement-php-client": "dev-master"
     }
 }
