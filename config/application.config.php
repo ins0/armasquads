@@ -38,9 +38,11 @@ return array(
         'Frontend\Application',
         'Frontend\Login',
         'Frontend\Dashboard',
+        'Frontend\Impressum',
         'Frontend\Startseite',
 
-            /**
+
+        /**
              *  FRONTEND MODULES
              */
             'Frontend\Squads',
