@@ -130,7 +130,62 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
     public function getInputFilterSpecification()
     {
         return array(
-
+            array(
+                'name'       => 'uuid',
+                'required'   => true,
+                'filters'    => array(),
+                'validators' => array(
+                    array(
+                        'name'    => 'NotEmpty',
+                        'break_chain_on_failure' => true,
+                        'options' => array(
+                            'messages' => array(
+                                \Zend\Validator\NotEmpty::IS_EMPTY=> 'UUID required!'
+                            )
+                        )
+                    )
+                )
+            ),
+            array(
+                'name'       => 'username',
+                'required'   => true,
+                'filters'    => array(),
+                'validators' => array(
+                    array(
+                        'name'    => 'NotEmpty',
+                        'break_chain_on_failure' => true,
+                        'options' => array(
+                            'messages' => array(
+                                \Zend\Validator\NotEmpty::IS_EMPTY=> 'Username required!'
+                            )
+                        )
+                    )
+                )
+            ),
+            array(
+                'name'       => 'name',
+                'required'   => false,
+                'filters'    => array(),
+                'validators' => array()
+            ),
+            array(
+                'name'       => 'email',
+                'required'   => false,
+                'filters'    => array(),
+                'validators' => array()
+            ),
+            array(
+                'name'       => 'icq',
+                'required'   => false,
+                'filters'    => array(),
+                'validators' => array()
+            ),
+            array(
+                'name'       => 'remark',
+                'required'   => false,
+                'filters'    => array(),
+                'validators' => array()
+            ),
         );
     }
 

@@ -40,7 +40,7 @@ class Member {
     protected $email;
 
     /**
-     * @ORM\Column(type="integer", name="MEM_ICQ")
+     * @ORM\Column(type="string", name="MEM_ICQ")
      */
     protected $icq;
 
