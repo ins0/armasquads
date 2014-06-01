@@ -34,7 +34,7 @@ class SquadXmlController extends AbstractFrontendController
             $eventTracker = new Event();
             $eventTracker->setEventCategory('Squadfile');
             $eventTracker->setEventAction('Request');
-            $eventTracker->setEventLabel($squad->getTitle());
+            $eventTracker->setEventLabel($squad->getName());
             $eventTracker->setEventValue($squad->getId());
 
             $pageTracker = new Page();
