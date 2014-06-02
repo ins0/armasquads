@@ -83,7 +83,20 @@ class LoginController extends AbstractFrontendController
     	$loginForm = new Login();
     	$loginForm->init();
 
-    	if( $this->request->isPost() ) {
+        // fallback uri
+        $fallbackUrl = $this->Params()->fromQuery('fallback_url', false);
+        if( $fallbackUrl )
+        {
+            // check if fallback have no domain
+            $urlParse = parse_url( $fallbackUrl );
+            if( !$urlParse || isset($urlParse['host'] ) )
+            {
+                // no valid fallback
+                $fallbackUrl = false;
+            }
+        }
+
+        if( $this->request->isPost() ) {
     	
     		$username = $this->request->getPost('username');
     		$password = $this->request->getPost('password');
@@ -108,13 +121,21 @@ class LoginController extends AbstractFrontendController
 
     			$this->getEntityManager()->merge( $benutzer );
     			$this->getEntityManager()->flush();
-    			
-    			return $this->redirect()->toRoute('frontend/user/home');
+
+                if( $fallbackUrl )
+                {
+                    // redirect to fallback url
+                    return $this->redirect()->toUrl( $fallbackUrl );
+                } else {
+                    // redirect to user home
+                    return $this->redirect()->toRoute('frontend/user/home');
+                }
     		}
     	}
     	 
     	$viewModel = new ViewModel;
         $viewModel->setVariable('loginForm', $loginForm);
+        $viewModel->setVariable('loginFallbackUrl', $fallbackUrl);
         $viewModel->setVariable('registerForm', $registerForm);
         $viewModel->setTemplate('/login/login.phtml');
     	return $viewModel;

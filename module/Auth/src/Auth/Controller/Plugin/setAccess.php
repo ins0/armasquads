@@ -33,26 +33,25 @@ class setAccess extends AbstractPlugin
 
         if( ! $hasAccess ) {
 
-            if( $authService->isLoggedIn() ) {
-                // display only if logged in
-                $this->getAuthService()->getMessenger()->addErrorMessage("You don't have permission to access this page");
-            }
-
             if( ! $redirectRoute ) {
 
                 if( $this->getAuthService()->hasIdentity() ) {
                     // im frontend auf die startseite leiten
+                    $this->getAuthService()->getMessenger()->addErrorMessage("You don't have permission to access this page");
                     $redirectRoute = $ns;
                 } else {
                     // im admin auf login verweisen
-                    $redirectRoute = $ns . '/login';
+                    return $this->getAuthService()->redirect(
+                        $ns . '/login',
+                        array(),
+                        true
+                    );
                 }
             }
 
             return $this->getAuthService()->redirect(
                 $redirectRoute
             );
-
         }
 
         return true;

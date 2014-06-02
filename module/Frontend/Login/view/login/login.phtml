@@ -8,7 +8,11 @@
     <div class="col-lg-6">
         <div class="well bs-component">
             <legend><?php echo $this->translate('FRONTEND_LOGIN_LABEL_LOGIN'); ?></legend><br />
-            <?php $this->loginForm->setAttribute('action', $this->url('frontend/login'))->prepare(); ?>
+            <?php if( $this->loginFallbackUrl ): ?>
+                <?php $this->loginForm->setAttribute('action', $this->url('frontend/login', array(), array('query' => array('fallback_url' => $this->loginFallbackUrl)), true))->prepare(); ?>
+            <?php else: ?>
+                <?php $this->loginForm->setAttribute('action', $this->url('frontend/login'))->prepare(); ?>
+            <?php endif; ?>
             <?php echo $this->form()->openTag($this->loginForm); ?>
             <fieldset>
                 <div class="form-group">

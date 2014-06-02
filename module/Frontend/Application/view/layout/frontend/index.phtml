@@ -59,8 +59,8 @@
                                     <li><a href="<?php echo $this->url('frontend/logout'); ?>"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGOUT'); ?></a></li>
                                 </ul>
                             </li>
-                            <li><a href="<?php echo $this->ServerUrl('com') . $this->url(null, array(), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
-                            <li><a href="<?php echo $this->ServerUrl('de') . $this->url(null, array(), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
+                            <li><a href="<?php echo $this->ServerUrl('de') . $this->url(null, array(), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
+                            <li><a href="<?php echo $this->ServerUrl('com') . $this->url(null, array(), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
                             <li class="label-primary"><a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=rieger%40henze-group%2ecom&lc=US&item_name=It%20is%20dangerous%20to%20go%20alone!%20Take%20this%20Drink!&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest"><?php echo $this->translate('FRONTEND_BUY_ME_A_DRING'); ?> <span class="fa fa-coffee"></span></a></li>
                         <?php else: ?>
                             <li class="active"><a href="#ex1" rel="modal:open"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGIN'); ?></a></li>

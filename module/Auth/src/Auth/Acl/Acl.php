@@ -7,6 +7,7 @@ use Auth\Entity\Role;
 use Zend\Authentication\AuthenticationService;
 
 use Zend\Authentication\Storage\Session;
+use Zend\Mvc\Router\Http\TreeRouteStack;
 use Zend\Permissions\Acl\Acl as ZendAcl;
 
 use Zend\Permissions\Acl\Resource\GenericResource;
@@ -201,13 +202,24 @@ class Acl extends AuthenticationService {
 	 * @param String $route
 	 *
 	 */
-	public function redirect( $route ) {
+	public function redirect( $route, $params = array(), $fallback_uri = false, $options = array() ) {
 	
 		$event = $this->sm->get('Application')->getMvcEvent();
-		$url = $event->getRouter()->assemble(
-				array(), array(
-						'name' => $route
-				)
+        /** @var TreeRouteStack $router */
+        $router = $event->getRouter();
+
+        // route name
+        $options['name'] = $route;
+
+        // route fallback query
+        if( $fallback_uri )
+        {
+            $options['query'] = array('fallback_url' => $_SERVER['REQUEST_URI']);
+        }
+
+		$url = $router->assemble(
+            $params,
+            $options
 		);
 
         header('Location: ' . $url );
