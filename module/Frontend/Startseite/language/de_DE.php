@@ -1,7 +1,7 @@
 <?php
 return array(
 
-    'FRONTEND_STARTSEITE_HEADING'       => 'Erstell dir deine eigene ARMA Squad Datei in 5 Minuten!',
+    'FRONTEND_STARTSEITE_HEADING'       => 'Erstell dir deine eigene ArmA Squad Datei in 5 Minuten!',
     'FRONTEND_STARTSEITE_SUBHEADING'    => 'Diese Website ist <u>nicht offiziell</u> von Bohemia Interactive - Dieses ist ein privates Projekt welches ich erstellt habe, um dir das erstellen von Squad Dateien zu erleichtern.',
 
     'FRONTEND_STARTSEITE_LIST_FREE'     =>  '100% kostenlos',
