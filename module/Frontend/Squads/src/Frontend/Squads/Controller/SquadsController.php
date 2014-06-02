@@ -15,7 +15,7 @@ class SquadsController extends AbstractFrontendController
         $this->setAccess('frontend/squads/access');
 
         $squadRepo = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
-        $userSquads = $squadRepo->findBy(array('user' => $this->identity() ));
+        $userSquads = $squadRepo->findBy(array('user' => $this->identity() ), array('id' => 'desc'));
 
         $viewModel = new ViewModel();
         $viewModel->setTemplate('/squads/index.phtml');

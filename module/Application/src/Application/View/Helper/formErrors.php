@@ -114,8 +114,6 @@ class formErrors extends AbstractTranslatorHelper implements ServiceLocatorAware
             }
         }
 
-        $messageHolderStack = array_unique( $messageHolderStack );
-
         foreach ($messageHolderStack as $message) {
             $pluginFlashMessenger->addMessage( $message );
         }

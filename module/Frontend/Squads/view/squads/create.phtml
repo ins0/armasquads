@@ -1,4 +1,5 @@
 <?php $this->headtitle('Create new Squad'); ?>
+<?php echo $this->formErrors( $this->form ); ?>
 <div class="page-header">
     <h1 id="type"><?php echo $this->translate('Create new Squad'); ?></h1>
 </div>
@@ -30,7 +31,6 @@
             </div>
         </div>
         <div class="form-group">
-            <?php echo $this->formElementErrors($this->form->get('logo')); ?>
             <?php echo $this->formLabel( $this->form->get('logo') ); ?>
             <div class="col-lg-10">
                 <?php echo $this->formFile( $this->form->get('logo') ); ?>
