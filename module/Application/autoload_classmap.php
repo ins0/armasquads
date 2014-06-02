@@ -8,4 +8,5 @@ return array(
   'Application\View\Helper\FlashMessenger'                 => __DIR__ . '/src/Application/View/Helper/FlashMessenger.php',
   'Application\View\Helper\formErrors'                     => __DIR__ . '/src/Application/View/Helper/formErrors.php',
   'Application\View\Helper\Translate'                      => __DIR__ . '/src/Application/View/Helper/Translate.php',
+  'Application\View\Helper\ServerUrl'                      => __DIR__ . '/src/Application/View/Helper/ServerUrl.php',
 );

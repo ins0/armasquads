@@ -47,6 +47,15 @@ class Module
             $urlLocale = $fallbackLocale;
         }
 
+        if( strstr($_SERVER['SERVER_NAME'], '.de') )
+        {
+            $urlLocale = 'de';
+        } else {
+            $urlLocale = 'en';
+        }
+
+
+
         // ROUTER
         /** @var \Zend\Mvc\Router\Http\TreeRouteStack $router */
         $router = $e->getRouter();

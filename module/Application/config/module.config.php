@@ -16,7 +16,7 @@ return array (
 						'frontend' => array (
 								'type' => 'Segment',
 								'options' => array (
-										'route' => '/[:locale/]',
+										'route' => '/',
 										'defaults' => array (
 												'controller' => 'Frontend\Startseite\Controller\Startseite',
 												'action' => 'index',
@@ -69,6 +69,7 @@ return array (
 				'invokables'=> array(
                     'FlashMessenger'	=> 'Application\View\Helper\FlashMessenger',
                     'formErrors'	=> 'Application\View\Helper\formErrors',
+                    'ServerUrl'	=> 'Application\View\Helper\ServerUrl',
 
                     //'Translate'			=> 'Application\View\Helper\Translate',
 						//'DateFormat'		=> 'Application\View\Helper\DateFormat',
@@ -76,8 +77,8 @@ return array (
 		),		
 		
 		'view_manager' => array (
-				'display_not_found_reason' => true,
-				'display_exceptions' => true,
+				'display_not_found_reason' => false,
+				'display_exceptions' => false,
 				'doctype' => 'HTML5',
 				'template_map' => array (
 
