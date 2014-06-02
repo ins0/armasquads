@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Resources
  * 
  * @ORM\Entity
- * @ORM\Table(name="AUTH_Resourcen_D74FW1")
+ * @ORM\Table(name="auth_resourcen_d74fw1")
  * 
  * @property int $id
  * @property string $modul
