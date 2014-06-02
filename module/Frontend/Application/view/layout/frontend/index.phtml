@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <?php
         // titel
-        echo $this->headtitle('armasquads.de', 'APPEND')
+        echo $this->headtitle(strtolower($_SERVER['SERVER_NAME']), 'APPEND')
             ->setAutoEscape(true)
             ->setSeparator(' » ');
 
