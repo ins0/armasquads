@@ -7,8 +7,8 @@
     <picture><?php echo $this->logoFile ? $this->logoFile : '' ?></picture>
     <title><?php echo $this->squad->getTitle() ? $this->escapeHtml($this->squad->getTitle()) : 'N/A'; ?></title>
     <?php foreach($this->squad->getMembers() as $member ): ?>
-        <member id="<?php echo $member->getUuid(); ?>" nick="<?php echo $member->getUsername(); ?>">
-            <name><?php echo $member->getName(); ?></name>
+        <member id="<?php echo $this->escapeHtml($member->getUuid()); ?>" nick="<?php echo $this->escapeHtml($member->getUsername()); ?>">
+            <name><?php echo $member->getName() ? $this->escapeHtml($member->getName()) : 'N/A'; ?></name>
             <email><?php echo $member->getEmail() ? $this->escapeHtml($member->getEmail()) : 'N/A'; ?></email>
             <icq><?php echo $member->getIcq() ? $this->escapeHtml($member->getIcq()) : 'N/A'; ?></icq>
             <remark><?php echo $member->getRemark() ? $this->escapeHtml($member->getRemark()) : 'N/A'; ?></remark>
