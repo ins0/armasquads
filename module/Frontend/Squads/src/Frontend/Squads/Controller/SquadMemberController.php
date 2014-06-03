@@ -36,10 +36,13 @@ class SquadMemberController extends AbstractFrontendController
 
         if( $this->getRequest()->isPost() )
         {
-            $form->setData(
-                $this->getRequest()->getPost()
-            );
+            // zf bug workaround - deleting all members
+            $postedData = (array)$this->getRequest()->getPost();
+            if (!isset($postedData['members'])) {
+                $postedData['members']= array();
+            }
 
+            $form->setData($postedData);
             if( $form->isValid() )
             {
                 $members = $form->getData();

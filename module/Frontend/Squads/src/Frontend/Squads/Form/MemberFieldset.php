@@ -18,11 +18,11 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
                 'id' => 'uuid',
-                'class' => 'col-xs-12 col-lg-8',
+                'class' => 'col-xs-12 col-sm-8',
             ),
             'options' => array(
                 'label_attributes' => array(
-                    'class' => 'col-xs-12 col-lg-2 control-label'
+                    'class' => 'col-xs-12 col-sm-2 control-label'
                 ),
                 'label' => 'UUID',
             )
@@ -34,11 +34,11 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
                 'id' => 'username',
-                'class' => 'col-lg-8',
+                'class' => 'col-xs-12 col-sm-8',
             ),
             'options' => array(
                 'label_attributes' => array(
-                    'class' => 'col-lg-2 control-label'
+                    'class' => 'col-xs-12 col-sm-2 control-label'
                 ),
                 'label' => 'Username',
             )
@@ -50,11 +50,11 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
                 'id' => 'name',
-                'class' => 'col-lg-8',
+                'class' => 'col-xs-12 col-sm-8',
             ),
             'options' => array(
                 'label_attributes' => array(
-                    'class' => 'col-lg-2 control-label'
+                    'class' => 'col-xs-12 col-sm-2 control-label'
                 ),
                 'label' => 'Name',
             )
@@ -63,14 +63,14 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
         // Email
         $this->add(array(
             'name' => 'email',
-            'type' => 'Zend\Form\Element\Email',
+            'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
                 'id' => 'email',
-                'class' => 'col-lg-8',
+                'class' => 'col-xs-12 col-sm-8',
             ),
             'options' => array(
                 'label_attributes' => array(
-                    'class' => 'col-lg-2 control-label'
+                    'class' => 'col-xs-12 col-sm-2 control-label'
                 ),
                 'label' => 'Email',
             )
@@ -82,11 +82,11 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
                 'id' => 'icq',
-                'class' => 'col-lg-8',
+                'class' => 'col-xs-12 col-sm-8',
             ),
             'options' => array(
                 'label_attributes' => array(
-                    'class' => 'col-lg-2 control-label'
+                    'class' => 'col-xs-12 col-sm-2 control-label'
                 ),
                 'label' => 'ICQ',
             )
@@ -98,33 +98,17 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
                 'id' => 'remark',
-                'class' => 'col-lg-8',
+                'class' => 'col-xs-12 col-sm-8',
             ),
             'options' => array(
                 'label_attributes' => array(
-                    'class' => 'col-lg-2 control-label',
+                    'class' => 'col-xs-12 col-sm-2 control-label',
                     'required' => 'required'
                 ),
                 'label' => 'Remark',
             )
         ));
 
-        // remark
-        $this->add(array(
-            'name' => 'delete',
-            'type' => 'Zend\Form\Element\Button',
-            'attributes' => array(
-                'id' => 'delete',
-                'class' => 'btn btn-danger',
-                'onClick' => 'javascript:$(this).parent().parent().slideUp(function(){$(this).remove()});'
-            ),
-            'options' => array(
-                'label_attributes' => array(
-                    'class' => ''
-                ),
-                'label' => 'Remove Member',
-            )
-        ));
     }
 
     public function getInputFilterSpecification()
@@ -133,6 +117,7 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             array(
                 'name'       => 'uuid',
                 'required'   => true,
+                'allow_empty' => true,
                 'filters'    => array(),
                 'validators' => array(
                     array(
@@ -149,6 +134,7 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             array(
                 'name'       => 'username',
                 'required'   => true,
+                'allow_empty' => true,
                 'filters'    => array(),
                 'validators' => array(
                     array(
@@ -179,13 +165,7 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
                 'required'   => false,
                 'filters'    => array(),
                 'validators' => array()
-            ),
-            array(
-                'name'       => 'remark',
-                'required'   => false,
-                'filters'    => array(),
-                'validators' => array()
-            ),
+            )
         );
     }
 

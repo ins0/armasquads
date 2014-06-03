@@ -23,7 +23,7 @@ class Member extends AbstractFrontendForm implements ServiceManagerAwareInterfac
         $memberFieldset =  new MemberFieldset();
         $memberFieldset->setHydrator(new DoctrineObject($this->getEntityManager()));
         $memberFieldset->setEntityManager( $this->getEntityManager() );
-        //$memberFieldset->setUseAsBaseFieldset(true);
+        $memberFieldset->setUseAsBaseFieldset(true);
 
         $this->add(array(
             'name' => 'members',
@@ -33,8 +33,8 @@ class Member extends AbstractFrontendForm implements ServiceManagerAwareInterfac
                 'should_create_template' => true,
                 'target_element' => $memberFieldset,
                 'allow_remove' => true,
-                'allow_add' => true
-            )
+                'allow_add' => true,
+            ),
         ));
 
         $this->bind($object);

@@ -99,3 +99,7 @@ input::-moz-focus-inner {border: 0;padding: 0}
     }
 }
 
+.no-padding {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}

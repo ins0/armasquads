@@ -8,27 +8,77 @@
     </h1>
 </div>
 <script>
-    function add_member() {
-        var currentCount = $('form > fieldset > fieldset').length;
-        var template = $('form > fieldset > span').data('template');
-        template = template.replace(/__index__/g, currentCount);
-        template = $(template).hide();
-        $('form > fieldset').prepend(template);
-        $('form > fieldset > fieldset').eq(0).slideDown();
+    // add member
+    function add_member()
+    {
+        // current fields
+        var currentCount = $('.members > .members-collection > div.item').length;
 
+        // form template
+        var template = $('.template-member');
+        template.find('div.panel-body').html(template.data('template'));
+        template.removeAttr('data-template');
+        template.removeAttr('template-member');
+        template = template.get(0).outerHTML.replace(/__index__/g, currentCount);
+
+        // update form
+        $('.members > .members-collection').append(template);
+        $('.members p.no-member-hint').hide();
+        $('.members > .members-collection > div').last().stop(true, true).slideDown();
+
+        // update member info
+        $('span.member-count').html(currentCount + 1);
+
+        return false;
+    }
+    // remove member
+    function remove_member(obj)
+    {
+        $(obj).parent().parent().slideUp(function(){
+            // remove field
+            $(this).remove();
+
+            // current member fields
+            var currentCount = $('.members > .members-collection > div.item').length;
+
+            // update member info
+            $('span.member-count').html(currentCount);
+
+            // show info for empty squad
+            if( currentCount == 0 )
+            {
+                $('.members p.no-member-hint').show();
+            }
+        });
         return false;
     }
 </script>
 <div class="well">
     <?php $form->prepare(); ?>
     <?php echo $this->form()->openTag($form); ?>
+    <h1><span class="member-count"><?php echo count($squad->getMembers()) . '</span> ' . $this->translatePlural( 'Member', 'Members', count($squad->getMembers()) ); ?><br /></h1>
+    <hr>
+    <div class="members">
+        <?php $formCollection = $this->form->get('members'); ?>
+        <div class="members-collection">
+            <?php if( count($formCollection) == 0 ): ?>
+                <p class="no-member-hint"><?php echo $this->translate('This squad has no member!'); ?></p>
+            <?php else: ?>
+                <?php foreach( $formCollection as $col ): ?>
+                    <div class="item panel panel-default">
+                        <div class="panel-body">
+                            <?php echo $this->formCollection($col); ?>
+                        </div>
+                        <div class="panel-footer text-right"><div class="btn btn-danger" onclick="javascript:remove_member(this)">Delete</div></div>
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+    </div>
+    <hr>
     <a href="<?php echo $this->url('frontend/user/squads'); ?>" class="btn btn-danger"><?php echo $this->translate('Back'); ?></a>
     <button type="submit" class="btn btn-success"><?php echo $this->translate('Save'); ?></button>
     <div class="btn btn-primary" onclick="return add_member()">Add a new Member</div>
-    <hr>
-    <?php echo $this->formCollection( $this->form->get('members') ); ?>
-    <hr>
-    <a href="<?php echo $this->url('frontend/user/squads'); ?>" class="btn btn-danger"><?php echo $this->translate('Back'); ?></a>
-    <button type="submit" class="btn btn-success"><?php echo $this->translate('Save'); ?></button>
     <?php echo $this->form()->closeTag($form); ?>
+    <?php echo $this->formCollection()->setTemplateWrapper('<div data-template="%s" class="item panel panel-default template-member" style="display: none;"><div class="panel-body"></div><div class="panel-footer text-right"><div class="btn btn-danger" onclick="javascript:remove_member(this);">' . $this->translate('Delete') .'</div></div></div>')->renderTemplate( $formCollection ); ?>
 </div>
