@@ -27,7 +27,7 @@ return array (
                                     'xml' => array(
                                         'type' => 'segment',
                                         'options' => array(
-                                            'route' => 'xml/:id/',
+                                            'route' => 'xml/:id/[squad.xml]',
                                             'defaults' => array(
                                                 'controller' => 'Frontend\Squads\Controller\SquadXml',
                                                 'action' => 'squadFile'
