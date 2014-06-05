@@ -1,7 +1,6 @@
 <?php
 namespace Frontend\Squads\Controller;
 
-use Doctrine\Common\Util\Debug;
 use Frontend\Squads\Form\Member;
 use Frontend\Application\Controller\AbstractDoctrineController;
 use Frontend\Application\Controller\AbstractFrontendController;
@@ -45,12 +44,9 @@ class SquadMemberController extends AbstractFrontendController
             $form->setData($postedData);
             if( $form->isValid() )
             {
-                $members = $form->getData();
-
-                $this->getEntityManager()->persist( $members );
                 $this->getEntityManager()->flush();
 
-                $this->flashMessenger()->addSuccessMessage('Members sucessfully edited!');
+                $this->flashMessenger()->addSuccessMessage('Members successfully edited!');
                 return $this->redirect()->refresh();
             }
             else
@@ -58,7 +54,6 @@ class SquadMemberController extends AbstractFrontendController
                 $form->populateValues($this->getRequest()->getPost());
             }
         }
-
 
         $viewModel = new ViewModel();
         $viewModel->setTemplate('/squads/member/edit.phtml');
