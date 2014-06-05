@@ -53,7 +53,8 @@ class Squad {
     protected $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="Member", mappedBy="squad", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Member", mappedBy="squad", cascade={"ALL"}, orphanRemoval=true)
+     * @ORM\OrderBy({"name" = "ASC", "uuid" = "ASC"})
      */
     protected $members;
 
@@ -64,6 +65,15 @@ class Squad {
 
     public function addMember( Member $member )
     {
+        foreach($this->members as $memberCheck )
+        {
+            if( $memberCheck->getUuid() == $member->getUuid() )
+            {
+                // member allready in the group do nohting with this
+                return $this;
+            }
+        }
+
         $member->setSquad($this);
         $this->members->add($member);
         return $this;

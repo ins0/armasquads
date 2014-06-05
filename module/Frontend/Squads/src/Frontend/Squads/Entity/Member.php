@@ -13,7 +13,7 @@ class Member {
 
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Squad", inversedBy="members", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Squad", inversedBy="members")
      * @ORM\JoinColumn(name="SQA_ID", referencedColumnName="SQA_ID")
      */
     protected $squad;
