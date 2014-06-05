@@ -110,8 +110,14 @@ class Squad extends AbstractFrontendForm implements ServiceManagerAwareInterface
         $this->add(array(
             'type' => 'Zend\Form\Element\Checkbox',
             'name' => 'deleteLogo',
+            'attributes' => array(
+                'id'   => 'deleteLogo'
+            ),
             'options' => array(
                 'label' => 'Delete Image',
+                'label_attributes' => array(
+                    'class' => 'checkbox-inline'
+                ),
                 'use_hidden_element' => true,
                 'checked_value' => '1',
                 'unchecked_value' => '0'
