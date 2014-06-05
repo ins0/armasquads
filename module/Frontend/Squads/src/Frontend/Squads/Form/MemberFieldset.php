@@ -1,11 +1,15 @@
 <?php
 namespace Frontend\Squads\Form;
 
+use DoctrineModule\Validator\NoObjectExists;
 use Frontend\Application\Form\AbstractFrontendFieldset;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 
 class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerAwareInterface
 {
+    /** @var \Frontend\Squads\Entity\Squad  */
+    protected $defaultMemberEntity = null;
+
     public function __construct()
     {
         parent::__construct('member');
@@ -24,7 +28,7 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
                 'label_attributes' => array(
                     'class' => 'col-xs-12 col-sm-2 control-label'
                 ),
-                'label' => 'UUID',
+                'label' => 'PlayerID',
             )
         ));
 
@@ -125,10 +129,11 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
                         'break_chain_on_failure' => true,
                         'options' => array(
                             'messages' => array(
-                                \Zend\Validator\NotEmpty::IS_EMPTY=> 'UUID required!'
+                                \Zend\Validator\NotEmpty::IS_EMPTY=> 'PlayerID required!'
                             )
                         )
                     )
+
                 )
             ),
             array(
@@ -158,7 +163,17 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
                 'name'       => 'email',
                 'required'   => false,
                 'filters'    => array(),
-                'validators' => array()
+                'validators' => array(
+                    array(
+                        'name'    => 'EmailAddress',
+                        'break_chain_on_failure' => true,
+                        'options' => array(
+                            'messages' => array(
+                                \Zend\Validator\EmailAddress::INVALID_FORMAT => 'Please enter a valid Email!'
+                            )
+                        )
+                    ),
+                )
             ),
             array(
                 'name'       => 'icq',
@@ -169,4 +184,19 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
         );
     }
 
+    /**
+     * @param \Frontend\Squads\Entity\Member $defaultMemberEntity
+     */
+    public function setDefaultMemberEntity($defaultMemberEntity)
+    {
+        $this->defaultMemberEntity = $defaultMemberEntity;
+    }
+
+    /**
+     * @return \Frontend\Squads\Entity\Member
+     */
+    public function getDefaultMemberEntity()
+    {
+        return $this->defaultMemberEntity;
+    }
 }
