@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-1 text-center">
                     <?php if( $squad->getLogo() ): ?>
-                        <img width="64" height="64" style="border: 1px solid white;" src="<?php echo $this->basePath( $squad->getSquadLogo() ); ?>" class="img-circle" />
+                        <img width="64" height="64" style="border: 1px solid rgba(0, 0, 0, 0.1)" src="<?php echo $this->basePath( $squad->getSquadLogo() ); ?>" class="img-circle" />
                     <?php else: ?>
                         <span style="font-size: 64px" class="fa fa-times-circle"></span>
                     <?php endif; ?>

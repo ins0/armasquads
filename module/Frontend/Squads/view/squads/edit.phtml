@@ -35,12 +35,22 @@
             <div class="col-lg-10">
                 <?php echo $this->formFile( $this->form->get('logo') ); ?>
                 <?php if( $this->form->getObject()->getLogo() ): ?>
-                    <br />
-                    <?php echo $this->translate('Current Squad Image'); ?>:
-                    <img width="64" height="64" src="<?php echo $this->basepath( $this->form->getObject()->getSquadLogo() ); ?>" />
-                    <br />
-                    <?php echo $this->formLabel( $this->form->get('deleteLogo') ); ?>
-                    <?php echo $this->formCheckbox( $this->form->get('deleteLogo') ); ?><br />
+                    <div class="well">
+                        <div class="container">
+                            <div class="col-xs-12 col-sm-6">
+                                <p class="text-primary"><?php echo $this->translate('Current Squad Image'); ?>:</p>
+                                <hr>
+                                <div class="checkbox">
+                                    <?php echo $this->formCheckbox( $this->form->get('deleteLogo') ); ?>
+                                    <?php echo $this->formLabel($this->form->get('deleteLogo')); ?>
+                                </div>
+                                <br /><br />
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <img class="img-responsive" style="border: 1px solid rgba(0, 0, 0, 0.1)" src="<?php echo $this->basepath( $this->form->getObject()->getSquadLogo() ); ?>" />
+                            </div>
+                        </div>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
