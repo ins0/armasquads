@@ -7,9 +7,6 @@ use Zend\ServiceManager\ServiceManagerAwareInterface;
 
 class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerAwareInterface
 {
-    /** @var \Frontend\Squads\Entity\Squad  */
-    protected $defaultMemberEntity = null;
-
     public function __construct()
     {
         parent::__construct('member');
@@ -182,21 +179,5 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
                 'validators' => array()
             )
         );
-    }
-
-    /**
-     * @param \Frontend\Squads\Entity\Member $defaultMemberEntity
-     */
-    public function setDefaultMemberEntity($defaultMemberEntity)
-    {
-        $this->defaultMemberEntity = $defaultMemberEntity;
-    }
-
-    /**
-     * @return \Frontend\Squads\Entity\Member
-     */
-    public function getDefaultMemberEntity()
-    {
-        return $this->defaultMemberEntity;
     }
 }
