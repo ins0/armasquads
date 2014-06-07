@@ -161,10 +161,14 @@ class Acl extends AuthenticationService {
         /** @var Benutzer $benutzer */
 		$benutzer = $this->em->getRepository('Auth\Entity\Benutzer')->findOneByUsername( $username );
 
-        /**
-         * @TODO MD5 durch bcrpyt ersetzten
-         */
-        if( $benutzer && $benutzer->getPassword() == md5( $password ) ) {
+        // old md5 back comp.
+        if(strlen($benutzer->getPassword()) == 32 && $benutzer->getPassword() == md5($password) )
+        {
+            $benutzer->setPassword( $password );
+            $this->em->flush();
+        }
+
+        if( $benutzer && $benutzer->checkAgainstPassword( $password ) ) {
 
 			if( $benutzer->getDisabled() == true ) {
 				// user is blocked

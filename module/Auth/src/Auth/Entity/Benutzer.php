@@ -2,6 +2,9 @@
 namespace Auth\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Crypt\Key\Derivation\SaltedS2k;
+use Zend\Crypt\Password\Bcrypt;
+use Zend\Math\Rand;
 
 /**
  * Benutzer
@@ -191,7 +194,25 @@ class Benutzer {
      */
     public function setPassword($password)
     {
-        $this->password = $password;
+        $salt = Rand::getBytes(32, true);
+        $salt = SaltedS2k::calc('sha256', $password, $salt, 100000);
+
+        $bcryp = new Bcrypt();
+        $bcryp->setSalt($salt);
+
+        $this->password = $bcryp->create($password);
+    }
+
+    /**
+     * Check a Password against this User
+     *
+     * @param $password
+     * @return bool
+     */
+    public function checkAgainstPassword( $password )
+    {
+        $bcrypt = new Bcrypt();
+        return $bcrypt->verify($password, $this->getPassword() );
     }
 
     /**

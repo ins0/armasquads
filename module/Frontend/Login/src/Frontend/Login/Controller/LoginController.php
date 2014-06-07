@@ -33,7 +33,7 @@ class LoginController extends AbstractFrontendController
 
                 $benutzer = new Benutzer();
                 $benutzer->setUsername( $data['username'] );
-                $benutzer->setPassword( md5($data['password']) );
+                $benutzer->setPassword( $data['password'] );
                 $benutzer->setEmail( $data['email'] );
                 $benutzer->setDisabled( false );
                 $benutzer->setRegisterDate( date('c') );
