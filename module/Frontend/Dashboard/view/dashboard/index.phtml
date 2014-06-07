@@ -2,4 +2,32 @@
 <div class="page-header">
     <h1 id="type"><?php echo sprintf($this->translate('Welcome back, <b>%s</b>!'), $this->escapeHtml($this->identity()->getUsername())); ?></h1>
 </div>
-Choose your action from the menu in the upper right corner.
+<div class="well well-lg">
+    <h4 class="text-center"><b>Choose your action from the menu in the upper right corner.</b></h4>
+</div>
+<hr>
+<div class="panel panel-default">
+    <div class="panel-heading">Changelog</div>
+    <div class="panel-body">
+        <div class="panel-group" id="accordion">
+            <?php $x = 0; foreach($this->changelog as $change ): $x++; ?>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#changelog_<?php echo $x; ?>">
+                            <?php echo $this->escapeHtml($change['date']); ?>
+                        </a>
+                    </h4>
+                </div>
+                <div id="changelog_<?php echo $x; ?>" class="panel-collapse collapse <?php echo $x == 1 ? 'in' : ''; ?>">
+                    <div class="panel-body">
+                        <?php foreach($change['changes'] as $item ): ?>
+                            - <?php echo $this->escapeHtml($item); ?><br />
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>

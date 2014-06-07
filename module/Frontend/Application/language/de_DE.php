@@ -17,7 +17,8 @@ return array(
     'FRONTEND_APPLICATION_NAV_MENUE' =>  'Menü',
 
 
-    'FRONTEND_BUY_ME_A_DRING'   =>  'Ein Kaffee für mich?',
+    'FRONTEND_BUY_ME_A_DRING'   =>  'Unterstützen',
+
     'Create your own Squad XML Files for ARMA based games' => 'Erstell dir deine Squad XML Dateien für ArmA basierte Spiele!',
 
 

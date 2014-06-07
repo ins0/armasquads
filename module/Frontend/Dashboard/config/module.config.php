@@ -33,6 +33,18 @@ return array (
                                 ),
                                 'may_terminate' => true
                             ),
+
+                            'donate' => array(
+                                'type' => 'literal',
+                                'options' => array(
+                                    'route' => 'support/',
+                                    'defaults' => array(
+                                        'controller' => 'Frontend\Dashboard\Controller\Dashboard',
+                                        'action' => 'donate'
+                                    )
+                                ),
+                                'may_terminate' => true
+                            ),
                         )
                     ),
                 )
