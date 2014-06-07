@@ -59,6 +59,14 @@ class DashboardController extends AbstractFrontendController
                 continue;
 
             $changes = explode('---', $line[8]);
+
+            for($y = 0; $y < count($changes); $y++ )
+            {
+                if(substr($changes[$y], 0, 1) == '!')
+                {
+                    unset($changes[$y]);
+                }
+            }
             unset($changes[0]);
 
             $changelog[] = [
@@ -81,9 +89,9 @@ class DashboardController extends AbstractFrontendController
         // collect some data
         $data = [];
 
-        exec('git summary', $gitSummary);
-        exec('git changelog --list', $gitChangelog);
-        exec('git log -1 --format=%cd', $gitLastCommit);
+        exec('git summary ' . ROOT_PATH . '/../', $gitSummary);
+        exec('git changelog --list '. ROOT_PATH . '/../', $gitChangelog);
+        exec('git log -1 --format=%cd ' . ROOT_PATH . '/../', $gitLastCommit);
 
         $key    = 'git-time-extractor-file';
         $timeStatsFilePath = ROOT_PATH . '/../data/git/stats.csv';
