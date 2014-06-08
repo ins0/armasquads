@@ -29,7 +29,7 @@ class SquadXmlController extends AbstractFrontendController
         // tracking
         Try {
             $tracker = new GATracking('UA-47467616-2');
-            //$tracker->setClientID($squad->getId());
+            $tracker->setClientID($squad->getId());
 
             $eventTracker = new Event();
             $eventTracker->setEventCategory('Squadfile');
@@ -37,13 +37,7 @@ class SquadXmlController extends AbstractFrontendController
             $eventTracker->setEventLabel($squad->getName());
             $eventTracker->setEventValue($squad->getId());
 
-            $pageTracker = new Page();
-            $pageTracker->setDocumentHost('armasquads.de');
-            $pageTracker->setDocumentPath($_SERVER['REQUEST_URI']);
-            $pageTracker->getDocumentTitle('Gameserver request for ' . $squad->getTitle() . ' - ' . $squad->getId() );
-
             $tracker->addTracking($eventTracker);
-            $tracker->addTracking($pageTracker);
 
             $tracker->send();
         } Catch( \Exception $e )
