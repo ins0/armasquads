@@ -25,6 +25,12 @@
             </div>
         </div>
         <div class="form-group">
+            <?php echo $this->formLabel( $this->form->get('homepage') ); ?>
+            <div class="col-lg-10">
+                <?php echo $this->formUrl( $this->form->get('homepage') ); ?>
+            </div>
+        </div>
+        <div class="form-group">
             <?php echo $this->formLabel( $this->form->get('email') ); ?>
             <div class="col-lg-10">
                 <?php echo $this->formEmail( $this->form->get('email') ); ?>

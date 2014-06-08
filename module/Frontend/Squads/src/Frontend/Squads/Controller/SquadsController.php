@@ -4,7 +4,6 @@ namespace Frontend\Squads\Controller;
 use Frontend\Squads\Form\Squad as SquadForm;
 use Frontend\Application\Controller\AbstractDoctrineController;
 use Frontend\Application\Controller\AbstractFrontendController;
-use Zend\Mvc\Router\Console\Catchall;
 use Zend\View\Model\ViewModel;
 
 class SquadsController extends AbstractFrontendController
@@ -146,7 +145,7 @@ class SquadsController extends AbstractFrontendController
                 $this->getEntityManager()->flush();
 
                 $this->flashMessenger()->addSuccessMessage('Squad successfully edited!');
-                return $this->redirect()->toRoute('frontend/user/squads');
+                return $this->redirect()->refresh();
             }
             else
             {

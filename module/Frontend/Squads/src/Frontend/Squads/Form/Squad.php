@@ -62,6 +62,21 @@ class Squad extends AbstractFrontendForm implements ServiceManagerAwareInterface
         ));
 
         $this->add(array(
+            'name' => 'homepage',
+            'type' => 'Zend\Form\Element\Url',
+            'attributes' => array(
+                'id' => 'homepage',
+                'class' => 'form-control',
+            ),
+            'options' => array(
+                'label_attributes' => array(
+                    'class' => 'col-lg-2 control-label'
+                ),
+                'label' => 'Squad Homepage',
+            )
+        ));
+
+        $this->add(array(
             'name' => 'title',
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(

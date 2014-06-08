@@ -37,6 +37,16 @@ class Squad extends InputFilter {
             )
         );
 
+        // Homepage
+        $this->add(
+            array(
+                'name'       => 'homepage',
+                'required'   => false,
+                'filters'    => array(),
+                'validators' => array()
+            )
+        );
+
         // Title
         $this->add(
             array(

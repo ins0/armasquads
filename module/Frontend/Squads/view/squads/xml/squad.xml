@@ -3,7 +3,7 @@
 <squad nick="<?php echo $this->escapeHtml($this->squad->getTag()); ?>">
     <name><?php echo $this->squad->getName() ? $this->escapeHtml($this->squad->getName()) : 'N/A'; ?></name>
     <email><?php echo $this->squad->getEmail() ? $this->escapeHtml($this->squad->getEmail()) : 'N/A'; ?></email>
-    <web>N/A</web>
+    <web><?php echo $this->squad->getHomepage() ? $this->escapeHtml($this->squad->getHomepage()) : 'N/A'; ?></web>
     <picture><?php echo $this->logoFile ? $this->logoFile : '' ?></picture>
     <title><?php echo $this->squad->getTitle() ? $this->escapeHtml($this->squad->getTitle()) : 'N/A'; ?></title>
     <?php foreach($this->squad->getMembers() as $member ): ?>

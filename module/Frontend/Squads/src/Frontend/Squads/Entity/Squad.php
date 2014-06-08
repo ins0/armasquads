@@ -48,6 +48,11 @@ class Squad {
     protected $logo;
 
     /**
+     * @ORM\Column(type="string", name="SQA_Homepage")
+     */
+    protected $homepage;
+
+    /**
      * @ORM\Column(type="string", name="SQA_Title")
      */
     protected $title;
@@ -249,6 +254,19 @@ class Squad {
         return $this->user;
     }
 
+    /**
+     * @param mixed $homepage
+     */
+    public function setHomepage($homepage)
+    {
+        $this->homepage = $homepage;
+    }
 
-
+    /**
+     * @return mixed
+     */
+    public function getHomepage()
+    {
+        return $this->homepage;
+    }
 }
