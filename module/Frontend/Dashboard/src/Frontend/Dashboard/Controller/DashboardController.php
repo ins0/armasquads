@@ -87,8 +87,8 @@ class DashboardController extends AbstractFrontendController
         // collect some data
         $data = [];
 
-        exec('git-summary ' . realpath(ROOT_PATH . '/../'), $gitSummary);
-        exec('git log -1 --format=%cd ' . realpath(ROOT_PATH . '/../'), $gitLastCommit);
+        exec('git-summary', $gitSummary);
+        exec('git log -1 --format=%cd', $gitLastCommit);
 
         $key    = 'git-time-extractor-file';
         $timeStatsFilePath = ROOT_PATH . '/../data/git/stats.csv';
@@ -152,7 +152,7 @@ class DashboardController extends AbstractFrontendController
         $viewModel->setTemplate('/dashboard/donate.phtml');
         $viewModel->setVariable('data', $data);
         $viewModel->setVariable('changelog', array_reverse($changelog));
-        $viewModel->setVariable('total_time', $totalTime * 1.73);
+        $viewModel->setVariable('total_time', $totalTime * 1.30);
         return $viewModel;
     }
 }
