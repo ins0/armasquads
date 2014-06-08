@@ -87,8 +87,7 @@ class DashboardController extends AbstractFrontendController
         // collect some data
         $data = [];
 
-        exec('git summary ' . realpath(ROOT_PATH . '/../'), $gitSummary);
-        exec('git changelog --list '. realpath(ROOT_PATH . '/../'), $gitChangelog);
+        exec('git-summary ' . realpath(ROOT_PATH . '/../'), $gitSummary);
         exec('git log -1 --format=%cd ' . realpath(ROOT_PATH . '/../'), $gitLastCommit);
 
         $key    = 'git-time-extractor-file';
