@@ -89,10 +89,13 @@ class LoginController extends AbstractFrontendController
         {
             // check if fallback have no domain
             $urlParse = parse_url( $fallbackUrl );
-            if( !$urlParse || isset($urlParse['host'] ) )
+            if( !$urlParse || !isset($urlParse['path'] ) )
             {
                 // no valid fallback
                 $fallbackUrl = false;
+            } else {
+
+                $fallbackUrl = $urlParse['path'];
             }
         }
 
