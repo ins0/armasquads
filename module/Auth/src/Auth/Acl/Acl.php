@@ -162,7 +162,7 @@ class Acl extends AuthenticationService {
 		$benutzer = $this->em->getRepository('Auth\Entity\Benutzer')->findOneByUsername( $username );
 
         // old md5 back comp.
-        if(strlen($benutzer->getPassword()) == 32 && $benutzer->getPassword() == md5($password) )
+        if($benutzer && strlen($benutzer->getPassword()) == 32 && $benutzer->getPassword() == md5($password) )
         {
             $benutzer->setPassword( $password );
             $this->em->flush();

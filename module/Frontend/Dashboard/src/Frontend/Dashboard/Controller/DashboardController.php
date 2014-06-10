@@ -67,6 +67,11 @@ class DashboardController extends AbstractFrontendController
                 }
             }
 
+            if( count( $changes ) <= 0 )
+            {
+                continue;
+            }
+
             $changelog[] = [
                 'date' => $line[0],
                 'changes' => $changes
