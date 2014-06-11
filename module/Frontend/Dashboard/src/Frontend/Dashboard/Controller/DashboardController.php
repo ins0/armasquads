@@ -157,7 +157,7 @@ class DashboardController extends AbstractFrontendController
         $viewModel->setTemplate('/dashboard/donate.phtml');
         $viewModel->setVariable('data', $data);
         $viewModel->setVariable('changelog', array_reverse($changelog));
-        $viewModel->setVariable('total_time', $totalTime * 1.30);
+        $viewModel->setVariable('total_time', $totalTime);
         return $viewModel;
     }
 }
