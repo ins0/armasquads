@@ -11,6 +11,7 @@ return array(
   'Frontend\Squads\Form\Member'                      => __DIR__ . '/src/Frontend/Squads/Form/Member.php',
   'Frontend\Squads\Form\MemberFieldset'              => __DIR__ . '/src/Frontend/Squads/Form/MemberFieldset.php',
   'Frontend\Squads\Form\Squad'                       => __DIR__ . '/src/Frontend/Squads/Form/Squad.php',
+  'Frontend\Squads\Repository\Squad'                 => __DIR__ . '/src/Frontend/Squads/Repository/Squad.php',
   'Frontend\Squads\Service\SquadImageService'        => __DIR__ . '/src/Frontend/Squads/Service/SquadImageService.php',
   'Frontend\Squads\Service\SquadImageServiceFactory' => __DIR__ . '/src/Frontend/Squads/Service/SquadImageServiceFactory.php',
 );

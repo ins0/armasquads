@@ -13,7 +13,6 @@ input::-moz-focus-inner {border: 0;padding: 0}
 
 .alert>p, .alert>ul {
     margin-top: 10px;
-    margin-left: 15px;
 }
 
 .text-left-not-xs, .text-left-not-sm, .text-left-not-md, .text-left-not-lg {

@@ -203,6 +203,10 @@ class SquadsController extends AbstractFrontendController
                     $squad->setLogo(null);
                 }
 
+                // new squad url
+                $squadRepo = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
+                $squadRepo->createUniqueToken($squad);
+
                 $this->getEntityManager()->persist( $squad );
                 $this->getEntityManager()->flush();
 

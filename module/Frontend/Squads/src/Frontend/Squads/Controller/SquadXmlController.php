@@ -13,14 +13,19 @@ use Zend\View\Model\ViewModel;
 
 class SquadXmlController extends AbstractFrontendController
 {
-
     public function squadFileAction()
     {
-        $squadID = (int) $this->params('id', null);
+        $squadID = $this->params('id', null);
         $squadReposiory = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
 
         /** @var Squad $squad */
-        $squad = $squadReposiory->find( $squadID );
+        if(is_numeric($squadID))
+        {
+            $squad = $squadReposiory->find( $squadID );
+        } else {
+            $squad = $squadReposiory->findOneBy( array('privateID' => $squadID ));
+        }
+
         if( ! $squad )
         {
             return $this->getResponse()->setStatusCode(404);
@@ -81,7 +86,12 @@ class SquadXmlController extends AbstractFrontendController
         $squadReposiory = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
 
         /** @var Squad $squad */
-        $squad = $squadReposiory->find( $squadID );
+        if(is_numeric($squadID))
+        {
+            $squad = $squadReposiory->find( $squadID );
+        } else {
+            $squad = $squadReposiory->findOneBy( array('privateID' => $squadID ));
+        }
 
         if( ! $squad )
         {
@@ -152,7 +162,12 @@ class SquadXmlController extends AbstractFrontendController
         $squadReposiory = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
 
         /** @var Squad $squad */
-        $squad = $squadReposiory->find( $squadID );
+        if(is_numeric($squadID))
+        {
+            $squad = $squadReposiory->find( $squadID );
+        } else {
+            $squad = $squadReposiory->findOneBy( array('privateID' => $squadID ));
+        }
         $squadLogoPath = ROOT_PATH . $squad->getSquadLogo(64);
 
         if( ! $squad || !$squadLogoPath || !file_exists($squadLogoPath) )

@@ -1,4 +1,15 @@
 <?php $this->headtitle('My Squads'); ?>
+<div class="alert alert-dismissable alert-warning">
+    <h4>Update your ingame squad url!</h4>
+    <p>
+        In order to increase your privacy your squad urls are now randomized to prevent easy
+        "try and error" access to your squad xml files and grabbing (in case you have set one) member email addresses.
+        <b>Until June 06/20/2014</b> you can still access your squad xml files with the old url, after that date
+        all old urls are tossed and won't work anymore.<br />
+        <br />
+        Cheers ins0!
+    </p>
+</div>
 <div class="page-header">
     <h1 id="type"><?php echo $this->translate('My Squads'); ?></h1>
 </div>
@@ -36,7 +47,7 @@
             </div>
         </div>
         <div class="panel-body">
-            <input type="text" class="form-control" value="<?php echo 'http://' . $_SERVER['SERVER_NAME'] . ($this->url('frontend/user/squads/xml', array('id' => $squad->getId()))); ?>" id="inputDefault">
+            <input type="text" class="form-control" value="<?php echo 'http://' . $_SERVER['SERVER_NAME'] . ($this->url('frontend/user/squads/xml', array('id' => $squad->getPrivateId()))); ?>" id="inputDefault">
             <hr>
             <?php if($this->hasAccess('frontend/squads/create') ): ?>
                 <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/edit', array('id'=>$squad->getId())) ?>">

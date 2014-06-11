@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Entity
  * @ORM\Table(name="sqa_squads_6d4c2s")
+ * @ORM\Entity(repositoryClass="Frontend\Squads\Repository\Squad")
  *
  */
 class Squad {
@@ -20,6 +21,11 @@ class Squad {
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @ORM\Column(type="string", name="SQA_PrivateID")
+     */
+    protected $privateID;
 
     /**
      * @ORM\OneToOne(targetEntity="Auth\Entity\Benutzer")
@@ -269,4 +275,21 @@ class Squad {
     {
         return $this->homepage;
     }
+
+    /**
+     * @param mixed $privateID
+     */
+    public function setPrivateID($privateID)
+    {
+        $this->privateID = $privateID;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrivateID()
+    {
+        return $this->privateID;
+    }
+
 }
