@@ -101,7 +101,7 @@ class LoginController extends AbstractFrontendController
 
         if( $this->request->isPost() ) {
     	
-    		$username = $this->request->getPost('username');
+    		$username = $this->request->getPost('email');
     		$password = $this->request->getPost('password');
     		
     		$authService = $this->getServiceLocator()->get('AuthService');

@@ -16,9 +16,9 @@
             <?php echo $this->form()->openTag($this->loginForm); ?>
             <fieldset>
                 <div class="form-group">
-                    <?php echo $this->formLabel($this->loginForm->get('username') );?>
+                    <?php echo $this->formLabel($this->loginForm->get('email') );?>
                     <div class="col-lg-10">
-                        <?php echo $this->formInput( $this->loginForm->get('username') );?>
+                        <?php echo $this->formEmail( $this->loginForm->get('email') );?>
                     </div>
                 </div>
                 <div class="form-group">

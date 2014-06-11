@@ -24,7 +24,7 @@ class Register extends Form {
             ),
             'options' => array(
                 'label_attributes' => array(
-                    'class' => 'col-lg-2 control-label'
+                    'class' => 'col-lg-12'
                 ),
                 'label' => 'Username',
             )
@@ -41,7 +41,7 @@ class Register extends Form {
             ),
             'options' => array(
                 'label_attributes' => array(
-                    'class' => 'col-lg-2 control-label'
+                    'class' => 'col-lg-12'
                 ),
                 'label' => 'Email',
             )
@@ -58,7 +58,7 @@ class Register extends Form {
             ),
             'options' => array(
                 'label_attributes' => array(
-                    'class' => 'col-lg-2 control-label'
+                    'class' => 'col-lg-12'
                 ),
                 'label' => 'Password',
             )
@@ -75,7 +75,7 @@ class Register extends Form {
             ),
             'options' => array(
                 'label_attributes' => array(
-                    'class' => 'col-lg-2 control-label'
+                    'class' => 'col-lg-12'
                 ),
                 'label' => 'Confirm Password',
             )

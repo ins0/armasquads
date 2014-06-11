@@ -12,20 +12,20 @@ class Login extends Form {
 		$this->setAttribute ('method', 'post');
         $this->setAttribute('class', 'form-horizontal');
 
-        // Username
+        // Email
         $this->add(array(
-            'name' => 'username',
-            'type' => 'Zend\Form\Element\Text',
+            'name' => 'email',
+            'type' => 'Zend\Form\Element\Email',
             'attributes' => array(
-                'id' => 'username',
+                'id' => 'email',
                 'class' => 'form-control',
-                'placeholder' => 'Username'
+                'placeholder' => 'E-Mail'
             ),
             'options' => array(
                 'label_attributes' => array(
-                    'class' => 'col-lg-2 control-label'
+                    'class' => 'col-lg-12'
                 ),
-                'label' => 'Username',
+                'label' => 'E-Mail',
             )
         ));
 
@@ -40,7 +40,7 @@ class Login extends Form {
             ),
             'options' => array(
                 'label_attributes' => array(
-                    'class' => 'col-lg-2 control-label'
+                    'class' => 'col-lg-12'
                 ),
                 'label' => 'Password',
             )

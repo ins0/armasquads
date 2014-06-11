@@ -156,10 +156,10 @@ class Acl extends AuthenticationService {
      * @param $password
      * @return int
      */
-    public function login($username, $password) {
+    public function login($email, $password) {
 
         /** @var Benutzer $benutzer */
-		$benutzer = $this->em->getRepository('Auth\Entity\Benutzer')->findOneByUsername( $username );
+		$benutzer = $this->em->getRepository('Auth\Entity\Benutzer')->findOneByEmail( $email );
 
         // old md5 back comp.
         if($benutzer && strlen($benutzer->getPassword()) == 32 && $benutzer->getPassword() == md5($password) )
