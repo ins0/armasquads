@@ -25,7 +25,7 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
                 'label_attributes' => array(
                     'class' => 'col-xs-12 col-sm-2 control-label'
                 ),
-                'label' => 'PlayerID*',
+                'label' => 'PlayerID *',
             )
         ));
 
@@ -41,7 +41,7 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
                 'label_attributes' => array(
                     'class' => 'col-xs-12 col-sm-2 control-label'
                 ),
-                'label' => 'Username*',
+                'label' => 'Username *',
             )
         ));
 

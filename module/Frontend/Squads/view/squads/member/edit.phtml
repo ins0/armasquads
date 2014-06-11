@@ -16,7 +16,7 @@
 
         // form template
         var template = $('.template-member');
-        template.find('div.panel-body').html(template.data('template'));
+        template.find('div.panel-body').html(template.data('template') + "<label>* required fields</label>");
         template.removeAttr('data-template');
         template.removeAttr('template-member');
         template = template.get(0).outerHTML.replace(/__index__/g, currentCount);
@@ -68,6 +68,7 @@
                     <div class="item panel panel-default">
                         <div class="panel-body">
                             <?php echo $this->formCollection($col); ?>
+                            <label>* required fields</label>
                         </div>
                         <div class="panel-footer text-right"><div class="btn btn-danger" onclick="javascript:remove_member(this)">Delete</div></div>
                     </div>

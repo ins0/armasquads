@@ -57,7 +57,7 @@ class Squad extends AbstractFrontendForm implements ServiceManagerAwareInterface
                 'label_attributes' => array(
                     'class' => 'col-lg-2 control-label'
                 ),
-                'label' => 'Squad Name',
+                'label' => 'Squad Name *',
             )
         ));
 
