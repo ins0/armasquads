@@ -21,14 +21,21 @@ class SquadXmlController extends AbstractFrontendController
         /** @var Squad $squad */
         if(is_numeric($squadID))
         {
+            $oldUrlHint = "OUTDATED SQUAD URL! - check ARMASQUADS.com for your new squad url and hide this message!";
             $squad = $squadReposiory->find( $squadID );
         } else {
+            $oldUrlHint = false;
             $squad = $squadReposiory->findOneBy( array('privateID' => $squadID ));
         }
 
         if( ! $squad )
         {
             return $this->getResponse()->setStatusCode(404);
+        }
+
+        if( $oldUrlHint )
+        {
+            $squad->setTitle( $oldUrlHint );
         }
 
         // tracking
@@ -73,7 +80,7 @@ class SquadXmlController extends AbstractFrontendController
 
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true);
-        $viewModel->setVariable('squad', $squad);
+            $viewModel->setVariable('squad', $squad);
         $viewModel->setVariable('logoFile', $squadLogoFile);
         $viewModel->setTemplate('/squads/xml/squad.xml');
 
