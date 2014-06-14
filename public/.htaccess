@@ -15,14 +15,14 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^.*$ - [NC,L]
 
 # add trailing slash at the end
-RewriteCond %{REQUEST_URI} !squad\.paa$
-RewriteCond %{REQUEST_URI} !squad\.dtd$
-RewriteCond %{REQUEST_URI} !squad\.xml$
-RewriteCond %{REQUEST_URI} !squad\.xsl$
-RewriteCond %{REQUEST_URI} !squad\.css$
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_URI} !(.*)/$
-RewriteRule (.*)$ http://%{HTTP_HOST}/$1/ [L,R=301]
+#RewriteCond %{REQUEST_URI} !([a-f0-9]{32})\.paa$
+#RewriteCond %{REQUEST_URI} !squad\.dtd$
+#RewriteCond %{REQUEST_URI} !squad\.xml$
+#RewriteCond %{REQUEST_URI} !squad\.xsl$
+#RewriteCond %{REQUEST_URI} !squad\.css$
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_URI} !(.*)/$
+#RewriteRule (.*)$ http://%{HTTP_HOST}/$1/ [L,R=301]
 
 # The following rewrites all other queries to index.php. The 
 # condition ensures that if you are using Apache aliases to do

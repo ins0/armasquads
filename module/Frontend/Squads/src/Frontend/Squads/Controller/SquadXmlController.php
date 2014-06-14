@@ -66,13 +66,14 @@ class SquadXmlController extends AbstractFrontendController
         // check logo
         $squadImageService = $this->getServiceLocator()->get('SquadImageService');
         $squadLogoFile = $squadImageService->getServerSquadLogo( $squad );
+
         if( $squadLogoFile )
         {
             if( $squad->getSquadLogoPaa() )
             {
-                $squadLogoFile = 'squad.paa';
+                $squadLogoFile = basename($squad->getSquadLogoPaa());
             } else {
-                $squadLogoFile = 'squad.jpg';
+                $squadLogoFile = basename($squad->getSquadLogo());
             }
         } else {
             $squadLogoFile = false;
@@ -130,7 +131,7 @@ class SquadXmlController extends AbstractFrontendController
             // return paa
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
-            header('Content-Disposition: attachment; filename=squad.paa');
+            header('Content-Disposition: attachment; filename=' . basename($squad->getSquadLogoPaa()));
             header('Content-Transfer-Encoding: binary');
             header('Expires: 0');
             header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
@@ -147,7 +148,7 @@ class SquadXmlController extends AbstractFrontendController
         // return normal image
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=squad.jpg');
+        header('Content-Disposition: attachment; filename=' . basename($squad->getSquadLogo()));
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

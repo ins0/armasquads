@@ -47,9 +47,10 @@ return array (
                                                 )
                                             ),
                                             'logo' => array(
-                                                'type' => 'literal',
+                                                'type' => 'Regex',
                                                 'options' => array(
-                                                    'route' => 'squad.paa',
+                                                    'regex' => '(?<logo>[a-f0-9]{32}).paa',
+                                                    'spec' => '%logo%.paa',
                                                     'defaults' => array(
                                                         'controller' => 'Frontend\Squads\Controller\SquadXml',
                                                         'action' => 'logoFile'
