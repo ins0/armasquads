@@ -62,7 +62,7 @@ class SquadImageService
             $command = 'cd '.escapeshellarg(dirname($sourceImage)).' && wine /var/www/racecore/library/TexView2/Pal2PacE.exe ' . escapeshellarg(basename($sourceImage)) . ' ' . escapeshellarg(basename($sourceImage, '.png') . '.paa');
             exec($command, $response);
 
-            if( strstr(strtolower($response[1]), "error" ))
+            if( isset($response[1]) && strstr(strtolower($response[1]), "error" ))
             {
                 if( !$this->convertFromTGA($sourceImage) )
                 {

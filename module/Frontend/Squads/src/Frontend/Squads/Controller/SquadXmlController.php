@@ -89,7 +89,7 @@ class SquadXmlController extends AbstractFrontendController
 
     public function logoFileAction()
     {
-        $squadID = (int) $this->params('id', null);
+        $squadID = $this->params('id', null);
         $squadReposiory = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
 
         /** @var Squad $squad */
