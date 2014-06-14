@@ -11,7 +11,7 @@ class Squad extends InputFilter {
         $this->add(
             array(
                 'name'       => 'tag',
-                'required'   => false,
+                'required'   => true,
                 'filters'    => array(),
                 'validators' => array(
                     array(
