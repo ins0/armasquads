@@ -26,13 +26,49 @@ class SquadImageService
         return $squad->getSquadLogoPaa();
     }
 
+    public function convertFromTGA($sourceImage)
+    {
+        Try {
+            $tgaPath = dirname($sourceImage) .'/'. basename($sourceImage, '.png') . '.tga';
+
+            $imageTGA = new \Imagick($sourceImage);
+            $imageTGA->setimageformat('tga');
+            $imageTGA->writeImage($tgaPath);
+            $imageTGA->destroy();
+            $imageTGA->clear();
+
+            $command = 'cd '.escapeshellarg(dirname($sourceImage)).' && wine /var/www/racecore/library/TexView2/Pal2PacE.exe ' . escapeshellarg(basename($tgaPath)) . ' ' . escapeshellarg(basename($tgaPath, '.tga') . '.paa');
+            exec($command, $response);
+
+            @unlink($tgaPath);
+
+            if( strstr(strtolower($response[1]), "error" ))
+            {
+                return false;
+            }
+
+        } Catch( \Exception $e )
+        {
+            return false;
+        }
+
+        return true;
+    }
 
     public function convert($sourceImage)
     {
         Try {
             // convert to paa
             $command = 'cd '.escapeshellarg(dirname($sourceImage)).' && wine /var/www/racecore/library/TexView2/Pal2PacE.exe ' . escapeshellarg(basename($sourceImage)) . ' ' . escapeshellarg(basename($sourceImage, '.png') . '.paa');
-            exec($command);
+            exec($command, $response);
+
+            if( strstr(strtolower($response[1]), "error" ))
+            {
+                if( !$this->convertFromTGA($sourceImage) )
+                {
+                    return false;
+                }
+            }
 
         } Catch( \Exception $e )
         {
@@ -45,7 +81,7 @@ class SquadImageService
             return true;
         }
 
-        return true;
+        return false;
     }
 
     public function deleteLogo( $logo )
