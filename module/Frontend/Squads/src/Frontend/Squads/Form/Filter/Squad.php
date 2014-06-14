@@ -13,7 +13,17 @@ class Squad extends InputFilter {
                 'name'       => 'tag',
                 'required'   => false,
                 'filters'    => array(),
-                'validators' => array()
+                'validators' => array(
+                    array(
+                        'name'    => 'NotEmpty',
+                        'break_chain_on_failure' => true,
+                        'options' => array(
+                            'messages' => array(
+                                \Zend\Validator\NotEmpty::IS_EMPTY=> 'Please enter a Squad Tag'
+                            )
+                        )
+                    )
+                )
             )
         );
 
@@ -29,7 +39,7 @@ class Squad extends InputFilter {
                         'break_chain_on_failure' => true,
                         'options' => array(
                             'messages' => array(
-                                \Zend\Validator\NotEmpty::IS_EMPTY=> 'The squad needs a name!'
+                                \Zend\Validator\NotEmpty::IS_EMPTY=> 'Please enter a Squad Name'
                             )
                         )
                     )
