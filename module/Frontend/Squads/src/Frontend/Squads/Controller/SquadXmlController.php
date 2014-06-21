@@ -19,23 +19,10 @@ class SquadXmlController extends AbstractFrontendController
         $squadReposiory = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
 
         /** @var Squad $squad */
-        if(is_numeric($squadID))
-        {
-            $oldUrlHint = "OUTDATED SQUAD URL! - check ARMASQUADS.com for your new squad url and hide this message!";
-            $squad = $squadReposiory->find( $squadID );
-        } else {
-            $oldUrlHint = false;
-            $squad = $squadReposiory->findOneBy( array('privateID' => $squadID ));
-        }
-
+        $squad = $squadReposiory->findOneBy( array('privateID' => $squadID ));
         if( ! $squad )
         {
             return $this->getResponse()->setStatusCode(404);
-        }
-
-        if( $oldUrlHint )
-        {
-            $squad->setTitle( $oldUrlHint );
         }
 
         // tracking
@@ -94,12 +81,7 @@ class SquadXmlController extends AbstractFrontendController
         $squadReposiory = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
 
         /** @var Squad $squad */
-        if(is_numeric($squadID))
-        {
-            $squad = $squadReposiory->find( $squadID );
-        } else {
-            $squad = $squadReposiory->findOneBy( array('privateID' => $squadID ));
-        }
+        $squad = $squadReposiory->findOneBy( array('privateID' => $squadID ));
 
         if( ! $squad )
         {
@@ -170,12 +152,7 @@ class SquadXmlController extends AbstractFrontendController
         $squadReposiory = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
 
         /** @var Squad $squad */
-        if(is_numeric($squadID))
-        {
-            $squad = $squadReposiory->find( $squadID );
-        } else {
-            $squad = $squadReposiory->findOneBy( array('privateID' => $squadID ));
-        }
+        $squad = $squadReposiory->findOneBy( array('privateID' => $squadID ));
         $squadLogoPath = ROOT_PATH . $squad->getSquadLogo(64);
 
         if( ! $squad || !$squadLogoPath || !file_exists($squadLogoPath) )
