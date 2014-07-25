@@ -4,6 +4,7 @@ namespace Frontend\Squads\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Stdlib\ArraySerializableInterface;
 
 /**
  * Squad
@@ -13,7 +14,26 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Frontend\Squads\Repository\Squad")
  *
  */
-class Squad {
+class Squad implements ArraySerializableInterface {
+
+    public function exchangeArray (Array $array)
+    {
+        die('asd2');
+    }
+
+    public function getArrayCopy()
+    {
+        return [
+            'id'            =>  $this->getId(),
+            'privateID'     =>  $this->getPrivateID(),
+            'tag'           =>  $this->getTag(),
+            'name'          =>  $this->getName(),
+            'email'         =>  $this->getEmail(),
+            'logo'          =>  $this->getSquadLogoPaa(),
+            'homepage'      =>  $this->getHomepage(),
+            'title'         =>  $this->getTitle(),
+        ];
+    }
 
     /**
      * @ORM\Id

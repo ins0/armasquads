@@ -3,31 +3,31 @@ return array(
     // This should be an array of module namespaces used in the application.
     'modules' => array(
         
-    		
-	    	// doctrine
-    		'DoctrineModule',
-    		'DoctrineORMModule',
 
-    		// dev tools
-    		//'ZendDeveloperTools',
+        // doctrine
+        'DoctrineModule',
+        'DoctrineORMModule',
 
-    		/**
-    		 * GENERIC
-    		 */
-    		'Auth',
-    		'Application',
-    		
-    		/**
-    		 * Administration
-    		 */
-    		//'Administration\Application',
-            //'Administration\Login',
-            //'Administration\Dashboard',
-            //'Administration\Benutzer',
+        // dev tools
+        //'ZendDeveloperTools',
 
-                /**
-                 *  ADMIN MODULES
-                 */
+        /**
+         * GENERIC
+         */
+        'Auth',
+        'Application',
+
+        /**
+         * Administration
+         */
+        //'Administration\Application',
+        //'Administration\Login',
+        //'Administration\Dashboard',
+        //'Administration\Benutzer',
+
+            /**
+             *  ADMIN MODULES
+             */
 
 
 
@@ -43,10 +43,14 @@ return array(
 
 
         /**
-             *  FRONTEND MODULES
-             */
-            'Frontend\Squads',
+         *  FRONTEND MODULES
+         */
+        'Frontend\Squads',
 
+        /**
+         *  API
+         */
+        'Frontend\Api'
 
     ),
 		
