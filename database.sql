@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 20. Mai 2014 um 12:33
+-- Erstellungszeit: 25. Jul 2014 um 02:37
 -- Server Version: 5.6.16
 -- PHP-Version: 5.5.11
 
@@ -13,6 +13,23 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `clancms`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `api_keys_s83dks`
+--
+
+CREATE TABLE IF NOT EXISTS `api_keys_s83dks` (
+  `KEY_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `KEY` varchar(32) NOT NULL,
+  `KEY_Status` tinyint(1) NOT NULL DEFAULT '1',
+  `KEY_LIMIT` int(20) NOT NULL DEFAULT '150',
+  `KEY_LastRequest` datetime DEFAULT NULL,
+  `KEY_RequestsPerDay` int(20) NOT NULL,
+  `BEN_ID` int(11) NOT NULL,
+  PRIMARY KEY (`KEY_ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -27,16 +44,6 @@ CREATE TABLE IF NOT EXISTS `auth_gruppen_a7d451` (
   `GRU_Supervisor` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`GRU_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Daten für Tabelle `auth_gruppen_a7d451`
---
-
-INSERT INTO `auth_gruppen_a7d451` (`GRU_ID`, `GRU_Name`, `GRU_Parent`, `GRU_Supervisor`) VALUES
-(1, 'Administrator', NULL, 1),
-(2, 'Gast', NULL, NULL),
-(3, 'User', '2', NULL),
-(4, 'Member', '3', NULL);
 
 -- --------------------------------------------------------
 
@@ -53,26 +60,6 @@ CREATE TABLE IF NOT EXISTS `auth_resourcen_d74fw1` (
   PRIMARY KEY (`RES_ID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
---
--- Daten für Tabelle `auth_resourcen_d74fw1`
---
-
-INSERT INTO `auth_resourcen_d74fw1` (`RES_ID`, `RES_Modul`, `RES_Action`, `RES_SubAction`, `RES_Description`) VALUES
-(1, 'admin', 'dashboard', 'access', 'Sieht auf dem Dashboard erweiterte Informationen'),
-(2, 'admin', 'benutzer', 'access', 'Darf auf das Benutzermodul zugreifen'),
-(4, 'admin', 'benutzer', 'edit', 'Darf Benutzer bearbeiten'),
-(5, 'admin', 'benutzer', 'create', 'Darf Benutzer erstellen'),
-(6, 'admin', 'benutzer', 'delete', 'Darf Benutzer löschen'),
-(7, 'admin', 'access', '', 'Zugang zum Administration Portal'),
-(8, 'admin', 'benutzer/groups', 'access', 'Darf auf Benutzergruppen zugreifen'),
-(9, 'admin', 'benutzer/groups', 'edit', 'Darf Benutzergruppen bearbeiten'),
-(10, 'admin', 'products', 'access', 'Darf auf Produkte zugreifen'),
-(11, 'admin', 'products', 'create', 'Darf auf Produkte erstellen'),
-(12, 'admin', 'products', 'edit', 'Darf auf Produkte bearbeiten'),
-(13, 'admin', 'products/attributes', 'access', 'Darf auf Produkt Attribute zugreifen'),
-(14, 'admin', 'products/attributes', 'create', 'Darf auf Produkt Attribute erstellen'),
-(15, 'frontend', 'dashboard', 'access', 'Kann auf das Userpanel zugreifen');
-
 -- --------------------------------------------------------
 
 --
@@ -86,13 +73,6 @@ CREATE TABLE IF NOT EXISTS `auth_zugriff_oj19de` (
   PRIMARY KEY (`ZUG_ID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
---
--- Daten für Tabelle `auth_zugriff_oj19de`
---
-
-INSERT INTO `auth_zugriff_oj19de` (`ZUG_ID`, `GRU_ID`, `RES_ID`) VALUES
-(4, 3, 15);
-
 -- --------------------------------------------------------
 
 --
@@ -102,21 +82,14 @@ INSERT INTO `auth_zugriff_oj19de` (`ZUG_ID`, `GRU_ID`, `RES_ID`) VALUES
 CREATE TABLE IF NOT EXISTS `ben_benutzer_91c48c` (
   `BEN_ID` int(11) NOT NULL AUTO_INCREMENT,
   `GRU_ID` int(3) NOT NULL,
-  `BEN_Username` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `BEN_Password` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `BEN_Username` varchar(100) NOT NULL,
+  `BEN_Password` varchar(255) NOT NULL,
+  `BEN_Email` varchar(255) NOT NULL,
   `BEN_Disabled` tinyint(1) NOT NULL DEFAULT '0',
   `BEN_LastLogin` timestamp NULL DEFAULT '0000-00-00 00:00:00',
   `BEN_Register` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`BEN_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Daten für Tabelle `ben_benutzer_91c48c`
---
-
-INSERT INTO `ben_benutzer_91c48c` (`BEN_ID`, `GRU_ID`, `BEN_Username`, `BEN_Password`, `BEN_Disabled`, `BEN_LastLogin`, `BEN_Register`) VALUES
-(1, 1, 'ins0', '098f6bcd4621d373cade4e832627b4f6', 0, '2014-05-20 09:35:34', '2013-04-10 13:30:16'),
-(2, 4, 'test2', '098f6bcd4621d373cade4e832627b4f6', 0, '2014-05-20 08:34:17', '2013-10-30 22:11:28');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -126,22 +99,31 @@ INSERT INTO `ben_benutzer_91c48c` (`BEN_ID`, `GRU_ID`, `BEN_Username`, `BEN_Pass
 
 CREATE TABLE IF NOT EXISTS `sqa_squads_6d4c2s` (
   `SQA_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `SQA_PrivateID` varchar(32) NOT NULL,
   `BEN_ID` int(11) NOT NULL,
   `SQA_Tag` varchar(255) NOT NULL,
   `SQA_Name` varchar(255) NOT NULL,
-  `SQA_Email` varchar(255) NOT NULL,
-  `SQA_Logo` varchar(255) NOT NULL,
-  `SQA_Title` varchar(255) NOT NULL,
+  `SQA_Email` varchar(255) DEFAULT NULL,
+  `SQA_Logo` varchar(255) DEFAULT NULL,
+  `SQA_Homepage` varchar(255) DEFAULT NULL,
+  `SQA_Title` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`SQA_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=280 ;
+
+-- --------------------------------------------------------
 
 --
--- Daten für Tabelle `sqa_squads_6d4c2s`
+-- Tabellenstruktur für Tabelle `sqa_squad_logos_wi10dc`
 --
 
-INSERT INTO `sqa_squads_6d4c2s` (`SQA_ID`, `BEN_ID`, `SQA_Tag`, `SQA_Name`, `SQA_Email`, `SQA_Logo`, `SQA_Title`) VALUES
-(1, 1, 'CEC', 'Chaos Elite Crew', 'test@test.de', '', 'test tile'),
-(2, 1, 'Test Squad', 'Test', 'asd@asd.de', 'logo', 'Hallo!');
+CREATE TABLE IF NOT EXISTS `sqa_squad_logos_wi10dc` (
+  `LOGO_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `BEN_ID` int(11) NOT NULL DEFAULT '0',
+  `LOGO_Name` varchar(255) NOT NULL DEFAULT '0',
+  `LOGO_File` varchar(255) NOT NULL DEFAULT '0',
+  `LOGO_FilePaa` varchar(255) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`LOGO_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -150,21 +132,13 @@ INSERT INTO `sqa_squads_6d4c2s` (`SQA_ID`, `BEN_ID`, `SQA_Tag`, `SQA_Name`, `SQA
 --
 
 CREATE TABLE IF NOT EXISTS `sqa_squad_member_4de785` (
-  `MEM_ID` int(11) NOT NULL AUTO_INCREMENT,
   `SQA_ID` int(11) NOT NULL,
-  `MEM_UID` int(11) NOT NULL,
+  `MEM_UID` varchar(255) NOT NULL,
   `MEM_Username` varchar(255) NOT NULL,
   `MEM_Name` varchar(255) NOT NULL,
   `MEM_Email` varchar(255) NOT NULL,
   `MEM_ICQ` varchar(255) NOT NULL,
   `MEM_Remark` varchar(255) NOT NULL,
-  PRIMARY KEY (`MEM_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Daten für Tabelle `sqa_squad_member_4de785`
---
-
-INSERT INTO `sqa_squad_member_4de785` (`MEM_ID`, `SQA_ID`, `MEM_UID`, `MEM_Username`, `MEM_Name`, `MEM_Email`, `MEM_ICQ`, `MEM_Remark`) VALUES
-(1, 1, 123456789, 'ins0', 'Marco Rieger', 'marco@test.de', '456789', 'Test Remakr!'),
-(2, 1, 96385271, 'Gammler', 'Tobias Krämer', 'tobi@test.de', '12345678', 'test tobia remakr');
+  PRIMARY KEY (`SQA_ID`,`MEM_UID`),
+  UNIQUE KEY `SQA_ID` (`SQA_ID`,`MEM_UID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
