@@ -9,6 +9,20 @@ return array (
         'routes' => array (
             'frontend' => array (
                 'child_routes' => array(
+                    'user' => array(
+                        'child_routes' => array(
+                            'api' => array(
+                                'type' => 'literal',
+                                'options' => array(
+                                    'route' => 'api/',
+                                    'defaults' => array(
+                                        'controller' => 'Frontend\Api\Controller\Api',
+                                        'action' => 'index'
+                                    )
+                                ),
+                            )
+                        )
+                    ),
                     'api' => array(
                         'type' => 'literal',
                         'options' => array(
@@ -31,20 +45,48 @@ return array (
                                 ),
                                 'may_terminate' => true,
                                 'child_routes' => array(
-                                    'squads' => array(
-                                        'type' => 'segment',
+                                    'squad' => array(
+                                        'type' => 'literal',
                                         'options' => array(
-                                            'route' => 'squads[/:id]',
+                                            'route' => 'squad',
                                             'defaults' => array(
                                                 'controller' => 'Frontend\Api\v1\Controller\Squads',
                                                 'action' => array(
-                                                    'GET'   => 'fetchAll',
                                                     'POST'  => 'create',
-                                                    'DELETE' => 'delete'
+                                                    'PUT'   => 'update'
                                                 )
                                             )
                                         ),
+                                        'may_terminate' => true,
+                                        'child_routes' => array(
+                                            'squads' => array(
+                                                'type' => 'segment',
+                                                'options' => array(
+                                                    'route' => 's', // squad>s
+                                                    'defaults' => array(
+                                                        'controller' => 'Frontend\Api\v1\Controller\Squads',
+                                                        'action' => array(
+                                                            'GET'   => 'fetchAll'
+                                                        )
+                                                    )
+                                                )
+                                            ),
+                                            'squad' => array(
+                                                'type' => 'segment',
+                                                'options' => array(
+                                                    'route' => '/:id',
+                                                    'defaults' => array(
+                                                        'controller' => 'Frontend\Api\v1\Controller\Squads',
+                                                        'action' => array(
+                                                            'GET'   => 'fetch',
+                                                            'DELETE' => 'delete'
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
                                     ),
+
                                 )
                             ),
                         )
@@ -58,8 +100,11 @@ return array (
     'controllers' => array (
         'invokables' => array (
 
+            'Frontend\Api\Controller\Api' => 'Frontend\Api\Controller\ApiController',
+
             /** V1 */
-            'Frontend\Api\v1\Controller\Squads' => 'Frontend\Api\v1\Controller\SquadsController'
+            'Frontend\Api\v1\Controller\Squads' => 'Frontend\Api\v1\Controller\SquadsController',
+            'Frontend\Api\v1\Controller\Members' => 'Frontend\Api\v1\Controller\MembersController'
         )
     ),
 

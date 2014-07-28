@@ -17,7 +17,7 @@ return array(
     'FRONTEND_APPLICATION_NAV_MENUE' =>  'Menü',
 
 
-    'FRONTEND_BUY_ME_A_DRING'   =>  'Unterstützen',
+    'FRONTEND_BUY_ME_A_DRING'   =>  'Support',
 
     'Create your own Squad XML Files for ARMA based games' => 'Erstell dir deine Squad XML Dateien für ArmA basierte Spiele!',
 

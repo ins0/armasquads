@@ -21,7 +21,7 @@ class Key {
     protected $id;
 
     /**
-     * @ORM\Column(type="string", name="KEY")
+     * @ORM\Column(type="string", name="KEY_Value")
      */
     protected $key;
 
@@ -37,14 +37,35 @@ class Key {
     protected $lastRequest;
 
     /**
-     * @ORM\Column(type="integer", name="KEY_RequestsPerDay")
+     * @ORM\Column(type="integer", name="KEY_Requests")
      */
-    protected $requestsPerDay;
+    protected $requests;
 
     /**
-     * @ORM\Column(type="integer", name="KEY_LIMIT")
+     * @ORM\Column(type="integer", name="KEY_Limit")
      */
     protected $limit;
+
+    /**
+     * @ORM\Column(type="integer", name="KEY_Status")
+     */
+    protected $status;
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = (bool) $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return (bool) $this->status;
+    }
 
     /**
      * @param mixed $id
@@ -95,14 +116,6 @@ class Key {
     }
 
     /**
-     * Last Successfully API Request
-     */
-    public function updateLastRequest()
-    {
-        $this->lastRequest = new \DateTime('now');
-    }
-
-    /**
      * @return \DateTime
      */
     public function getLastRequest()
@@ -111,44 +124,27 @@ class Key {
     }
 
     /**
-     * Update Request per Day
+     * @param $request
      */
-    public function updateRequestsPerDay()
+    public function setLastRequest($request)
     {
-        $this->requestsPerDay = $this->getRequestsPerDay() + 1;
+        $this->lastRequest = $request;
     }
 
-    public function resetRequestsPerDay()
+    /**
+     * @param $value
+     */
+    public function setRequests($value)
     {
-        $this->requestsPerDay = 0;
+        $this->requests = $value;
     }
 
     /**
      * @return mixed
      */
-    public function getRequestsPerDay()
+    public function getRequests()
     {
-        return $this->requestsPerDay;
-    }
-
-    /**
-     * Check if API limit is exceeded
-     *
-     * @return bool
-     */
-    public function isLimitExceeded()
-    {
-        return (bool) !$this->getRequestsPerDay() >= $this->getLimit();
-    }
-
-    public function getRemainingLimit()
-    {
-        return $this->getLimit() - $this->getRequestsPerDay();
-    }
-
-    public function getLimitResetDate()
-    {
-        return strtotime('tomorrow');
+        return $this->requests;
     }
 
     /**
@@ -165,5 +161,67 @@ class Key {
     public function getLimit()
     {
         return $this->limit;
+    }
+
+    /**
+     * Update Request per Day
+     */
+    public function increaseRequest()
+    {
+        $this->requests = (((int) $this->getRequests()) + 1);
+    }
+
+    public function getDefaultRateLimit()
+    {
+        return 100;
+    }
+
+    /**
+     * Check if API limit is exceeded
+     *
+     * @return bool
+     */
+    public function isLimitExceeded()
+    {
+        // check if first api call was made
+        if( !$this->getLastRequest() || !$this->getRequests() )
+            return false;
+
+        // check requests vs limit
+        return $this->getRequests() > $this->getLimit();
+    }
+
+    public function getRemainingRate()
+    {
+        $request = $this->getLimit() - $this->getRequests();
+        return $request <= 0 ? 0 : $request;
+    }
+
+    public function getNextRateReset()
+    {
+        $date = new \DateTime('now');
+        $minutes = $date->format('i');
+        $seconds = $date->format('s');
+        if($minutes > 0){
+            $date->modify("+1 hour");
+            $date->modify('-'.$minutes.' minutes');
+            $date->modify('-'.$seconds.' seconds');
+        }
+        return $date;
+    }
+
+    public function checkForRateReset()
+    {
+        // check for rate reset
+        if( $this->getLastRequest() && $this->getLastRequest()->getTimestamp() <= $this->getNextRateReset()->modify('-1 hour')->getTimestamp() )
+        {
+            $this->setRequests(1);
+        }
+    }
+
+    public function update()
+    {
+        $this->setLastRequest(new \DateTime());
+        $this->increaseRequest();
     }
 }

@@ -89,23 +89,33 @@ abstract class AbstractJsonController extends AbstractActionController {
         /** @var GenericHeader $apiRequestKey */
         if( $apiRequestKey = $headers->get('X-API-Key') )
         {
-            $apiKeyRepository = $this->getEntityManager()->getRepository('Frontend\Api\Entity\Key');
-
             /** @var Key $key */
-
+            $apiKeyRepository = $this->getEntityManager()->getRepository('Frontend\Api\Entity\Key');
             if( $key = $apiKeyRepository->findOneBy(array('key' => $apiRequestKey->getFieldValue() )) )
             {
+                // check for limit reset
+                $key->checkForRateReset();
+
                 // show key limit usage
                 $apiResponse->getHeaders()->addHeaders(array(
                     'X-RateLimit-Limit' => $key->getLimit(),
-                    'X-RateLimit-Remaining' => $key->getRemainingLimit(),
-                    'X-RateLimit-Reset' => $key->getLimitResetDate(),
+                    'X-RateLimit-Remaining' => $key->getRemainingRate(),
+                    'X-RateLimit-Reset' => $key->getNextRateReset()->getTimestamp(),
                 ));
 
+                // check if key banned
+                if( !$key->getStatus() )
+                {
+                    $apiResponse->setErrorMessage('API key banned');
+                    $apiResponse->setStatusCode(403);
+                    return $apiResponse;
+                }
+
+                // check key limit
                 if( $key->isLimitExceeded() )
                 {
                     $apiResponse->setErrorMessage('API limit exceeded');
-                    $apiResponse->setStatusCode(403);
+                    $apiResponse->setStatusCode(429);
                     return $apiResponse;
                 }
 
@@ -125,7 +135,7 @@ abstract class AbstractJsonController extends AbstractActionController {
                 $action = isset($action[$requestMethod]) ? $action[$requestMethod] : false;
                 $routeMatch->setParam('action', $action);
 
-                if( $requestMethod == 'POST')
+                if( $requestMethod == 'POST' || $requestMethod == 'PUT')
                 {
                     $result = $this->validatePostData();
                     if( $result !== true )
@@ -139,7 +149,7 @@ abstract class AbstractJsonController extends AbstractActionController {
                 if (!$action || !method_exists($this, $action)) {
 
                     // invalid request
-                    $apiResponse->setErrorMessage('request not supported');
+                    $apiResponse->setErrorMessage('method not supported');
                     $apiResponse->setStatusCode(501);
                     return $apiResponse;
                 }
@@ -150,14 +160,8 @@ abstract class AbstractJsonController extends AbstractActionController {
                 {
                     if( ! $actionResponse->hasError() )
                     {
-                        // success api response
-                        if( $key->getLastRequest()->getTimestamp() < strtotime('today') )
-                        {
-                            $key->resetRequestsPerDay();
-                        }
-
-                        $key->updateLastRequest();
-                        $key->updateRequestsPerDay();
+                        // update successfully api request to key
+                        $key->update();
                         $this->getEntityManager()->flush();
                     }
 
@@ -170,14 +174,14 @@ abstract class AbstractJsonController extends AbstractActionController {
 
             } else {
 
-                $apiResponse->setErrorMessage('api key (x-api-key) invalid');
+                $apiResponse->setErrorMessage('invalid api key');
                 $apiResponse->setStatusCode(403);
                 return $apiResponse;
             }
         }
 
         // something is invalid with the key error
-        $apiResponse->setErrorMessage('api key (x-api-key) invalid');
+        $apiResponse->setErrorMessage('api key (X-API-Key) invalid');
         $apiResponse->setStatusCode(401);
         return $apiResponse;
     }

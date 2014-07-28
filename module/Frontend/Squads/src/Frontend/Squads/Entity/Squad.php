@@ -138,7 +138,7 @@ class Squad implements ArraySerializableInterface {
     {
         $logoPath = '/uploads/logos/' . $this->getLogo() . '/' . $this->getLogo() . '.png';
         if( ! file_exists( ROOT_PATH . $logoPath ) )
-            return false;
+            return null;
 
         return $logoPath;
     }
@@ -147,7 +147,7 @@ class Squad implements ArraySerializableInterface {
     {
         $logoPath = '/uploads/logos/' . $this->getLogo() . '/' . $this->getLogo() . '.paa';
         if( ! file_exists( ROOT_PATH . $logoPath ) )
-            return false;
+            return null;
 
         return $logoPath;
     }

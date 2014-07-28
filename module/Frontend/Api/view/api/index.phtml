@@ -1,0 +1,104 @@
+<?php $this->headtitle('API Interface'); ?>
+<div class="page-header">
+    <h1 id="type"><?php echo $this->translate('API Interface'); ?></h1>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <span class="badge badge-success">Online</span>
+                &nbsp;&nbsp;&nbsp;API Status
+            </li>
+            <li class="list-group-item">
+                <span class="badge"><b>1</b></span>
+                &nbsp;&nbsp;&nbsp;API Version
+            </li>
+            <li class="list-group-item">
+                <span class="badge"><b>http://api.armasquads.com/</b></span>
+                &nbsp;&nbsp;&nbsp;API Endpoint
+            </li>
+        </ul>
+        <div class="well">
+            API Calls are currently limited with <?php $newKey = new \Frontend\Api\Entity\Key(); echo $newKey->getDefaultRateLimit(); ?> Requests/per Hour. If you are interested into make more calls ping me by mail.<br />
+            <br />
+            E-Mail: info@armasquads.de
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 text-center">
+        <?php /** @var $key \Frontend\Api\Entity\Key */ ?>
+        <?php if($key = $this->userKey): ?>
+            <?php if($key->getStatus()): ?>
+                <?php if($key->isLimitExceeded() ): ?>
+                    <div class="panel panel-warning">
+                <?php else: ?>
+                    <div class="panel panel-success">
+                <?php endif; ?>
+            <?php else: ?>
+                <div class="panel panel-danger">
+            <?php endif; ?>
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Your API Key</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <div class="well">
+                                <b><?php echo $this->escapeHtml($key->getKey()); ?></b>
+                            </div>
+                        </div>
+                        <hr>
+                        <ul class="list-group text-left">
+                            <li class="list-group-item">
+                                <?php if($key->getStatus()): ?>
+                                    <?php if($key->isLimitExceeded() ): ?>
+                                        <span class="badge badge-warning"><b>Too many Requests</b></span>
+                                    <?php else: ?>
+                                        <span class="badge badge-success"><b>OK</b></span>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <span class="badge badge-error"><b>Banned from API</b></span>
+                                <?php endif; ?>
+                                &nbsp;&nbsp;&nbsp;Key Status
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge"><b><?php echo $this->escapeHtml($key->getLimit()); ?></b></span>
+                                &nbsp;&nbsp;&nbsp;Rate Limit/Hour
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge"><b><?php echo $this->escapeHtml($key->getRemainingRate()); ?></b></span>
+                                &nbsp;&nbsp;&nbsp;Rate Remaining/Hour
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge"><b><?php echo $this->dateFormat($key->getNextRateReset(),IntlDateFormatter::MEDIUM,IntlDateFormatter::MEDIUM); ?></b></span>
+                                &nbsp;&nbsp;&nbsp;Next Rate Reset
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge"><b><?php echo $this->dateFormat($key->getLastRequest(),IntlDateFormatter::MEDIUM,IntlDateFormatter::MEDIUM); ?></b></span>
+                                &nbsp;&nbsp;&nbsp;Last API Request
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        <?php else: ?>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Your API Key</h3>
+                </div>
+                <div class="panel-body">
+                    <a class="btn btn-success btn-sm" href="<?php echo $this->url('frontend/user/api', array(), array('query' => array('getKey' => 1))) ?>">
+                        <?php echo $this->translate('Claim API Key'); ?>
+                    </a>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+<div class="page-header">
+    <h1 id="type"><?php echo $this->translate('API Commands'); ?></h1>
+</div>
+<div class="well">
+    <ul class="list-group text-left">
+        <li class="list-group-item">
+            <code>GET</code><code>/squads</code> List all squads
+        </li>
+    </ul>
+</div>

@@ -8,7 +8,7 @@ use Frontend\Api\Response\ApiResponse;
 use Frontend\Squads\Form\Squad;
 use Zend\Stdlib\ArraySerializableInterface;
 
-class SquadsController extends AbstractJsonController
+class MembersController extends AbstractJsonController
 {
     /**
      * Fetch all user squads
