@@ -42,7 +42,7 @@ class SquadImageService
 
             @unlink($tgaPath);
 
-            if( strstr(strtolower($response[1]), "error" ))
+            if( !isset($response[1]) || strstr(strtolower($response[1]), "error" ))
             {
                 return false;
             }
