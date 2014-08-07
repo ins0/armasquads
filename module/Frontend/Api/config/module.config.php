@@ -24,9 +24,9 @@ return array (
                         )
                     ),
                     'api' => array(
-                        'type' => 'literal',
+                        'type' => 'hostname',
                         'options' => array(
-                            'route' => 'api/',
+                            'route' => 'api.armasquads.',
                             'defaults' => array(
                                 'controller' => 'Frontend\Api\v1\Controller\Squads',
                                 'action' => 'index'
@@ -34,10 +34,10 @@ return array (
                         ),
                         'may_terminate' => true,
                         'child_routes' => array(
-                            'version' => array(
+                            'v1' => array(
                                 'type' => 'literal',
                                 'options' => array(
-                                    'route' => 'v1/',
+                                    'route' => 'api/v1/',
                                     'defaults' => array(
                                         'controller' => 'Frontend\Api\v1\Controller\Squads',
                                         'action' => 'index'
@@ -48,49 +48,71 @@ return array (
                                     'squad' => array(
                                         'type' => 'literal',
                                         'options' => array(
-                                            'route' => 'squad',
+                                            'route' => 'squads',
                                             'defaults' => array(
                                                 'controller' => 'Frontend\Api\v1\Controller\Squads',
                                                 'action' => array(
-                                                    'POST'  => 'create',
-                                                    'PUT'   => 'update'
+                                                    'GET'   =>  'fetchAll',
+                                                    'POST'  =>  'create'
                                                 )
                                             )
                                         ),
                                         'may_terminate' => true,
                                         'child_routes' => array(
-                                            'squads' => array(
-                                                'type' => 'segment',
-                                                'options' => array(
-                                                    'route' => 's', // squad>s
-                                                    'defaults' => array(
-                                                        'controller' => 'Frontend\Api\v1\Controller\Squads',
-                                                        'action' => array(
-                                                            'GET'   => 'fetchAll'
-                                                        )
-                                                    )
-                                                )
-                                            ),
-                                            'squad' => array(
+                                            'id' => array(
                                                 'type' => 'segment',
                                                 'options' => array(
                                                     'route' => '/:id',
                                                     'defaults' => array(
                                                         'controller' => 'Frontend\Api\v1\Controller\Squads',
                                                         'action' => array(
-                                                            'GET'   => 'fetch',
-                                                            'DELETE' => 'delete'
+                                                            'DELETE'    =>  'delete',
+                                                            'PUT'       =>  'update',
+                                                            'GET'       =>  'fetch'
+                                                        )
+                                                    )
+                                                ),
+                                                'may_terminate' => true,
+                                                'child_routes' => array(
+                                                    'members' => array(
+                                                        'type' => 'literal',
+                                                        'options' => array(
+                                                            'route' => '/members',
+                                                            'defaults' => array(
+                                                                'controller' => 'Frontend\Api\v1\Controller\Members',
+                                                                'action' => array(
+                                                                    'GET'   =>  'fetchAll',
+                                                                    'POST'  =>  'create'
+                                                                )
+                                                            )
+                                                        ),
+                                                        'may_terminate' => true,
+                                                        'child_routes' => array(
+                                                            'id' => array(
+                                                                'type' => 'segment',
+                                                                'options' => array(
+                                                                    'route' => '/:mid',
+                                                                    'defaults' => array(
+                                                                        'controller' => 'Frontend\Api\v1\Controller\Members',
+                                                                        'action' => array(
+                                                                            'DELETE'    =>  'delete',
+                                                                            'PUT'       =>  'update',
+                                                                            'GET'       =>  'fetch'
+                                                                        )
+                                                                    )
+                                                                )
+                                                            )
                                                         )
                                                     )
                                                 )
                                             )
                                         )
-                                    ),
-
+                                    )
                                 )
                             ),
+                            // v2?
                         )
-                    ),
+                    )
                 )
             )
 

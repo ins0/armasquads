@@ -18,7 +18,7 @@ class Squad implements ArraySerializableInterface {
 
     public function exchangeArray (Array $array)
     {
-        die('asd2');
+        // nothing
     }
 
     public function getArrayCopy()
@@ -64,7 +64,7 @@ class Squad implements ArraySerializableInterface {
     protected $name;
 
     /**
-     * @ORM\Column(type="string", name="SQA_Email")
+     * @ORM\Column(type="string", name="SQA_Email", nullable=true)
      */
     protected $email;
 
@@ -74,12 +74,12 @@ class Squad implements ArraySerializableInterface {
     protected $logo;
 
     /**
-     * @ORM\Column(type="string", name="SQA_Homepage")
+     * @ORM\Column(type="string", name="SQA_Homepage", nullable=true)
      */
     protected $homepage;
 
     /**
-     * @ORM\Column(type="string", name="SQA_Title")
+     * @ORM\Column(type="string", name="SQA_Title", nullable=true)
      */
     protected $title;
 

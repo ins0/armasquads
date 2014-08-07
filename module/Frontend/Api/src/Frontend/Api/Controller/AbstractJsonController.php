@@ -80,12 +80,6 @@ abstract class AbstractJsonController extends AbstractActionController {
         $headers = $request->getHeaders();
 
         $apiResponse = new ApiResponse();
-
-        // add no cache header
-        $apiResponse->getHeaders()->addHeaders(array(
-            'X-No-Cache' => uniqid(microtime(true))
-        ));
-
         /** @var GenericHeader $apiRequestKey */
         if( $apiRequestKey = $headers->get('X-API-Key') )
         {

@@ -11,7 +11,8 @@ class ApiResponse extends Response
     public function __construct($result = null, $errorMessage = null, $statusCode = null)
     {
         $this->getHeaders()->addHeaders(array(
-            'Content-Type' => 'application/json; charset=utf-8'
+            'Content-Type' => 'application/json; charset=utf-8',
+            'X-CACHE-BUSTER' => microtime(true)
         ));
 
         if( $result )

@@ -3,6 +3,7 @@ namespace Frontend\Squads\Form;
 
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use Frontend\Application\Form\AbstractFrontendForm;
+use Zend\InputFilter\InputFilter;
 use Zend\ServiceManager\ServiceManagerAwareInterface;
 
 class Member extends AbstractFrontendForm implements ServiceManagerAwareInterface
@@ -20,22 +21,47 @@ class Member extends AbstractFrontendForm implements ServiceManagerAwareInterfac
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'form-horizontal');
 
-        $memberFieldset =  new MemberFieldset();
-        $memberFieldset->setHydrator(new DoctrineObject($this->getEntityManager()));
-        $memberFieldset->setEntityManager( $this->getEntityManager() );
-        $memberFieldset->setUseAsBaseFieldset(true);
+        $memberFieldset = new MemberFieldset();
+        if( $object instanceof \Frontend\Squads\Entity\Member )
+        {
+            // single member form
+            $elementsArray = $memberFieldset->getElements();
+            $inputFilterArray = $memberFieldset->getInputFilterSpecification();
 
-        $this->add(array(
-            'name' => 'members',
-            'type' => 'Zend\Form\Element\Collection',
-            'options' => array(
-                'count' => count($object->getMembers()),
-                'should_create_template' => true,
-                'target_element' => $memberFieldset,
-                'allow_remove' => true,
-                'allow_add' => true,
-            ),
-        ));
+            foreach($elementsArray as $element)
+            {
+                $this->add($element);
+            }
+
+            $inputFilter = new InputFilter();
+            foreach($inputFilterArray as $filter)
+            {
+                $inputFilter->add($filter);
+            }
+            $this->setInputFilter($inputFilter);
+
+        } else {
+
+            // multi member form
+            $memberFieldset =  new MemberFieldset();
+            $memberFieldset->setHydrator(new DoctrineObject($this->getEntityManager()));
+            $memberFieldset->setEntityManager( $this->getEntityManager() );
+            $memberFieldset->setUseAsBaseFieldset(true);
+
+            $this->add(array(
+                'name' => 'members',
+                'type' => 'Zend\Form\Element\Collection',
+                'options' => array(
+                    'count' => count($object->getMembers()),
+                    'should_create_template' => true,
+                    'target_element' => $memberFieldset,
+                    'allow_remove' => true,
+                    'allow_add' => true,
+                ),
+            ));
+        }
+
+
 
         $this->bind($object);
     }

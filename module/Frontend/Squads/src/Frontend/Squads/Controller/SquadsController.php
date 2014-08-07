@@ -26,7 +26,7 @@ class SquadsController extends AbstractFrontendController
     {
         $this->setAccess('frontend/squads/delete');
 
-        $squadID = (int) $this->params('id', null);
+        $squadID = $this->params('id', 0);
 
         $squadRepo = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
         $squadEntity = $squadRepo->findOneBy(array(
@@ -61,7 +61,7 @@ class SquadsController extends AbstractFrontendController
     {
         $this->setAccess('frontend/squads/create');
 
-        $squadID = (int) $this->params('id', null);
+        $squadID = $this->params('id', 0);
 
         $squadRepo = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
 

@@ -35,7 +35,7 @@ class SquadsController extends AbstractJsonController
      */
     public function fetch(){
 
-        $squadId = (int) $this->params('id', 0);
+        $squadId = $this->params('id', 0);
 
         if( $squadId <= 0 )
         {
@@ -65,16 +65,17 @@ class SquadsController extends AbstractJsonController
      */
     public function update()
     {
+        $squadId = $this->params('id', 0);
         $postData = $this->getArrayPostData();
 
-        if( !isset($postData['id']) || empty($postData['id']) )
+        if( $squadId <= 0 )
             return new ApiResponse(null, 'squad [id] missing', 400);
 
         $squadRepository = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
-        $squad = $squadRepository->findOneBy(array('user' => $this->getApiIdentity(), 'id' => (int)$postData['id']));
+        $squad = $squadRepository->findOneBy(array('user' => $this->getApiIdentity(), 'id' => $squadId));
 
         if( ! $squad )
-            return new ApiResponse(null, 'squad for update not found', 404);
+            return new ApiResponse(null, 'squad not found', 404);
 
         $originalEntity = $squad;
 
@@ -84,8 +85,12 @@ class SquadsController extends AbstractJsonController
         $squadForm->init($squad);
 
         // logo
-        if(isset($postData['logo']))
+        if(!empty($postData['logo']))
         {
+            if ( base64_encode(base64_decode($postData['logo'], true)) !== $postData['logo']){
+                return new ApiResponse(null, array('logo' => 'need logo data in base64'));
+            }
+
             $base64logo = base64_decode($postData['logo']);
             $logo['logo'] = Array();
             $logo['logo']['error'] = 0;
@@ -100,7 +105,7 @@ class SquadsController extends AbstractJsonController
         }
 
         $squadForm->setData(
-            array_merge_recursive($postData, $_FILES)
+            array_merge($squad->getArrayCopy(), $postData, $_FILES)
         );
         if( $squadForm->isValid() )
         {
@@ -147,14 +152,14 @@ class SquadsController extends AbstractJsonController
      */
     public function delete()
     {
-        $squadId = $this->params('id', false);
+        $squadId = $this->params('id', 0);
         $squadRepository = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
-        $userSquad = $squadRepository->findOneBy(array('user' => $this->getApiIdentity(), 'id' => (int) $squadId));
+        $userSquad = $squadRepository->findOneBy(array('user' => $this->getApiIdentity(), 'id' => $squadId));
 
         if( !$userSquad )
         {
             $errorResponse = new ApiResponse();
-            if( $squadId === false )
+            if( $squadId <= 0 )
             {
                 $errorResponse->setStatusCode(400);
                 $errorResponse->setErrorMessage('missing parameter id');
@@ -182,8 +187,12 @@ class SquadsController extends AbstractJsonController
         $postData = $this->getArrayPostData();
 
         // logo
-        if(isset($postData['logo']))
+        if(!empty($postData['logo']))
         {
+            if ( base64_encode(base64_decode($postData['logo'], true)) !== $postData['logo']){
+                return new ApiResponse(null, array('logo' => 'need logo data in base64'));
+            }
+
             $base64logo = base64_decode($postData['logo']);
             $logo['logo'] = Array();
             $logo['logo']['error'] = 0;
@@ -231,8 +240,14 @@ class SquadsController extends AbstractJsonController
             $this->getEntityManager()->persist($squad);
             $this->getEntityManager()->flush($squad);
 
+            $squadData = $squad->getArrayCopy();
+            if( $squad->getSquadLogoPaa() )
+            {
+                $squadData['logo'] = base64_encode(file_get_contents($squad->getSquadLogoPaa()));
+            }
+
             // save
-            return new ApiResponse($squad->getArrayCopy(), null, 201);
+            return new ApiResponse($squadData, null, 201);
 
         } else {
             return new ApiResponse(null, $squadForm->getMessages(), 422);
