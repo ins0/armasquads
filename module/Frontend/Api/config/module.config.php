@@ -9,6 +9,17 @@ return array (
         'routes' => array (
             'frontend' => array (
                 'child_routes' => array(
+                    'restapi' => array(
+                        'type' => 'literal',
+                        'options' => array(
+                            'route' => 'RESTful/api/',
+                            'defaults' => array(
+                                'controller' => 'Frontend\Api\Controller\Api',
+                                'action' => 'indexPublic'
+                            )
+                        ),
+                    ),
+
                     'user' => array(
                         'child_routes' => array(
                             'api' => array(

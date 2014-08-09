@@ -9,6 +9,17 @@ use Zend\View\Model\ViewModel;
 
 class ApiController extends AbstractFrontendController
 {
+    public function indexPublicAction()
+    {
+        if( $this->identity() )
+        {
+            return $this->redirect()->toRoute('frontend/user/api');
+        }
+
+        $viewModel = new ViewModel();
+        $viewModel->setTemplate('/api/indexPublic.phtml');
+        return $viewModel;
+    }
 
     public function indexAction(){
 
