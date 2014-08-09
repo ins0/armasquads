@@ -23,13 +23,25 @@ abstract class AbstractJsonController extends AbstractActionController {
      */
     protected $apiUser;
 
+    /**
+     * @var array
+     */
     protected $postData;
 
+    /**
+     * Get the current Post data from a Request
+     * @return array
+     */
     protected function getArrayPostData()
     {
         return (array) $this->postData;
     }
 
+    /**
+     * Validate POST DATA
+     *
+     * @return bool|string
+     */
     protected function validatePostData()
     {
         $postData = file_get_contents('php://input');
@@ -72,20 +84,41 @@ abstract class AbstractJsonController extends AbstractActionController {
         return true;
     }
 
-    public function onDispatch(MvcEvent $e)
+    /**
+     * Try to get the Request API KEY
+     *
+     * @return mixed
+     */
+    private function requestApiKey()
     {
         // check api key
-        $request = $this->getRequest();
-        /** @var Headers $headers */
-        $headers = $request->getHeaders();
+        $apiKey = $this->getRequest()->getHeaders()->get('X-API-Key');
 
+        if( $apiKey !== false )
+        {
+            return $apiKey->getFieldValue();
+        }
+
+        return $this->getRequest()->getQuery('key', false);
+    }
+
+    /**
+     * On API Dispatch
+     *
+     * @param MvcEvent $e
+     * @return ApiResponse|mixed
+     * @throws \Zend\View\Exception\DomainException
+     * @throws \Exception
+     */
+    public function onDispatch(MvcEvent $e)
+    {
         $apiResponse = new ApiResponse();
         /** @var GenericHeader $apiRequestKey */
-        if( $apiRequestKey = $headers->get('X-API-Key') )
+        if( $apiRequestKey = $this->requestApiKey() )
         {
             /** @var Key $key */
             $apiKeyRepository = $this->getEntityManager()->getRepository('Frontend\Api\Entity\Key');
-            if( $key = $apiKeyRepository->findOneBy(array('key' => $apiRequestKey->getFieldValue() )) )
+            if( $key = $apiKeyRepository->findOneBy(array('key' => $apiRequestKey )) )
             {
                 // check for limit reset
                 $key->checkForRateReset();
@@ -122,12 +155,30 @@ abstract class AbstractJsonController extends AbstractActionController {
                     throw new DomainException('Missing route matches; unsure how to retrieve action');
                 }
 
-                $action = $routeMatch->getParam('action', 'not-found');
+                $action = $routeMatch->getParam('action', array('not-found'));
                 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
+                if( is_string($action) )
+                {
+                    $apiResponse->setStatusCode(400);
+                    switch($action)
+                    {
+                        case 'selectVersion': $apiResponse->setErrorMessage('please specific api version /api/v[versionNumber]'); break;
+                        case 'selectResource': $apiResponse->setErrorMessage('no url resource path found');
+                    }
+
+                    return $apiResponse;
+                }
+
+
                 // fix for inject template listener
-                $action = isset($action[$requestMethod]) ? $action[$requestMethod] : false;
+                $actionRequest = isset($action[$requestMethod]) ? $action[$requestMethod] : false;
                 $routeMatch->setParam('action', $action);
+
+                // add allow request methods
+                $apiResponse->getHeaders()->addHeaders(array(
+                    'Allow' => implode(',',array_keys($action))
+                ));
 
                 if( $requestMethod == 'POST' || $requestMethod == 'PUT')
                 {
@@ -140,7 +191,7 @@ abstract class AbstractJsonController extends AbstractActionController {
                     }
                 }
 
-                if (!$action || !method_exists($this, $action)) {
+                if (!$actionRequest || !method_exists($this, $actionRequest)) {
 
                     // invalid request
                     $apiResponse->setErrorMessage('method not supported');
@@ -149,7 +200,7 @@ abstract class AbstractJsonController extends AbstractActionController {
                 }
 
                 /** @var ApiResponse $actionResponse */
-                $actionResponse = $this->$action();
+                $actionResponse = $this->$actionRequest();
                 if( $actionResponse instanceof ApiResponse )
                 {
                     if( ! $actionResponse->hasError() )
@@ -168,14 +219,14 @@ abstract class AbstractJsonController extends AbstractActionController {
 
             } else {
 
-                $apiResponse->setErrorMessage('invalid api key');
+                $apiResponse->setErrorMessage('api key invalid');
                 $apiResponse->setStatusCode(403);
                 return $apiResponse;
             }
         }
 
         // something is invalid with the key error
-        $apiResponse->setErrorMessage('api key (X-API-Key) invalid');
+        $apiResponse->setErrorMessage('api key not found');
         $apiResponse->setStatusCode(401);
         return $apiResponse;
     }

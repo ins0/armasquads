@@ -24,12 +24,12 @@ return array (
                         )
                     ),
                     'api' => array(
-                        'type' => 'hostname',
+                        'type' => 'literal',
                         'options' => array(
-                            'route' => 'api.armasquads.',
+                            'route' => 'api',
                             'defaults' => array(
                                 'controller' => 'Frontend\Api\v1\Controller\Squads',
-                                'action' => 'index'
+                                'action' => 'selectVersion'
                             )
                         ),
                         'may_terminate' => true,
@@ -37,10 +37,10 @@ return array (
                             'v1' => array(
                                 'type' => 'literal',
                                 'options' => array(
-                                    'route' => 'api/v1/',
+                                    'route' => '/v1',
                                     'defaults' => array(
                                         'controller' => 'Frontend\Api\v1\Controller\Squads',
-                                        'action' => 'index'
+                                        'action' => 'selectResource'
                                     )
                                 ),
                                 'may_terminate' => true,
@@ -48,7 +48,7 @@ return array (
                                     'squad' => array(
                                         'type' => 'literal',
                                         'options' => array(
-                                            'route' => 'squads',
+                                            'route' => '/squads',
                                             'defaults' => array(
                                                 'controller' => 'Frontend\Api\v1\Controller\Squads',
                                                 'action' => array(

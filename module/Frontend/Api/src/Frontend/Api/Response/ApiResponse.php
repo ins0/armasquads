@@ -12,7 +12,8 @@ class ApiResponse extends Response
     {
         $this->getHeaders()->addHeaders(array(
             'Content-Type' => 'application/json; charset=utf-8',
-            'X-CACHE-BUSTER' => microtime(true)
+            'X-Cache-Buster' => microtime(true),
+            'Access-Control-Allow-Origin' => '*'
         ));
 
         if( $result )
