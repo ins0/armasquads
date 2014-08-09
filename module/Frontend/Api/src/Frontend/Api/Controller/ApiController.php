@@ -33,7 +33,7 @@ class ApiController extends AbstractFrontendController
             $userKey->setUser(
                 $this->getEntityManager()->getReference('Auth\Entity\Benutzer', $this->identity()->getId() )
             );
-            $userKey->setRequests(1);
+            $userKey->setRequests(0);
             $userKey->setStatus(1);
 
             Try {
