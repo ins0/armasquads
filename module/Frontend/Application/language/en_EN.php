@@ -11,5 +11,5 @@ return array(
     'FRONTEND_LAYOUT_DELETE_MODAL_ABORT'        => 'Nope',
 
     'FRONTEND_APPLICATION_NAV_MENUE'    =>  'Menü',
-    'FRONTEND_BUY_ME_A_DRING'           =>  'Your Support',
+    'FRONTEND_BUY_ME_A_DRING'           =>  'Support',
 );

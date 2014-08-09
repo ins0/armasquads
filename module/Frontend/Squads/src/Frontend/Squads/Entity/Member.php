@@ -2,6 +2,7 @@
 namespace Frontend\Squads\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Stdlib\ArraySerializableInterface;
 
 /**
  * Squad
@@ -9,7 +10,24 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="sqa_squad_member_4de785")
  */
-class Member {
+class Member implements ArraySerializableInterface {
+
+    public function exchangeArray (Array $array)
+    {
+        // nothing
+    }
+
+    public function getArrayCopy()
+    {
+        return [
+            'uuid'      =>  $this->getUuid(),
+            'username'  =>  $this->getUsername(),
+            'name'      =>  $this->getName(),
+            'email'     =>  $this->getEmail(),
+            'icq'       =>  $this->getIcq(),
+            'remark'    =>  $this->getRemark()
+        ];
+    }
 
     /**
      * @ORM\Id
@@ -30,22 +48,22 @@ class Member {
     protected $username;
 
     /**
-     * @ORM\Column(type="string", name="MEM_Name")
+     * @ORM\Column(type="string", name="MEM_Name", nullable=true)
      */
     protected $name;
 
     /**
-     * @ORM\Column(type="string", name="MEM_Email")
+     * @ORM\Column(type="string", name="MEM_Email", nullable=true)
      */
     protected $email;
 
     /**
-     * @ORM\Column(type="string", name="MEM_ICQ")
+     * @ORM\Column(type="string", name="MEM_ICQ", nullable=true)
      */
     protected $icq;
 
     /**
-     * @ORM\Column(type="string", name="MEM_Remark")
+     * @ORM\Column(type="string", name="MEM_Remark", nullable=true)
      */
     protected $remark;
 

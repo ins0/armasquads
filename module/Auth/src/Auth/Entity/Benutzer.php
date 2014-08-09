@@ -5,6 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Zend\Crypt\Key\Derivation\SaltedS2k;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Math\Rand;
+use Zend\Stdlib\ArraySerializableInterface;
 
 /**
  * Benutzer
@@ -13,8 +14,23 @@ use Zend\Math\Rand;
  * @ORM\Table(name="ben_benutzer_91c48c")
  * @ORM\Entity(repositoryClass="Auth\Repository\Benutzer")
  */
-class Benutzer {
-	
+class Benutzer implements ArraySerializableInterface {
+
+    public function exchangeArray (Array $array)
+    {
+        die('asd2');
+    }
+
+    public function getArrayCopy()
+    {
+        return [
+            'id'            => $this->getId(),
+            'username'      => $this->getUsername(),
+            'email'         => $this->getEmail(),
+            'registerDate'  => $this->getRegisterDate()->getTimestamp()
+        ];
+    }
+
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer", name="BEN_ID")

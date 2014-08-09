@@ -17,12 +17,6 @@ class Squad extends AbstractFrontendForm implements ServiceManagerAwareInterface
     {
         $this->setHydrator(new DoctrineObject($this->getEntityManager()));
 
-        if( $object ) {
-            $this->bind( $object );
-        } else {
-            $this->bind(new \Frontend\Squads\Entity\Squad() );
-        }
-
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', 'form-horizontal');
 
@@ -151,5 +145,11 @@ class Squad extends AbstractFrontendForm implements ServiceManagerAwareInterface
                 'label' => '',
             )
         ));
+
+        if( $object ) {
+            $this->bind( $object );
+        } else {
+            $this->bind(new \Frontend\Squads\Entity\Squad() );
+        }
     }
 }

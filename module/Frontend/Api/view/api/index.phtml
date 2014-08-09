@@ -1,0 +1,672 @@
+<?php $this->headtitle('API Interface'); ?>
+<div class="page-header">
+    <h1 id="type"><?php echo $this->translate('API Interface'); ?></h1>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <span class="badge badge-success">Online</span>
+                &nbsp;&nbsp;&nbsp;API Status
+            </li>
+            <li class="list-group-item">
+                <span class="badge"><b>1</b></span>
+                &nbsp;&nbsp;&nbsp;API Version
+            </li>
+            <li class="list-group-item">
+                <span class="badge"><b>https://armasquads.com/api/</b></span>
+                &nbsp;&nbsp;&nbsp;API Endpoint
+            </li>
+        </ul>
+        <div class="well">
+            API Calls are currently limited with <?php $newKey = new \Frontend\Api\Entity\Key(); echo $newKey->getDefaultRateLimit(); ?> Requests/per Hour. If you are interested into make more calls ping me by mail.<br />
+            <br />
+            E-Mail: info@armasquads.de
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 text-center">
+        <?php /** @var $key \Frontend\Api\Entity\Key */ ?>
+        <?php if($key = $this->userKey): ?>
+            <?php if($key->getStatus()): ?>
+                <?php if($key->isLimitExceeded() ): ?>
+                    <div class="panel panel-warning">
+                <?php else: ?>
+                    <div class="panel panel-success">
+                <?php endif; ?>
+            <?php else: ?>
+                <div class="panel panel-danger">
+            <?php endif; ?>
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Your API Key</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <div class="well">
+                                <b><?php echo $this->escapeHtml($key->getKey()); ?></b>
+                            </div>
+                        </div>
+                        <hr>
+                        <ul class="list-group text-left">
+                            <li class="list-group-item">
+                                <?php if($key->getStatus()): ?>
+                                    <?php if($key->isLimitExceeded() ): ?>
+                                        <span class="badge badge-warning"><b>Too many Requests</b></span>
+                                    <?php else: ?>
+                                        <span class="badge badge-success"><b>OK</b></span>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <span class="badge badge-error"><b>Banned from API</b></span>
+                                <?php endif; ?>
+                                &nbsp;&nbsp;&nbsp;Key Status
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge"><b><?php echo $this->escapeHtml($key->getLimit()); ?></b></span>
+                                &nbsp;&nbsp;&nbsp;Rate Limit/Hour
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge"><b><?php echo $this->escapeHtml($key->getRemainingRate()); ?></b></span>
+                                &nbsp;&nbsp;&nbsp;Rate Remaining/Hour
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge"><b><?php echo $this->dateFormat($key->getNextRateReset(),IntlDateFormatter::MEDIUM,IntlDateFormatter::MEDIUM); ?></b></span>
+                                &nbsp;&nbsp;&nbsp;Next Rate Reset
+                            </li>
+                            <li class="list-group-item">
+                                <span class="badge"><b><?php echo $this->dateFormat($key->getLastRequest(),IntlDateFormatter::MEDIUM,IntlDateFormatter::MEDIUM); ?></b></span>
+                                &nbsp;&nbsp;&nbsp;Last API Request
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+        <?php else: ?>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Your API Key</h3>
+                </div>
+                <div class="panel-body">
+                    <a class="btn btn-success btn-sm" href="<?php echo $this->url('frontend/user/api', array(), array('query' => array('getKey' => 1))) ?>">
+                        <?php echo $this->translate('Claim API Key'); ?>
+                    </a>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+<div class="page-header">
+    <h1 id="type"><?php echo $this->translate('API Authentication'); ?></h1>
+</div>
+<div class="well well-lg">
+    To Authenticate with the API and send commands you need to send a specific Header on every request against the API.<br />
+    <br />
+    <code>X-API-Key</code>:<code>[YOUR API KEY]</code><br />
+    <br />
+
+
+    Example:
+    <hr>
+    User-Agent: MyAwesomeApplication/v1<br />
+    <b>X-API-Key: Eq57dwypZaFW4f2xxRzFaGjwCYinOn6l13Mvds00P2ZzgdMPTk</b><br />
+    Content-Type: application/x-www-form-urlencoded<br />
+    [data]<br />
+</div>
+<div class="page-header">
+    <h1 id="type"><?php echo $this->translate('Send POST/PUT Data'); ?></h1>
+</div>
+<div class="well well-lg">
+    Sending Data to the API need to format as valid JSON<br />
+    <br />
+    { "keyName": "value", [...] }
+</div>
+<div class="page-header">
+    <h1 id="type"><?php echo $this->translate('Squad Image Format'); ?></h1>
+</div>
+<div class="well well-lg">
+    Sending a Squad Image requires the Image Data converted to Base64<br />
+    <br />
+    { "logo": "iVBORw0KGgoAA[...]" }
+</div>
+<div class="page-header">
+    <h1 id="type"><?php echo $this->translate('REST API Commands/Resources'); ?></h1>
+</div>
+<div class="well">
+    <h2>Squads</h2>
+    <hr>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><b>Create a new Squad</b> <code>POST</code> <code>/squads</code></h4>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td><b>DataType</b></td>
+                        <td><b>Required</b></td>
+                        <td><b>Example</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>tag</td>
+                        <td>string</td>
+                        <td><span class="fa fa-check-square-o"></span></td>
+                        <td><code>"tag": "AS"</code></td>
+                        <td>Squad Tag</td>
+                    </tr>
+                    <tr>
+                        <td>name</td>
+                        <td>string</td>
+                        <td><span class="fa fa-check-square-o"></span></td>
+                        <td><code>"name": "Awesome Squad"</code></td>
+                        <td>Squad Name</td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"email": "example@example.com"</code></td>
+                        <td>Squad Email</td>
+                    </tr>
+                    <tr>
+                        <td>logo</td>
+                        <td>base64 string</td>
+                        <td></td>
+                        <td><code>"logo": "iVBORw0KGgoAA[...]"</code></td>
+                        <td>Squad Logo in Base64 Format</td>
+                    </tr>
+                    <tr>
+                        <td>homepage</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"homepage": "http://example.com"</code></td>
+                        <td>Squad Homepage</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"title": "We are Awesome"</code></td>
+                        <td>Squad Tag</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h5>Example POST:</h5>
+            <code>/squads</code><br />
+            <br />
+            <div class="markdown table-responsive">
+                <code>
+                    {
+                    "tag": "AS",
+                    "name": "Awesome Squad",
+                    "email": "example@example.com",
+                    "logo": "iVBORw0KGgoAA[...]",
+                    "homepage": "http://example.com",
+                    "title": "We are Awesome"
+                    }
+                </code>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><b>Get all user squads</b> <code>GET</code> <code>/squads</code></h4>
+        </div>
+        <div class="panel-body">
+            <h5>Example GET:</h5>
+            <code>/squads</code>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><b>Get specific user squad by ID</b> <code>GET</code> <code>/squads/[id]</code></h4>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td><b>DataType</b></td>
+                        <td><b>Required</b></td>
+                        <td><b>Example</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>[id]</td>
+                        <td>integer</td>
+                        <td><span class="fa fa-check-square-o"></span></td>
+                        <td><code>/squads/123456</code></td>
+                        <td>URL Parameter (Squad ID)</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h5>Example GET:</h5>
+            <code>/squads/123456</code>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><b>Update specific squad data by ID</b> <code>PUT</code> <code>/squads/[id]</code></h4>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td><b>DataType</b></td>
+                        <td><b>Required</b></td>
+                        <td><b>Example</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>[id]</td>
+                        <td>integer</td>
+                        <td></td>
+                        <td><code>/squads/123456</code></td>
+                        <td>URL Parameter (Squad ID)</td>
+                    </tr>
+                    <tr>
+                        <td>tag</td>
+                        <td>string</td>
+                        <td></span></td>
+                        <td><code>"tag": "AS"</code></td>
+                        <td>Squad Tag</td>
+                    </tr>
+                    <tr>
+                        <td>name</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"name": "Awesome Squad"</code></td>
+                        <td>Squad Name</td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"email": "example@example.com"</code></td>
+                        <td>Squad Email</td>
+                    </tr>
+                    <tr>
+                        <td>logo</td>
+                        <td>base64 string</td>
+                        <td></td>
+                        <td><code>"logo": "iVBORw0KGgoAA[...]"</code></td>
+                        <td>Squad Logo in Base64 Format</td>
+                    </tr>
+                    <tr>
+                        <td>homepage</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"homepage": "http://example.com"</code></td>
+                        <td>Squad Homepage</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"title": "We are Awesome"</code></td>
+                        <td>Squad Tag</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h5>Example PUT:</h5>
+            <code>/squads/123456</code><br />
+            <br />
+            <div class="markdown table-responsive">
+                <code>
+                    {
+                        "tag": "AS",
+                        "name": "Awesome Squad",
+                        "email": "example@example.com",
+                        "logo": "iVBORw0KGgoAA[...]",
+                        "homepage": "http://example.com",
+                        "title": "We are Awesome"
+                    }
+                </code>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><b>Delete a specific user squad by ID</b> <code>DELETE</code> <code>/squads/[id]</code></h4>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td><b>DataType</b></td>
+                        <td><b>Required</b></td>
+                        <td><b>Example</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>[id]</td>
+                        <td>integer</td>
+                        <td><span class="fa fa-check-square-o"></span></td>
+                        <td><code>/squads/123456</code></td>
+                        <td>URL Parameter (Squad ID)</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h5>Example DELETE:</h5>
+            <code>/squads/123456</code>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <h2>Members</h2>
+    <hr>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><b>Create a new Squad Member</b> <code>POST</code> <code>/squads/[id]/members</code></h4>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td><b>DataType</b></td>
+                        <td><b>Required</b></td>
+                        <td><b>Example</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>[id]</td>
+                        <td>integer</td>
+                        <td><span class="fa fa-check-square-o"></span></td>
+                        <td><code>/squads/123456/members</code></td>
+                        <td>URL Parameter (Squad ID)</td>
+                    </tr>
+                    <tr>
+                        <td>uuid</td>
+                        <td>mixed</td>
+                        <td><span class="fa fa-check-square-o"></span></td>
+                        <td><code>"uuid": "123456789"</code></td>
+                        <td>ARMA Player UUID</td>
+                    </tr>
+                    <tr>
+                        <td>username</td>
+                        <td>string</td>
+                        <td><span class="fa fa-check-square-o"></span></td>
+                        <td><code>"username": "TBone"</code></td>
+                        <td>ARMA Player Username</td>
+                    </tr>
+                    <tr>
+                        <td>name</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"name": "Tommy Awesome"</code></td>
+                        <td>Member Name</td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"email": "example@example.com"</code></td>
+                        <td>Member Email Address</td>
+                    </tr>
+                    <tr>
+                        <td>icq</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"icq": "123456789"</code></td>
+                        <td>Member ICQ UIN</td>
+                    </tr>
+                    <tr>
+                        <td>remark</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"remark": "He is Awesome!"</code></td>
+                        <td>Member Remark</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h5>Example POST:</h5>
+            <code>/squads/123456/members</code><br />
+            <br />
+            <div class="markdown table-responsive">
+                <code>
+                    {
+                        "uuid": "123456789",
+                        "username": "TBone",
+                        "name": "Tommy Awesome",
+                        "email": "example@example.com",
+                        "icq": "123456789",
+                        "remark": "He is Awesome!"
+                    }
+                </code>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><b>Get all members from specific squad</b> <code>GET</code> <code>/squads/[id]/members</code></h4>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td><b>DataType</b></td>
+                        <td><b>Required</b></td>
+                        <td><b>Example</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>[id]</td>
+                            <td>integer</td>
+                            <td><span class="fa fa-check-square-o"></span></td>
+                            <td><code>/squads/123456/members</code></td>
+                            <td>URL Parameter (Squad ID)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h5>Example GET:</h5>
+            <code>/squads/123456/members</code>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><b>Return specific member data from UUID</b> <code>GET</code> <code>/squads/[id]/members/[uuid]</code></h4>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td><b>Name</b></td>
+                            <td><b>DataType</b></td>
+                            <td><b>Required</b></td>
+                            <td><b>Example</b></td>
+                            <td><b>Description</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>[id]</td>
+                            <td>integer</td>
+                            <td><span class="fa fa-check-square-o"></span></td>
+                            <td><code>/squads/123456/members</code></td>
+                            <td>URL Parameter (Squad ID)</td>
+                        </tr>
+                        <tr>
+                            <td>[uuid]</td>
+                            <td>mixed</td>
+                            <td><span class="fa fa-check-square-o"></span></td>
+                            <td><code>/squads/123456/members/123456789</code></td>
+                            <td>URL Parameter (Member UUID)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h5>Example GET:</h5>
+            <code>/squads/123456/members/123456789</code>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><b>Update a Squad Member Data</b> <code>PUT</code> <code>/squads/[id]/members/[uuid]</code></h4>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td><b>DataType</b></td>
+                        <td><b>Required</b></td>
+                        <td><b>Example</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>[id]</td>
+                        <td>integer</td>
+                        <td><span class="fa fa-check-square-o"></span></td>
+                        <td><code>/squads/123456/members</code></td>
+                        <td>URL Parameter (Squad ID)</td>
+                    </tr>
+                    <tr>
+                        <td>[uuid]</td>
+                        <td>mixed</td>
+                        <td><span class="fa fa-check-square-o"></span></td>
+                        <td><code>/squads/123456/members/123456789</code></td>
+                        <td>URL Parameter (Member UUID)</td>
+                    </tr>
+                    <tr>
+                        <td>uuid</td>
+                        <td>mixed</td>
+                        <td></td>
+                        <td><code>"uuid": "123456789"</code></td>
+                        <td>ARMA Player UUID</td>
+                    </tr>
+                    <tr>
+                        <td>username</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"username": "TBone"</code></td>
+                        <td>ARMA Player Username</td>
+                    </tr>
+                    <tr>
+                        <td>name</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"name": "Tommy Awesome"</code></td>
+                        <td>Member Name</td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"email": "example@example.com"</code></td>
+                        <td>Member Email Address</td>
+                    </tr>
+                    <tr>
+                        <td>icq</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"icq": "123456789"</code></td>
+                        <td>Member ICQ UIN</td>
+                    </tr>
+                    <tr>
+                        <td>remark</td>
+                        <td>string</td>
+                        <td></td>
+                        <td><code>"remark": "He is Awesome!"</code></td>
+                        <td>Member Remark</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h5>Example PUT:</h5>
+            <code>/squads/123456/members/123456789</code><br />
+            <br />
+            <div class="markdown table-responsive">
+                <code>
+                    {
+                        "uuid": "123456789",
+                        "username": "TBone",
+                        "name": "Tommy Awesome",
+                        "email": "example@example.com",
+                        "icq": "123456789",
+                        "remark": "He is Awesome!"
+                    }
+                </code>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title"><b>Delete a specific member from squad</b> <code>DELETE</code> <code>/squads/[id]/members/[uuid]</code></h4>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td><b>DataType</b></td>
+                        <td><b>Required</b></td>
+                        <td><b>Example</b></td>
+                        <td><b>Description</b></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>[id]</td>
+                        <td>integer</td>
+                        <td><span class="fa fa-check-square-o"></span></td>
+                        <td><code>/squads/123456/members</code></td>
+                        <td>URL Parameter (Squad ID)</td>
+                    </tr>
+                    <tr>
+                        <td>[uuid]</td>
+                        <td>mixed</td>
+                        <td><span class="fa fa-check-square-o"></span></td>
+                        <td><code>/squads/123456/members/123456789</code></td>
+                        <td>URL Parameter (Member UUID)</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h5>Example DELETE:</h5>
+            <code>/squads/123456/members/123456789</code>
+        </div>
+    </div>
+
+</div>

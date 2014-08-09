@@ -101,3 +101,42 @@ input::-moz-focus-inner {border: 0;padding: 0}
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
+
+code {
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 12px;
+    margin: 0;
+    border: 1px solid #008cba;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    padding: 5px;
+    color: #333333;
+}
+
+.markdown code {
+
+    display: inline;
+    max-width: initial;
+    padding: 0;
+    margin: 0;
+    overflow: initial;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+}
+
+.badge-success {
+    background-color: #43ac6a;
+    color: white;
+}
+
+.badge-warning {
+    background-color: #e99002;
+    color: white;
+}
+
+.badge-error {
+    background-color: #f04124;
+    color: white;
+}

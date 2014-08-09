@@ -4,6 +4,7 @@ namespace Frontend\Squads\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Util\Debug;
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Stdlib\ArraySerializableInterface;
 
 /**
  * Squad
@@ -13,7 +14,26 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Frontend\Squads\Repository\Squad")
  *
  */
-class Squad {
+class Squad implements ArraySerializableInterface {
+
+    public function exchangeArray (Array $array)
+    {
+        // nothing
+    }
+
+    public function getArrayCopy()
+    {
+        return [
+            'id'            =>  $this->getId(),
+            'privateID'     =>  $this->getPrivateID(),
+            'tag'           =>  $this->getTag(),
+            'name'          =>  $this->getName(),
+            'email'         =>  $this->getEmail(),
+            'logo'          =>  $this->getSquadLogoPaa(),
+            'homepage'      =>  $this->getHomepage(),
+            'title'         =>  $this->getTitle(),
+        ];
+    }
 
     /**
      * @ORM\Id
@@ -44,7 +64,7 @@ class Squad {
     protected $name;
 
     /**
-     * @ORM\Column(type="string", name="SQA_Email")
+     * @ORM\Column(type="string", name="SQA_Email", nullable=true)
      */
     protected $email;
 
@@ -54,12 +74,12 @@ class Squad {
     protected $logo;
 
     /**
-     * @ORM\Column(type="string", name="SQA_Homepage")
+     * @ORM\Column(type="string", name="SQA_Homepage", nullable=true)
      */
     protected $homepage;
 
     /**
-     * @ORM\Column(type="string", name="SQA_Title")
+     * @ORM\Column(type="string", name="SQA_Title", nullable=true)
      */
     protected $title;
 
@@ -118,7 +138,7 @@ class Squad {
     {
         $logoPath = '/uploads/logos/' . $this->getLogo() . '/' . $this->getLogo() . '.png';
         if( ! file_exists( ROOT_PATH . $logoPath ) )
-            return false;
+            return null;
 
         return $logoPath;
     }
@@ -127,7 +147,7 @@ class Squad {
     {
         $logoPath = '/uploads/logos/' . $this->getLogo() . '/' . $this->getLogo() . '.paa';
         if( ! file_exists( ROOT_PATH . $logoPath ) )
-            return false;
+            return null;
 
         return $logoPath;
     }
