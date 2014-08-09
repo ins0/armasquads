@@ -3,6 +3,18 @@
     <h1 id="type"><?php echo sprintf($this->translate('Welcome back, <b>%s</b>!'), $this->escapeHtml($this->identity()->getUsername())); ?></h1>
 </div>
 <div class="well well-lg">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">RESTFul API released!</h3>
+        </div>
+        <div class="panel-body">
+            Hey code jugglers, i just released the RESTful API Interface for you guys. Happy Coding!<br />
+            <br />
+            <a href="<?php echo $this->url('frontend/user/api'); ?>"><b><u>Check it out</u></b></a>
+        </div>
+    </div>
+    <hr>
     <h4 class="text-center"><b>Choose your action from the menu in the upper right corner.</b></h4>
 </div>
 <hr>
