@@ -7,6 +7,9 @@
             <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_FREE'); ?>
         </li>
         <li class="list-group-item">
+            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('RESTFul API Interface'); ?>
+        </li>
+        <li class="list-group-item">
             <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_TIME'); ?>
         </li>
         <li class="list-group-item">
@@ -34,4 +37,13 @@
         <p><a href="#ex1" rel="modal:open" class="btn btn-primary btn-lg"> <?php echo $this->translate('FRONTEND_STARTSEITE_BUTTON_START'); ?></a></p>
     <?php endif; ?>
 </div>
-
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Statistics</h3>
+    </div>
+    <div class="panel-body">
+        We are currently hosting <b><?php echo $this->totalSquads; ?></b> ArmA squad files with total <b><?php echo $this->totalSquadsMembers; ?></b> Squad Members from <b><?php echo $this->totalUsers; ?></b> registered users. So much so wow.<br />
+        <hr>
+        Last registered user: <b><?php echo $this->escapeHtml($this->lastUser->getUsername()); ?></b> - Hey man! Welcome on board!
+    </div>
+</div>
