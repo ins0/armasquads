@@ -143,7 +143,7 @@ class MembersController extends AbstractJsonController
             $this->getEntityManager()->flush($member);
 
             // save
-            return new ApiResponse($member->getArrayCopy(), null, 201);
+            return new ApiResponse($member->getArrayCopy(), null, 200);
 
         } else {
 

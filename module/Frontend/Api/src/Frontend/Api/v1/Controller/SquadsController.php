@@ -139,7 +139,7 @@ class SquadsController extends AbstractJsonController
             $this->getEntityManager()->flush($squad);
 
             // save
-            return new ApiResponse($squad->getArrayCopy(), null, 201);
+            return new ApiResponse($squad->getArrayCopy(), null, 200);
 
         } else {
             return new ApiResponse(null, $squadForm->getMessages(), 422);
