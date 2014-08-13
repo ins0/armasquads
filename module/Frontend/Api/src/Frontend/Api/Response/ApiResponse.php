@@ -74,7 +74,7 @@ class ApiResponse extends Response
         } else {
 
             $return['success'] = true;
-            $return['result'] = $this->getResult();
+            $return['results'] = $this->getResult();
         }
 
         return json_encode($return);
