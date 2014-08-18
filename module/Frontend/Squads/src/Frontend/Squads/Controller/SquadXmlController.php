@@ -28,7 +28,7 @@ class SquadXmlController extends AbstractFrontendController
         // tracking
         Try {
             $tracker = new GATracking('UA-47467616-2');
-            //$tracker->setClientID($squad->getId());
+            $tracker->setClientID($_SERVER['REMOTE_ADDR']);
 
             $eventTracker = new Event();
             $eventTracker->setEventCategory('Squadfile');
