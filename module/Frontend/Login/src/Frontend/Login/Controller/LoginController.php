@@ -7,6 +7,9 @@ use Frontend\Login\Form\Login;
 use Auth\Acl\Acl;
 use Frontend\Login\Form\Register;
 use Zend\View\Model\ViewModel;
+use Racecore\GATracking\GATracking;
+use Racecore\GATracking\Tracking\Event;
+use Racecore\GATracking\Tracking\Page;
 
 class LoginController extends AbstractFrontendController
 {
