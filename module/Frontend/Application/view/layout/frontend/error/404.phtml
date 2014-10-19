@@ -56,17 +56,52 @@
                                     <li><a href="<?php echo $this->url('frontend/user/home'); ?>"><?php echo $this->translate('FRONTEND_DASHBOARD_NAV_LABEL'); ?></a></li>
                                     <li><a href="<?php echo $this->url('frontend/user/squads'); ?>"><?php echo $this->translate('FRONTEND_SQUADS_NAV_LABEL'); ?></a></li>
                                     <li><a href="<?php echo $this->url('frontend/user/api'); ?>"><?php echo $this->translate('FRONTEND_API_NAV_LABEL'); ?></a></li>
+                                    <li><a href="<?php echo $this->url('frontend/user/donate'); ?>"><?php echo $this->translate('FRONTEND_SUPPORT_NAV_LABEL'); ?></a></li>
                                     <li class="divider"></li>
                                     <li><a href="<?php echo $this->url('frontend/logout'); ?>"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGOUT'); ?></a></li>
                                 </ul>
                             </li>
-                            <li><a href="<?php echo $this->serverUrl('de') . $this->url('frontend', array(), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
-                            <li><a href="<?php echo $this->serverUrl('com') . $this->url('frontend', array(), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
-                            <li class="label-primary"><a target="_self" href="<?php echo $this->url('frontend/user/donate'); ?>"><?php echo $this->translate('FRONTEND_BUY_ME_A_DRING'); ?>&nbsp;<span class="fa fa-users"></span></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <?php if(\Locale::getDefault() == 'en_EN'): ?>
+                                        <img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" />
+                                    <?php else: ?>
+                                        <img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" />
+                                    <?php endif; ?>
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="<?php echo $this->ServerUrl('de') . $this->url('frontend', array(), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /> <?php echo \Locale::getDisplayName('de_DE'); ?></a></li>
+                                    <li><a href="<?php echo $this->ServerUrl('com') . $this->url('frontend', array(), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /> <?php echo \Locale::getDisplayName('en_EN'); ?></a></li>
+                                </ul>
+                            </li>
+                            <li class="label-primary">
+                                <?php if(\Locale::getDefault() == 'de_DE') : ?>
+                                    <a target="_blank" onclick="javascript:ga('send', 'event', 'Support', 'clicked');" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=R3W67WZACP28J">
+                                        <span class="fa fa-paypal"></span> Donation
+                                    </a>
+                                <?php else: ?>
+                                    <a target="_blank" onclick="javascript:ga('send', 'event', 'Support', 'clicked');" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZA7Y7D995JQH4">
+                                        <span class="fa fa-paypal"></span> Spenden
+                                    </a>
+                                <?php endif; ?>
+                            </li>
                         <?php else: ?>
+                            <li><a href="<?php echo $this->url('frontend/restapi'); ?>"><?php echo $this->translate('FRONTEND_API_NAV_LABEL'); ?></a></li>
                             <li class="active"><a href="#ex1" rel="modal:open"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGIN'); ?></a></li>
-                            <li><a href="<?php echo $this->serverUrl('de') . $this->url('frontend', array(), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /></a></li>
-                            <li><a href="<?php echo $this->serverUrl('com') . $this->url('frontend', array(), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <?php if(\Locale::getDefault() == 'en_EN'): ?>
+                                        <img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" />
+                                    <?php else: ?>
+                                        <img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" />
+                                    <?php endif; ?>
+                                    <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="<?php echo $this->ServerUrl('de') . $this->url('frontend', array(), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /> <?php echo \Locale::getDisplayName('de_DE'); ?></a></li>
+                                    <li><a href="<?php echo $this->ServerUrl('com') . $this->url('frontend', array(), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /> <?php echo \Locale::getDisplayName('en_EN'); ?></a></li>
+                                </ul>
+                            </li>
                         <?php endif; ?>
                     </ul>
                 </div>

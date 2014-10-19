@@ -1,8 +1,8 @@
 <?php
 return array(
 
-    'FRONTEND_LOGIN_NAV_LOGIN'          =>  'Anmelden / Registrieren',
-    'FRONTEND_LOGIN_NAV_LOGOUT'         =>  'Abmelden',
+    'FRONTEND_LOGIN_NAV_LOGIN'          =>  '<span class="fa fa-sign-in"></span> Anmelden / Registrieren',
+    'FRONTEND_LOGIN_NAV_LOGOUT'         =>  '<span class="fa fa-sign-out"></span> Abmelden',
     'FRONTEND_LOGIN_TITLE'              =>  'Anmelden / Registrieren',
     'FRONTEND_LOGIN_LABEL_LOGIN'        =>  'Anmelden mit Account',
     'FRONTEND_LOGIN_LABEL_REGISTER'     =>  'Neuen Account erstellen',

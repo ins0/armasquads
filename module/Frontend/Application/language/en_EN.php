@@ -10,6 +10,6 @@ return array(
     'FRONTEND_LAYOUT_DELETE_MODAL_OK'           => 'I\'m sure!',
     'FRONTEND_LAYOUT_DELETE_MODAL_ABORT'        => 'Nope',
 
-    'FRONTEND_APPLICATION_NAV_MENUE'    =>  'Menü',
+    'FRONTEND_APPLICATION_NAV_MENUE' =>  '<span class="fa fa-bars"></span> Menü',
     'FRONTEND_BUY_ME_A_DRING'           =>  'Support',
 );
