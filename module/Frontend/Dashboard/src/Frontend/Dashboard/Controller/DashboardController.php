@@ -134,7 +134,7 @@ class DashboardController extends AbstractFrontendController
 
             $changelog[] = [
                 'date' => $line[0],
-                'changes' => $changes
+                'changes' => $changes 
             ];
 
             $totalTime += $line[3];
