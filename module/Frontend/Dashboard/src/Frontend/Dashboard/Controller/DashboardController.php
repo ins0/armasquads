@@ -104,13 +104,19 @@ class DashboardController extends AbstractFrontendController
             $this->getCache()->setItem($key, 'true');
         }
 
-        // summary
-        $data['project_age'] = trim( str_replace('repo age : ', '', $gitSummary[2]) );
-        $data['total_commits*'] = trim( str_replace('commits  : ', '', $gitSummary[4]) );
-        $data['total_project_files'] = trim( str_replace('files    : ', '', $gitSummary[5]) );
+        if(isset($gitSummary[2]) && isset($gitSummary[4]) && isset($gitSummary[5]) ) {
+            // summary
+            $data['project_age'] = trim(str_replace('repo age : ', '', $gitSummary[2]));
+            $data['total_commits*'] = trim(str_replace('commits  : ', '', $gitSummary[4]));
+            $data['total_project_files'] = trim(str_replace('files    : ', '', $gitSummary[5]));
+        } else {
+            $data['project_age'] = '';
+            $data['total_commits*'] = '';
+            $data['total_project_files'] = '';
+        }
 
         // changelog
-        $data['last_commit'] = $gitLastCommit[0];
+        $data['last_commit'] = (isset($gitLastCommit[0]) ? $gitLastCommit[0] : '');
 
         $stats = fopen($timeStatsFilePath, 'r');
         $x = 0;
