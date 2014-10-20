@@ -10,9 +10,9 @@
     "homepage": "http://framework.zend.com/",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "dev-master",
-        "doctrine/doctrine-orm-module": "dev-master",
-        "phpunit/phpunit": "dev-master",
+        "zendframework/zendframework": "2.3.1",
+        "doctrine/doctrine-orm-module": "0.8.*",
+        "phpunit/phpunit": "4.3.*",
         "ins0/google-measurement-php-client": "dev-master"
     }
 }
