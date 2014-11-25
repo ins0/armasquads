@@ -72,6 +72,10 @@ class DashboardController extends AbstractFrontendController
                 continue;
             }
 
+            $changes = array_map('trim', $changes);
+            $changes = array_reverse($changes);
+            $changes = array_unique($changes);
+
             $date = new \DateTime($line[0]);
             $changelog[$date->getTimestamp()] = [
                 'date' => $date,
