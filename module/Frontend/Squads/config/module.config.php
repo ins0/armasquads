@@ -154,6 +154,16 @@ return array (
                                             )
                                         )
                                     ),
+                                    'download' => array(
+                                        'type' => 'segment',
+                                        'options' => array(
+                                            'route' => 'download/:id/',
+                                            'defaults' => array(
+                                                'controller' => 'Frontend\Squads\Controller\Squads',
+                                                'action' => 'download'
+                                            )
+                                        )
+                                    ),
                                 )
                             ),
                         )

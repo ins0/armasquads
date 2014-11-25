@@ -47,6 +47,10 @@
                     <span class="fa fa-users"></span>
                     <?php echo $this->translate('Members'); ?>
                 </a>
+                <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/download', array('id'=>$squad->getId())) ?>">
+                    <span class="fa fa-cloud-download"></span>
+                    <?php echo $this->translate('Download'); ?>
+                </a>
             <?php endif; ?>
             <?php if($this->hasAccess('frontend/squads/delete') ): ?>
                 <a class="btn btn-danger btn-sm delete-confirm" href="<?php echo $this->url('frontend/user/squads/delete', array('id'=>$squad->getId())) ?>">

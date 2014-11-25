@@ -1,6 +1,7 @@
 <?php
 namespace Frontend\Squads\Controller;
 
+use Frontend\Squads\Entity\Squad;
 use Frontend\Squads\Form\Squad as SquadForm;
 use Frontend\Application\Controller\AbstractDoctrineController;
 use Frontend\Application\Controller\AbstractFrontendController;
@@ -20,6 +21,59 @@ class SquadsController extends AbstractFrontendController
         $viewModel->setTemplate('/squads/index.phtml');
         $viewModel->setVariable('squads', $userSquads);
         return $viewModel;
+    }
+
+    public function downloadAction()
+    {
+        $this->setAccess('frontend/squads/create');
+        $squadID = $this->params('id', 0);
+
+        $squadRepo = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
+
+        /** @var Squad $squadEntity */
+        $squadEntity = $squadRepo->findOneBy(array(
+            'user' => $this->identity(),
+            'id' => $squadID
+        ));
+
+        if( ! $squadEntity )
+        {
+            $this->flashMessenger()->addErrorMessage('Squad not found');
+            return $this->redirect('frontend/user/squads');
+        }
+
+        $fileName = 'squad_file_pack_armasquads_' . $squadID;
+        $zipTmpPath = tempnam(ini_get('upload_tmp_dir'), $fileName);
+
+        $zip = new \ZipArchive();
+
+        if( !$zip )
+        {
+            $this->flashMessenger()->addErrorMessage('Squad Package Download currently not possible');
+            return $this->redirect('frontend/user/squads');
+        }
+
+        $zip->open($zipTmpPath, \ZipArchive::CHECKCONS);
+        $zip->addFromString('squad.xml', file_get_contents(
+            'http://' . $_SERVER['SERVER_NAME'] . $this->url()->fromRoute('frontend/user/squads/xml', array('id' => $squadEntity->getPrivateID()))
+        ));
+
+        if( $squadEntity->getSquadLogoPaa() ) {
+            $zip->addFile(ROOT_PATH . $squadEntity->getSquadLogoPaa(), 'squad.paa');
+        }
+
+        $zip->addFromString('squad.dtd',file_get_contents(realpath(__DIR__ . '/../../../../view/squads/xml/').'/squad.dtd'));
+        $zip->addFromString('squad.xsl',file_get_contents(realpath(__DIR__ . '/../../../../view/squads/xml/').'/squad.xsl'));
+        $zip->close();
+
+        header('Content-Type: application/octet-stream');
+        header("Content-Transfer-Encoding: Binary");
+        header("Content-disposition: attachment; filename=\"" . basename($fileName) . ".zip\"");
+
+        readfile($zipTmpPath);
+        sleep(1);
+        @unlink($zipTmpPath);
+        die();
     }
 
     public function deleteAction()
