@@ -72,11 +72,14 @@ class DashboardController extends AbstractFrontendController
                 continue;
             }
 
-            $changelog[] = [
-                'date' => $line[0],
+            $date = new \DateTime($line[0]);
+            $changelog[$date->getTimestamp()] = [
+                'date' => $date,
                 'changes' => $changes
             ];
         }
+
+        ksort($changelog);
 
         $viewModel = new ViewModel();
         $viewModel->setTemplate('/dashboard/index.phtml');

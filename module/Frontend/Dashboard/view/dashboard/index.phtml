@@ -31,7 +31,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#changelog_<?php echo $x; ?>">
-                            <?php echo $this->escapeHtml($change['date']); ?>
+                            <?php echo $this->DateFormat($change['date'], \IntlDateFormatter::LONG, \IntlDateFormatter::NONE); ?>
                         </a>
                     </h4>
                 </div>
