@@ -117,6 +117,11 @@ class Benutzer implements ArraySerializableInterface {
         $this->registerDate = $registerDate;
     }
 
+    public function getGravatar($size = 80)
+    {
+        return 'https://secure.gravatar.com/avatar/' . md5( $this->getEmail() ) . '?r=g&d=mm&s=' . $size;
+    }
+
     /**
      * Liefert das Reg Date
      * @return \DateTime

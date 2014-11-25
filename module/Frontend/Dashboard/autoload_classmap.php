@@ -3,4 +3,6 @@
 return array(
   'Frontend\Dashboard\Module'                         => __DIR__ . '/Module.php',
   'Frontend\Dashboard\Controller\DashboardController' => __DIR__ . '/src/Frontend/Dashboard/Controller/DashboardController.php',
+  'Frontend\Dashboard\Controller\AccountController' => __DIR__ . '/src/Frontend/Dashboard/Controller/AccountController.php',
+
 );

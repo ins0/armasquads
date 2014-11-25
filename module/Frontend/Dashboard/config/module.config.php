@@ -45,6 +45,18 @@ return array (
                                 ),
                                 'may_terminate' => true
                             ),
+
+                            'account' => array(
+                                'type' => 'literal',
+                                'options' => array(
+                                    'route' => 'account/',
+                                    'defaults' => array(
+                                        'controller' => 'Frontend\Dashboard\Controller\Account',
+                                        'action' => 'index'
+                                    )
+                                ),
+                                'may_terminate' => true
+                            ),
                         )
                     ),
                 )
@@ -68,7 +80,8 @@ return array (
 
     'controllers' => array (
         'invokables' => array (
-            'Frontend\Dashboard\Controller\Dashboard' => 'Frontend\Dashboard\Controller\DashboardController'
+            'Frontend\Dashboard\Controller\Dashboard' => 'Frontend\Dashboard\Controller\DashboardController',
+            'Frontend\Dashboard\Controller\Account' => 'Frontend\Dashboard\Controller\AccountController'
         )
     ),
 

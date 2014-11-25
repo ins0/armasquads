@@ -1,0 +1,58 @@
+<?php $this->headtitle('My Account'); ?>
+<?php echo $this->formErrors( $this->form ); ?>
+<div class="page-header">
+    <h1 id="type">
+        <img src="<?php echo $this->identity()->getGravatar(64); ?>" class="img-circle" />
+        »<em><?php echo $this->escapeHtml( $this->identity()->getUsername() ); ?></em>«
+    </h1>
+</div>
+<legend>Profil Details</legend>
+<ul class="list-group">
+    <li class="list-group-item">
+        <span class="badge"><strong><?php echo $this->escapeHtml( $this->identity()->getUsername() ); ?></strong></span>
+        Username
+    </li>
+    <li class="list-group-item">
+        <span class="badge"><strong><?php echo $this->escapeHtml( $this->identity()->getEmail() ); ?></strong></span>
+        E-Mail
+    </li>
+    <li class="list-group-item">
+        <span class="badge"><strong><?php echo $this->dateFormat($this->identity()->getRegisterDate(), \IntlDateFormatter::MEDIUM, \IntlDateFormatter::MEDIUM); ?></strong></span>
+        Register Date
+    </li>
+    <li class="list-group-item">
+        <span class="badge"><strong><?php echo $this->dateFormat($this->identity()->getLastLogin(), \IntlDateFormatter::MEDIUM, \IntlDateFormatter::MEDIUM); ?></strong></span>
+        Last Login
+    </li>
+</ul>
+<?php $form->prepare(); ?>
+<?php echo $this->form()->openTag($form); ?>
+<?php echo $this->formHidden($this->form->get('csrf')); ?>
+    <fieldset>
+        <?php $passwordResetForm = $this->form->get('resetPassword'); ?>
+        <legend>Account Password change</legend>
+        <div class="form-group">
+            <?php echo $this->formLabel($passwordResetForm->get('oldPass')); ?>
+            <div class="col-lg-2">
+                <?php echo $this->formPassword($passwordResetForm->get('oldPass')); ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <?php echo $this->formLabel($passwordResetForm->get('newPass')); ?>
+            <div class="col-lg-2">
+                <?php echo $this->formPassword($passwordResetForm->get('newPass')); ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <?php echo $this->formLabel($passwordResetForm->get('newPassConfirm')); ?>
+            <div class="col-lg-2">
+                <?php echo $this->formPassword($passwordResetForm->get('newPassConfirm')); ?>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <?php echo $this->formSubmit($passwordResetForm->get('resetPasswordSubmit')); ?>
+            </div>
+        </div>
+    </fieldset>
+<?php echo $this->form()->closeTag($form); ?>

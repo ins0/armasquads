@@ -19,6 +19,19 @@ return array(
 						'hasAccess' => 'Auth\Factory\hasAccessFactory'
 				)
 		),
+
+        'translator' => array (
+            'translation_file_patterns' => array (
+                // FRONTED TRANSLATION
+                array (
+                    'type' => 'phpArray',
+                    'base_dir' => __DIR__ . '/../language/',
+                    'pattern' => '%s.php',
+                    'text_domain' => 'default'
+                ),
+
+            )
+        ),
 		
 		// ###############################################
 		// VIEW HELPERS

@@ -13,6 +13,7 @@ use Doctrine\Common\Util\Debug;
 use Zend\I18n\Translator\Translator;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Validator\AbstractValidator;
 
 class Module
 {
@@ -86,7 +87,10 @@ class Module
         $router->setDefaultParam('locale', $usedLocaleShort);
         $translator->setLocale( $usedLocale );
         $translator->setFallbackLocale( $usedLocale );
+        $translator->addTranslationFile('phpArray', 'vendor/zendframework/zendframework/resources/languages/'.$usedLocaleShort.'/Zend_Validate.php', 'default', $usedLocale);
+
         \Locale::setDefault( $usedLocale );
+        AbstractValidator::setDefaultTranslator($translator);
     }
 
     public function onBootstrap(MvcEvent $e)

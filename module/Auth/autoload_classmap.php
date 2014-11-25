@@ -17,4 +17,6 @@ return array(
   'Auth\Repository\Benutzer'            => __DIR__ . '/src/Auth/Repository/Benutzer.php',
   'Auth\Repository\Role'                => __DIR__ . '/src/Auth/Repository/Role.php',
   'Auth\View\Helper\hasAccess'          => __DIR__ . '/src/Auth/View/Helper/hasAccess.php',
+  'Auth\Form\Account'                   => __DIR__ . '/src/Auth/Form/Account.php',
+  'Auth\Form\Account\Fieldset\ResetPassword'                   => __DIR__ . '/src/Auth/Form/Fieldset/ResetPassword.php',
 );
