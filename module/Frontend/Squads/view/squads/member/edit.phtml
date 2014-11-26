@@ -17,7 +17,7 @@
     <?php $form->prepare(); ?>
     <?php echo $this->form()->openTag($form); ?>
 
-    <legend>Display <span id="member-count-display"><?php echo count($squad->getMembers()); ?></span> out of <?php echo count($squad->getMembers()); ?> Members</legend>
+    <legend>Display <span id="member-count-display"><?php echo count($squad->getMembers()); ?></span> out of <span class="member-count"><?php echo count($squad->getMembers()); ?></span> Members</legend>
     <div class="members">
         <?php $formCollection = $this->form->get('members'); ?>
         <div class="members-collection">
@@ -41,5 +41,5 @@
     <button type="submit" class="btn btn-success"><?php echo $this->translate('Save'); ?></button>
     <div class="btn btn-primary" onclick="return add_member()">Add a new Member</div>
     <?php echo $this->form()->closeTag($form); ?>
-    <?php echo $this->formCollection()->setTemplateWrapper('<div data-template="%s" class="item panel panel-default template-member" style="display: none;"><div class="panel-body"></div><div class="panel-footer text-right"><div class="btn btn-danger" onclick="javascript:remove_member(this);">' . $this->translate('Delete') .'</div></div></div>')->renderTemplate( $formCollection ); ?>
+    <?php echo $this->formCollection()->setTemplateWrapper('<div data-template="%s" class="item panel panel-default member template-member" style="display: none;"><div class="panel-body"></div><div class="panel-footer text-right"><div class="btn btn-danger" onclick="javascript:remove_member(this);">' . $this->translate('Delete') .'</div></div></div>')->renderTemplate( $formCollection ); ?>
 </div>
