@@ -7,56 +7,16 @@
         <?php echo $this->escapeHtml( $this->squad->getName() ); ?>
     </h1>
 </div>
-<script>
-    // add member
-    function add_member()
-    {
-        // current fields
-        var currentCount = $('.members > .members-collection > div.item').length;
-
-        // form template
-        var template = $('.template-member').clone();
-        template.find('div.panel-body').html(template.data('template') + "<label>* required fields</label>");
-        template.removeAttr('data-template');
-        template.removeClass('template-member');
-        template = template.get(0).outerHTML.replace(/__index__/g, currentCount);
-
-        // update form
-        $('.members > .members-collection').append(template);
-        $('.members p.no-member-hint').hide();
-        $('.members > .members-collection > div').last().stop(true, true).slideDown();
-
-        // update member info
-        $('span.member-count').html(currentCount + 1);
-
-        return false;
-    }
-    // remove member
-    function remove_member(obj)
-    {
-        $(obj).parent().parent().slideUp(function(){
-            // remove field
-            $(this).remove();
-
-            // current member fields
-            var currentCount = $('.members > .members-collection > div.item').length;
-
-            // update member info
-            $('span.member-count').html(currentCount);
-
-            // show info for empty squad
-            if( currentCount == 0 )
-            {
-                $('.members p.no-member-hint').show();
-            }
-        });
-        return false;
-    }
-</script>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <legend>Search</legend>
+        <input id="memberSearch" placeholder="PlayerID / Username" type="text" style="width: 100%" value="" />
+    </div>
+</div>
 <div class="well">
     <?php $form->prepare(); ?>
     <?php echo $this->form()->openTag($form); ?>
-    <h1><span class="member-count"><?php echo count($squad->getMembers()) . '</span> ' . $this->translatePlural( 'Member', 'Members', count($squad->getMembers()) ); ?><br /></h1>
+    <h1><span class="member-count"><?php echo count($squad->getMembers()) . '</span> ' . $this->translatePlural( 'Member', 'Members', count($squad->getMembers()) ); ?> <span id="member-count-hidden"></span><br /></h1>
     <hr>
     <div class="members">
         <?php $formCollection = $this->form->get('members'); ?>
@@ -65,7 +25,7 @@
                 <p class="no-member-hint"><?php echo $this->translate('This squad has no member!'); ?></p>
             <?php else: ?>
                 <?php foreach( $formCollection as $col ): ?>
-                    <div class="item panel panel-default">
+                    <div class="item panel panel-default member">
                         <div class="panel-body">
                             <?php echo $this->formCollection($col); ?>
                             <label>* required fields</label>

@@ -18,8 +18,8 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             'name' => 'uuid',
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
-                'id' => 'uuid',
-                'class' => 'col-xs-12 col-sm-8',
+                'id' => '',
+                'class' => 'uuid col-xs-12 col-sm-8',
             ),
             'options' => array(
                 'label_attributes' => array(
@@ -34,8 +34,8 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             'name' => 'username',
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
-                'id' => 'username',
-                'class' => 'col-xs-12 col-sm-8',
+                'id' => '',
+                'class' => 'username col-xs-12 col-sm-8',
             ),
             'options' => array(
                 'label_attributes' => array(
@@ -50,8 +50,8 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             'name' => 'name',
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
-                'id' => 'name',
-                'class' => 'col-xs-12 col-sm-8',
+                'id' => '',
+                'class' => 'name col-xs-12 col-sm-8',
             ),
             'options' => array(
                 'label_attributes' => array(
@@ -66,8 +66,8 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             'name' => 'email',
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
-                'id' => 'email',
-                'class' => 'col-xs-12 col-sm-8',
+                'id' => '',
+                'class' => 'email col-xs-12 col-sm-8',
             ),
             'options' => array(
                 'label_attributes' => array(
@@ -82,8 +82,8 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             'name' => 'icq',
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
-                'id' => 'icq',
-                'class' => 'col-xs-12 col-sm-8',
+                'id' => '',
+                'class' => 'icq col-xs-12 col-sm-8',
             ),
             'options' => array(
                 'label_attributes' => array(
@@ -98,8 +98,8 @@ class MemberFieldset extends AbstractFrontendFieldset implements ServiceManagerA
             'name' => 'remark',
             'type' => 'Zend\Form\Element\Text',
             'attributes' => array(
-                'id' => 'remark',
-                'class' => 'col-xs-12 col-sm-8',
+                'id' => '',
+                'class' => 'remark col-xs-12 col-sm-8',
             ),
             'options' => array(
                 'label_attributes' => array(
