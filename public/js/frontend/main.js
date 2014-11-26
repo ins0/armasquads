@@ -47,11 +47,6 @@ $(document).ready(function(){
             }
         });
 
-        if(display <= 0)
-        {
-            squads.show();
-        }
-
         $('#squad-count-display').show().html(display);
     });
 
@@ -59,15 +54,16 @@ $(document).ready(function(){
     $('#memberSearch').bind('keyup', function(){
         var searchTerm = $(this).val();
         var members = $('div.members div.member');
-        var found = 0;
+        var display = members.length;
 
         if( searchTerm.length <= 0 )
         {
             members.show();
-            $('#member-count-hidden').hide();
+            $('#member-count-display').html(display);
             return;
         }
 
+        display = 0;
         members.show().each(function(){
             var playerUid = $(this).find('input.uuid').val().toLowerCase();
             var playerUsername = $(this).find('input.username').val().toLowerCase();
@@ -76,16 +72,11 @@ $(document).ready(function(){
             {
                 $(this).hide();
             } else {
-                found++;
+                display++;
             }
         });
 
-        if( found <= 0 )
-        {
-            members.show();
-        }
-
-        $('#member-count-hidden').show().html("/ " + found + " Filtered");
+        $('#member-count-display').show().html(display);
     });
 
 });

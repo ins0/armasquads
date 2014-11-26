@@ -16,8 +16,8 @@
 <div class="well">
     <?php $form->prepare(); ?>
     <?php echo $this->form()->openTag($form); ?>
-    <h1><span class="member-count"><?php echo count($squad->getMembers()) . '</span> ' . $this->translatePlural( 'Member', 'Members', count($squad->getMembers()) ); ?> <span id="member-count-hidden"></span><br /></h1>
-    <hr>
+
+    <legend>Display <span id="member-count-display"><?php echo count($squad->getMembers()); ?></span> out of <?php echo count($squad->getMembers()); ?> Members</legend>
     <div class="members">
         <?php $formCollection = $this->form->get('members'); ?>
         <div class="members-collection">
