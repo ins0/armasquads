@@ -3,6 +3,8 @@ error_reporting(E_ALL);
 define('REQUEST_MICROTIME', microtime(true));
 define('ROOT_PATH', __DIR__);
 
+define('GIT_HEAD', shell_exec('git rev-parse HEAD'));
+
 /**
  * This makes our life easier when dealing with paths. Everything is relative
  * to the application root now.

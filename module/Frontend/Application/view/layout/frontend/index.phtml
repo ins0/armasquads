@@ -153,7 +153,7 @@
             </footer>
         </div>
         <?php if( $this->identity() ): ?>
-            <?php $this->inlineScript()->appendFile($this->basePath() . '/js/frontend/main.js'); ?>
+            <?php $this->inlineScript()->appendFile($this->basePath() . '/js/frontend/main.js?x=' . GIT_HEAD); ?>
             <div id="delete-confirm" style="display:none;">
                 <?php echo $this->translate('FRONTEND_LAYOUT_DELETE_MODAL'); ?><br/>
                 <hr>
