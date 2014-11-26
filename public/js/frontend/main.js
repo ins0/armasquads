@@ -18,6 +18,11 @@ $(document).ready(function(){
         }).modal();
     });
 
+    // squad link full copy
+    $('#squads div.squad .squad-xml').bind('click', function(){
+        $(this).select();
+    });
+
     // squad search box
     $('#squadSearch').bind('keyup', function(){
         var searchTerm = $(this).val();
