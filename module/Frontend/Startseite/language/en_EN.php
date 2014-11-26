@@ -4,7 +4,7 @@ return array(
     'FRONTEND_STARTSEITE_HEADING'       => 'Create your own ArmA Squad file within 5 Minutes!',
     'FRONTEND_STARTSEITE_SUBHEADING'    => 'This website is <u>non official</u> from Bohemia Interactive - This is a private website i programmed to help you creating Squad Files for Arma based games.',
 
-    'FRONTEND_STARTSEITE_LIST_ARMA'     =>  '<strong>Recommend from official Bohemia Interactive</strong> - <a href="http://dev.arma3.com/post/sitrep-00083" target="_blank">http://dev.arma3.com/post/sitrep-00083</a>',
+    'FRONTEND_STARTSEITE_LIST_ARMA'     =>  '<strong>Officially recommended from Bohemia Interactive</strong> - <a href="http://dev.arma3.com/post/sitrep-00083" target="_blank">http://dev.arma3.com/post/sitrep-00083</a>',
     'FRONTEND_STARTSEITE_LIST_FREE'     =>  '100% free',
     'FRONTEND_STARTSEITE_LIST_TIME'     =>  'Creating a full Clan Squad File only take about 5 minutes!',
     'FRONTEND_STARTSEITE_LIST_SQUADS'   =>  'Add/Manage unlimited Squads',
