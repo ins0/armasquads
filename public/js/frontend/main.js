@@ -46,7 +46,7 @@ $(document).ready(function(){
                 display++;
             }
         });
-        $('#squad-count-display').html(display);
+        $('#squad-count-display').show().html(display);
     });
 
     // member search box
@@ -72,7 +72,7 @@ $(document).ready(function(){
                 $(this).hide();
             }
         });
-        $('#member-count-hidden').html("/ "+ hidden + " Filtered (Not shown)");
+        $('#member-count-hidden').show().html("/ "+ hidden + " Filtered (Not shown)");
     });
 
 });
