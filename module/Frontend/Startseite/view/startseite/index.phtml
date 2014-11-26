@@ -3,8 +3,14 @@
     <h1><?php echo $this->translate('FRONTEND_STARTSEITE_HEADING'); ?></h1>
     <p><?php echo $this->translate('FRONTEND_STARTSEITE_SUBHEADING'); ?></p>
     <ul class="list-group">
+        <li class="list-group-item list-group-item-info">
+            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_ARMA'); ?>
+        </li>
         <li class="list-group-item">
             <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_FREE'); ?>
+        </li>
+        <li class="list-group-item">
+            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_NOADS'); ?>
         </li>
         <li class="list-group-item">
             <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('RESTFul API Interface'); ?>
@@ -27,9 +33,7 @@
         <li class="list-group-item">
             <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_SUPPORT'); ?>
         </li>
-        <li class="list-group-item">
-            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_NOADS'); ?>
-        </li>
+
     </ul>
     <?php if( $this->identity() ): ?>
         <p><a href="<?php echo $this->url('frontend/user/squads/create'); ?>" class="btn btn-primary btn-lg"> <?php echo $this->translate('FRONTEND_STARTSEITE_BUTTON_START'); ?></a></p>
