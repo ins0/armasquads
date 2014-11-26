@@ -48,14 +48,13 @@ class ApiController extends AbstractFrontendController
             $userKey->setStatus(1);
 
             Try {
-            $this->getEntityManager()->persist($userKey);
-            $this->getEntityManager()->flush();
+                $this->getEntityManager()->persist($userKey);
+                $this->getEntityManager()->flush();
+                $this->flashMessenger()->addSuccessMessage('Nice! Subscribe to API successfully. Can\'t wait to hear about your application');
             }catch(\Exception $e)
             {
-                echo $e->getMessage();
-                die();
+                $this->flashMessenger()->addErrorMessage('Balls...something went wrong :/');
             }
-            $this->flashMessenger()->addSuccessMessage('Nice! Subscribe to API successful. Can\'t wait to hear about your Application');
         }
 
         $viewModel = new ViewModel();

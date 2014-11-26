@@ -14,7 +14,7 @@
                 &nbsp;&nbsp;&nbsp;API Version
             </li>
             <li class="list-group-item">
-                <span class="badge"><b>https://armasquads.com/api/v1</b></span>
+                <span class="badge"><b><a href="https://armasquads.com/api/v1" target="_blank">https://armasquads.com/api/v1</a></b></span>
                 &nbsp;&nbsp;&nbsp;API Endpoint
             </li>
         </ul>
@@ -111,16 +111,24 @@
 <div class="well well-lg">
     To Authenticate with the API and send commands you need to send a specific Header on every request against the API.<br />
     <br />
-    <code>X-API-Key</code>:<code>[YOUR API KEY]</code><br />
+    <code>X-API-Key</code>:<code>[YOUR_API_KEY]</code><br />
     <br />
-
-
     Example:
     <hr>
+    POST /api/v1/ HTTP/1.1<br />
+    Host: x.x.x.x<br />
     User-Agent: MyAwesomeApplication/v1<br />
-    <b>X-API-Key: Eq57dwypZaFW4f2xxRzFaGjwCYinOn6l13Mvds00P2ZzgdMPTk</b><br />
+    <b>X-API-Key: [YOUR_API_KEY]</b><br />
     Content-Type: application/x-www-form-urlencoded<br />
     [data]<br />
+    <br />
+    <hr>
+    Alternatively add <code>?key=[YOUR_API_KEY]</code> to the request url to authenticate. *not recommended*<br />
+    <br />
+    <br />
+    Example:
+    <hr>
+    <code>https://armasquads.com/api/v1?key=YOUR_API_KEY</code>
 </div>
 <div class="page-header">
     <h1 id="type"><?php echo $this->translate('Send POST/PUT Data'); ?></h1>
