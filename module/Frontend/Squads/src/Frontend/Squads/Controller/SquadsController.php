@@ -46,6 +46,7 @@ class SquadsController extends AbstractFrontendController
         $zipTmpPath = tempnam(ini_get('upload_tmp_dir'), $fileName);
 
         $zip = new \ZipArchive();
+        $zip->open($zipTmpPath, \ZipArchive::CHECKCONS);
 
         if( !$zip )
         {
@@ -53,7 +54,6 @@ class SquadsController extends AbstractFrontendController
             return $this->redirect('frontend/user/squads');
         }
 
-        $zip->open($zipTmpPath, \ZipArchive::CHECKCONS);
         $zip->addFromString('squad.xml', file_get_contents(
             'http://' . $_SERVER['SERVER_NAME'] . $this->url()->fromRoute('frontend/user/squads/xml', array('id' => $squadEntity->getPrivateID()))
         ));
