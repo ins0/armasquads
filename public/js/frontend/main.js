@@ -53,7 +53,7 @@ $(document).ready(function(){
     $('#memberSearch').bind('keyup', function(){
         var searchTerm = $(this).val();
         var members = $('div.members div.member');
-        var hidden = 0;
+        var found = 0;
 
         if( searchTerm.length <= 0 )
         {
@@ -68,11 +68,15 @@ $(document).ready(function(){
 
             if( playerUid.indexOf(searchTerm) == -1 && playerUsername.indexOf(searchTerm) == -1 )
             {
-                hidden++;
                 $(this).hide();
+            } else {
+                found++;
             }
         });
-        $('#member-count-hidden').show().html("/ "+ hidden + " Filtered (Not shown)");
+
+        if( found >= 1 ) {
+            $('#member-count-hidden').show().html("/ " + found + " Filtered");
+        }
     });
 
 });
