@@ -46,6 +46,12 @@ $(document).ready(function(){
                 display++;
             }
         });
+
+        if(display <= 0)
+        {
+            squads.show();
+        }
+
         $('#squad-count-display').show().html(display);
     });
 
@@ -74,9 +80,12 @@ $(document).ready(function(){
             }
         });
 
-        if( found >= 1 ) {
-            $('#member-count-hidden').show().html("/ " + found + " Filtered");
+        if( found <= 0 )
+        {
+            members.show();
         }
+
+        $('#member-count-hidden').show().html("/ " + found + " Filtered");
     });
 
 });
