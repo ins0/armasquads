@@ -177,7 +177,8 @@ abstract class AbstractJsonController extends AbstractActionController {
 
                 // add allow request methods
                 $apiResponse->getHeaders()->addHeaders(array(
-                    'Allow' => implode(',',array_keys($action))
+                    'Allow' => implode(',',array_keys($action)),
+                    'Content-Type' => 'application/json'
                 ));
 
                 if( $requestMethod == 'POST' || $requestMethod == 'PUT')
