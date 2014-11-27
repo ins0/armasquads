@@ -63,7 +63,7 @@ class SquadsController extends AbstractFrontendController
         }
 
         $zip->addFromString('squad.dtd',file_get_contents(realpath(__DIR__ . '/../../../../view/squads/xml/').'/squad.dtd'));
-        $zip->addFromString('squad.xsl',file_get_contents(realpath(__DIR__ . '/../../../../view/squads/xml/').'/squad.xsl'));
+        //$zip->addFromString('squad.xsl',file_get_contents(realpath(__DIR__ . '/../../../../view/squads/xml/').'/squad.xsl'));
         $zip->close();
 
         header('Content-Type: application/octet-stream');
