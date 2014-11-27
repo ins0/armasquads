@@ -59,7 +59,7 @@ class SquadsController extends AbstractFrontendController
         ));
 
         if( $squadEntity->getSquadLogoPaa() ) {
-            $zip->addFile(ROOT_PATH . $squadEntity->getSquadLogoPaa(), 'squad.paa');
+            $zip->addFile(ROOT_PATH . $squadEntity->getSquadLogoPaa(), basename($squadEntity->getSquadLogoPaa()));
         }
 
         $zip->addFromString('squad.dtd',file_get_contents(realpath(__DIR__ . '/../../../../view/squads/xml/').'/squad.dtd'));
