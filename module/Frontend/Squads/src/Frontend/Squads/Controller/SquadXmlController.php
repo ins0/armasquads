@@ -33,7 +33,6 @@ class SquadXmlController extends AbstractFrontendController
         $eventTracker->setEventAction('Request');
         $eventTracker->setEventLabel($squad->getName() . ' ('.$squadID.')');
         $eventTracker->setEventValue($squad->getId());
-        $eventTracker->setAsNonInteractionHit(true);
         $analytics->sendTracking($eventTracker);
 
         $response = $this->getResponse();
