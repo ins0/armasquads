@@ -85,7 +85,7 @@ class Squad implements ArraySerializableInterface {
 
     /**
      * @ORM\OneToMany(targetEntity="Member", mappedBy="squad", cascade={"ALL"}, orphanRemoval=true)
-     * @ORM\OrderBy({"name" = "ASC", "uuid" = "ASC"})
+     * @ORM\OrderBy({"name" = "ASC"})
      */
     protected $members;
 
@@ -96,18 +96,12 @@ class Squad implements ArraySerializableInterface {
 
     public function addMember( Member $member )
     {
-        foreach($this->members as $memberCheck )
-        {
-            if( $memberCheck->getUuid() == $member->getUuid() )
-            {
-                // member allready in the group do nohting with this
-                return $this;
-            }
+        if(!$this->members->exists(function($key, $value) use ($member){
+            return $value->getUuid() == $member->getUuid() && $value->getUsername() == $member->getUsername();
+        })) {
+            $member->setSquad($this);
+            $this->members->add($member);
         }
-
-        $member->setSquad($this);
-        $this->members->add($member);
-        return $this;
     }
 
     public function addMembers($members)
