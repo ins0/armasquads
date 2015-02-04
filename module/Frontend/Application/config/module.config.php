@@ -60,7 +60,7 @@ return array (
             // error layouts
             'error/404' => __DIR__ . '/../view/layout/frontend/error/404.phtml',
             'error/403' => __DIR__ . '/../view/layout/frontend/error/404.phtml',
-            'error/index' => __DIR__ . '/../view/layout/frontend/error/404.phtml',
+            'error/index' => __DIR__ . '/../view/layout/frontend/error/exception.phtml',
         ),
         // default layout
         'layout/layout'  =>  'layout/frontend',

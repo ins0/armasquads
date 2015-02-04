@@ -7,6 +7,8 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
+use Application\Service;
+
 return array (
 
 		'router' => array (
@@ -49,31 +51,33 @@ return array (
 
 
 		'service_manager' => array (
-				'factories' => array (
-                        // NOW => MvcTranslator
-						//'translator' => 'Zend\I18n\Translator\TranslatorServiceFactory',
-				)
+			'factories' => array (
+				\Racecore\GATracking\GATracking::class => Service\AnalyticsServiceFactory::class
+			),
+			'shared' => [
+				\Racecore\GATracking\GATracking::class => false
+			]
 		),
 
 		'controller_plugins' => array(
-				'invokables' => array(
-						'Message' => 'Zend\Mvc\Controller\Plugin\FlashMessenger'
-				),
-				'factories' => array()
+			'invokables' => array(
+				'Message' => 'Zend\Mvc\Controller\Plugin\FlashMessenger'
+			),
+			'factories' => array()
 		),
 		
 		// ###############################################
 		// VIEW HELPERS
 		// ###############################################
 		'view_helpers'       => array(
-				'invokables'=> array(
-                    'FlashMessenger'	=> 'Application\View\Helper\FlashMessenger',
-                    'formErrors'	=> 'Application\View\Helper\formErrors',
-                    'ServerUrl'	=> 'Application\View\Helper\ServerUrl',
+			'invokables'=> array(
+				'FlashMessenger'	=> 'Application\View\Helper\FlashMessenger',
+				'formErrors'	=> 'Application\View\Helper\formErrors',
+				'ServerUrl'	=> 'Application\View\Helper\ServerUrl',
 
-                    //'Translate'			=> 'Application\View\Helper\Translate',
-						//'DateFormat'		=> 'Application\View\Helper\DateFormat',
-				)
+				//'Translate'			=> 'Application\View\Helper\Translate',
+					//'DateFormat'		=> 'Application\View\Helper\DateFormat',
+			)
 		),		
 		
 		'view_manager' => array (

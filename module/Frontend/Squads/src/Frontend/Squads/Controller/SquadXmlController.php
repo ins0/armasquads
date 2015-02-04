@@ -2,12 +2,10 @@
 namespace Frontend\Squads\Controller;
 
 use Frontend\Squads\Entity\Squad;
-use Frontend\Squads\Form\Member;
 use Frontend\Application\Controller\AbstractDoctrineController;
 use Frontend\Application\Controller\AbstractFrontendController;
 use Racecore\GATracking\GATracking;
 use Racecore\GATracking\Tracking\Event;
-use Racecore\GATracking\Tracking\Page;
 use Zend\Http\PhpEnvironment\Response;
 use Zend\View\Model\ViewModel;
 
@@ -25,24 +23,18 @@ class SquadXmlController extends AbstractFrontendController
             return $this->getResponse()->setStatusCode(404);
         }
 
-        // tracking
-        Try {
-            $tracker = new GATracking('UA-47467616-2');
-            $tracker->setClientID($_SERVER['REMOTE_ADDR']);
+        /** @var GATracking $analytics */
+        $analytics = $this->getServiceLocator()->get(GATracking::class);
+        $analytics->setClientId($_SERVER['REMOTE_ADDR']);
 
-            $eventTracker = new Event();
-            $eventTracker->setEventCategory('Squadfile');
-            $eventTracker->setEventAction('Request');
-            $eventTracker->setEventLabel($squad->getName() . ' ('.$squadID.')');
-            $eventTracker->setEventValue($squad->getId());
-
-            $tracker->addTracking($eventTracker);
-
-            $tracker->send();
-        } Catch( \Exception $e )
-        {
-            // dont track :(
-        }
+        /** @var Event $eventTracker */
+        $eventTracker = $analytics->createTracking('Event');
+        $eventTracker->setEventCategory('test');
+        $eventTracker->setEventAction('Request');
+        $eventTracker->setEventLabel($squad->getName() . ' ('.$squadID.')');
+        $eventTracker->setEventValue($squad->getId());
+        $eventTracker->setAsNonInteractionHit(true);
+        $analytics->sendTracking($eventTracker);
 
         $response = $this->getResponse();
         if ($response instanceof Response) {
