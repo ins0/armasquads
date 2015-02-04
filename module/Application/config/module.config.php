@@ -49,16 +49,6 @@ return array (
 				)
 		),
 
-
-		'service_manager' => array (
-			'factories' => array (
-				\Racecore\GATracking\GATracking::class => Service\AnalyticsServiceFactory::class
-			),
-			'shared' => [
-				\Racecore\GATracking\GATracking::class => false
-			]
-		),
-
 		'controller_plugins' => array(
 			'invokables' => array(
 				'Message' => 'Zend\Mvc\Controller\Plugin\FlashMessenger'
