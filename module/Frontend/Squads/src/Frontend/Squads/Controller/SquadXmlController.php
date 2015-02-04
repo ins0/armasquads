@@ -29,7 +29,7 @@ class SquadXmlController extends AbstractFrontendController
 
         /** @var Event $eventTracker */
         $eventTracker = $analytics->createTracking('Event');
-        $eventTracker->setEventCategory('test');
+        $eventTracker->setEventCategory('Squadfile');
         $eventTracker->setEventAction('Request');
         $eventTracker->setEventLabel($squad->getName() . ' ('.$squadID.')');
         $eventTracker->setEventValue($squad->getId());
