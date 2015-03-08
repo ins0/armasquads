@@ -35,12 +35,6 @@ class SquadXmlController extends AbstractFrontendController
         $eventTracker->setEventValue($squad->getId());
         $analytics->sendTracking($eventTracker);
 
-        $response = $this->getResponse();
-        if ($response instanceof Response) {
-            $headers = $this->response->getHeaders();
-            $headers->addHeaderLine('Content-Type', 'application/xml');
-        }
-
         // check logo
         $squadImageService = $this->getServiceLocator()->get('SquadImageService');
         $squadLogoFile = $squadImageService->getServerSquadLogo( $squad );
@@ -59,11 +53,22 @@ class SquadXmlController extends AbstractFrontendController
 
         $viewModel = new ViewModel();
         $viewModel->setTerminal(true);
-            $viewModel->setVariable('squad', $squad);
+        $viewModel->setVariable('squad', $squad);
         $viewModel->setVariable('logoFile', $squadLogoFile);
         $viewModel->setTemplate('/squads/xml/squad.xml');
 
-        return $viewModel;
+        $viewRender = $this->getServiceLocator()->get('ViewRenderer');
+        $html = $viewRender->render($viewModel);
+
+        $response = $this->getResponse();
+
+        $headers = $this->response->getHeaders();
+        $headers->addHeaderLine('Content-Type', 'application/xml');
+        $headers->addHeaderLine('Content-Length', strlen($html));
+
+        $response->setContent($html);
+
+        return $response;
     }
 
     public function logoFileAction()
