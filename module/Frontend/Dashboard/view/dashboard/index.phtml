@@ -7,12 +7,13 @@
     <hr>
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Recommended from official Bohemia Interactive!</h3>
+            <h3 class="panel-title">Armasquads.com is now full open source!</h3>
         </div>
         <div class="panel-body">
-            We are officially recommended from Bohemia Interactive in one of there blog posts! nice!<br />
+            Armasquads.com and it source files are now full open source.<br />
+            View all files on GitHub - view the changelog, comment, discuss, flame code...fork...enjoy<br />
             <br />
-            <a href="http://dev.arma3.com/post/sitrep-00083" target="_blank"><strong><u>http://dev.arma3.com/post/sitrep-00083</u></strong></a>
+            <a href="https://github.com/ins0/armasquads" target="_blank"><strong><u>https://github.com/ins0/armasquads</u></strong></a>
             <br /><br />
         </div>
     </div>
@@ -22,24 +23,8 @@
     <div class="panel-heading">Changelog</div>
     <div class="panel-body">
         <div class="panel-group" id="accordion">
-            <?php $x = 0; foreach($this->changelog as $change ): $x++; ?>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#changelog_<?php echo $x; ?>">
-                            <?php echo $this->DateFormat($change['date'], \IntlDateFormatter::LONG, \IntlDateFormatter::NONE); ?>
-                        </a>
-                    </h4>
-                </div>
-                <div id="changelog_<?php echo $x; ?>" class="panel-collapse collapse <?php echo $x == 1 ? 'in' : ''; ?>">
-                    <div class="panel-body">
-                        <?php foreach($change['changes'] as $item ): ?>
-                            - <?php echo $this->escapeHtml($item); ?><br />
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-            <?php endforeach; ?>
+            <br />
+            <a href="https://github.com/ins0/armasquads/commits/master" target="_blank"><strong><u>CHANGELOG NOW ON GITHUB</u></strong></a>
         </div>
     </div>
 </div>
