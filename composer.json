@@ -12,7 +12,7 @@
         "ins0/zf2-analytics": "1.0.*",
         "doctrine/doctrine-orm-module": "0.8.0",
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.3.1"
+        "zendframework/zendframework": "2.3.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.3.*"
