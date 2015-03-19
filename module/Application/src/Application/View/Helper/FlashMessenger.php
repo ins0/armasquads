@@ -56,7 +56,7 @@ class FlashMessenger extends ZendFlashMessenger
         return $messageContainer;
     }
 
-	public function render($namespace = ZendControllerFlashMessenger::NAMESPACE_DEFAULT, array $classes = array())
+	public function render($namespace = ZendControllerFlashMessenger::NAMESPACE_DEFAULT, array $classes = array(), $autoEscape = null)
     {
         $this->setDefaultFlashMessengerSettings();
 
