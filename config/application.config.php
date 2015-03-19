@@ -19,21 +19,6 @@ return array(
         'Application',
 
         /**
-         * Administration
-         */
-        //'Administration\Application',
-        //'Administration\Login',
-        //'Administration\Dashboard',
-        //'Administration\Benutzer',
-
-            /**
-             *  ADMIN MODULES
-             */
-
-
-
-
-        /**
          * Frontend
          */
         'Frontend\Application',
