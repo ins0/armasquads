@@ -39,55 +39,8 @@ class DashboardController extends AbstractFrontendController
 
         $this->setAccess('frontend/dashboard/access');
 
-        $key    = 'git-time-extractor-file';
-        $timeStatsFilePath = ROOT_PATH . '/../data/git/stats.csv';
-
-        $this->getCache()->getItem($key, $success);
-        if (!$success || !file_exists($timeStatsFilePath)) {
-            exec('git_time_extractor > ' . $timeStatsFilePath);
-            $this->getCache()->setItem($key, 'true');
-        }
-
-        $stats = fopen($timeStatsFilePath, 'r');
-        $x = 0;
-        $changelog = [];
-        while( ! feof($stats) )
-        {
-            $line = fgetcsv($stats, 1024, ',', '"');
-
-            if( $x++ == 0 || count($line) <= 1 )
-                continue;
-
-            $changes = explode('---', $line[8]);
-            foreach($changes as $key => $xc)
-            {
-                if(substr(trim($xc), 0, 1) == '!' || trim($xc) == "" || trim($xc) == " " )
-                {
-                    unset($changes[$key]);
-                }
-            }
-
-            if( count( $changes ) <= 0 )
-            {
-                continue;
-            }
-
-            $changes = array_map('trim', $changes);
-            $changes = array_reverse($changes);
-            $changes = array_unique($changes);
-
-            $date = new \DateTime($line[0]);
-            $changelog[$date->getTimestamp()] = [
-                'date' => $date,
-                'changes' => $changes
-            ];
-        }
-
-        ksort($changelog);
-
         $viewModel = new ViewModel();
         $viewModel->setTemplate('/dashboard/index.phtml');
-        $viewModel->setVariable('changelog', array_reverse($changelog));
 
         return $viewModel;
     }
