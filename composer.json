@@ -1,18 +1,19 @@
 {
-    "name": "zendframework/skeleton-application",
-    "description": "Skeleton Application for ZF2",
-    "license": "BSD-3-Clause",
+    "name": "ins0/armasquads",
+    "description": "Website for creating Squad XML files in ARMA based games",
+    "license": "GPL-2.0",
     "keywords": [
-        "framework",
-        "zf2"
+        "armasquads",
+        "arma",
+        "squad",
+        "xml"
     ],
-    "minimum-stability": "dev",
-    "homepage": "http://framework.zend.com/",
+    "homepage": "https://armasquads.com/",
     "require": {
+        "doctrine/doctrine-orm-module": "0.8.*",
         "ins0/zf2-analytics": "1.0.*",
-        "doctrine/doctrine-orm-module": "0.8.0",
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.3.*"
+        "zendframework/zendframework": "2.4.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.3.*"
