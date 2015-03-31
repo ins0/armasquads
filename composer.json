@@ -13,7 +13,8 @@
         "doctrine/doctrine-orm-module": "0.8.*",
         "ins0/zf2-analytics": "1.0.*",
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.4.*"
+        "zendframework/zendframework": "2.4.*",
+        "zf-commons/zfc-rbac": "~2.4"
     },
     "require-dev": {
         "phpunit/phpunit": "4.3.*"
