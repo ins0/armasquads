@@ -14,7 +14,7 @@ return array (
                                         'register' => array(
                                             'type' => 'literal',
                                             'options' => array(
-                                                'route' => 'register/',
+                                                'route' => '/register',
                                                 'defaults' => array(
                                                     'controller' => 'Frontend\Login\Controller\Login',
                                                     'action' => 'register'
@@ -24,7 +24,7 @@ return array (
 										'login' => array(
 												'type' => 'literal',
 												'options' => array(
-														'route' => 'login/',
+														'route' => '/login',
 														'defaults' => array(
 																'controller' => 'Frontend\Login\Controller\Login',
 																'action' => 'login'
@@ -34,7 +34,7 @@ return array (
 										'logout' => array(
 												'type' => 'literal',
 												'options' => array(
-														'route' => 'logout/',
+														'route' => '/logout',
 														'defaults' => array(
 																'controller' => 'Frontend\Login\Controller\Login',
 																'action' => 'logout'

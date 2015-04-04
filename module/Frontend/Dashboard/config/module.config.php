@@ -13,7 +13,7 @@ return array (
                     'user' => array(
                         'type' => 'literal',
                         'options' => array(
-                            'route' => 'user/',
+                            'route' => 'user',
                             'defaults' => array(
                                 'controller' => 'Frontend\Dashboard\Controller\Dashboard',
                                 'action' => 'index'
@@ -25,7 +25,7 @@ return array (
                             'home' => array(
                                 'type' => 'literal',
                                 'options' => array(
-                                    'route' => 'home/',
+                                    'route' => '/home',
                                     'defaults' => array(
                                         'controller' => 'Frontend\Dashboard\Controller\Dashboard',
                                         'action' => 'index'
@@ -37,7 +37,7 @@ return array (
                             'donate' => array(
                                 'type' => 'literal',
                                 'options' => array(
-                                    'route' => 'support/',
+                                    'route' => '/support',
                                     'defaults' => array(
                                         'controller' => 'Frontend\Dashboard\Controller\Dashboard',
                                         'action' => 'donate'
@@ -49,7 +49,7 @@ return array (
                             'account' => array(
                                 'type' => 'literal',
                                 'options' => array(
-                                    'route' => 'account/',
+                                    'route' => '/account',
                                     'defaults' => array(
                                         'controller' => 'Frontend\Dashboard\Controller\Account',
                                         'action' => 'index'

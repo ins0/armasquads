@@ -14,7 +14,7 @@ return array (
                             'squads' => array(
                                 'type' => 'literal',
                                 'options' => array(
-                                    'route' => 'squads/',
+                                    'route' => '/squads',
                                     'defaults' => array(
                                         'controller' => 'Frontend\Squads\Controller\Squads',
                                         'action' => 'index',
@@ -27,7 +27,7 @@ return array (
                                     'xml' => array(
                                         'type' => 'segment',
                                         'options' => array(
-                                            'route' => 'xml/:id/[squad.xml]',
+                                            'route' => '/xml/:id/[squad.xml]',
                                             'defaults' => array(
                                                 'controller' => 'Frontend\Squads\Controller\SquadXml',
                                                 'action' => 'squadFile'
@@ -116,7 +116,7 @@ return array (
                                     'create' => array(
                                         'type' => 'segment',
                                         'options' => array(
-                                            'route' => 'create/',
+                                            'route' => '/create',
                                             'defaults' => array(
                                                 'controller' => 'Frontend\Squads\Controller\Squads',
                                                 'action' => 'create',
@@ -127,7 +127,7 @@ return array (
                                     'delete' => array(
                                         'type' => 'segment',
                                         'options' => array(
-                                            'route' => 'delete/:id/',
+                                            'route' => '/delete/:id',
                                             'defaults' => array(
                                                 'controller' => 'Frontend\Squads\Controller\Squads',
                                                 'action' => 'delete'
@@ -137,7 +137,7 @@ return array (
                                     'edit' => array(
                                         'type' => 'segment',
                                         'options' => array(
-                                            'route' => 'edit/:id/',
+                                            'route' => '/edit/:id',
                                             'defaults' => array(
                                                 'controller' => 'Frontend\Squads\Controller\Squads',
                                                 'action' => 'edit'
@@ -147,7 +147,7 @@ return array (
                                     'member' => array(
                                         'type' => 'segment',
                                         'options' => array(
-                                            'route' => 'member/:id/',
+                                            'route' => '/member/:id',
                                             'defaults' => array(
                                                 'controller' => 'Frontend\Squads\Controller\SquadMember',
                                                 'action' => 'edit'
@@ -157,7 +157,7 @@ return array (
                                     'download' => array(
                                         'type' => 'segment',
                                         'options' => array(
-                                            'route' => 'download/:id/',
+                                            'route' => '/download/:id',
                                             'defaults' => array(
                                                 'controller' => 'Frontend\Squads\Controller\Squads',
                                                 'action' => 'download'

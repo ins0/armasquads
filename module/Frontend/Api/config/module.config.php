@@ -12,7 +12,7 @@ return array (
                     'restapi' => array(
                         'type' => 'literal',
                         'options' => array(
-                            'route' => 'RESTful/api/',
+                            'route' => 'RESTful/api',
                             'defaults' => array(
                                 'controller' => 'Frontend\Api\Controller\Api',
                                 'action' => 'indexPublic'
@@ -25,7 +25,7 @@ return array (
                             'api' => array(
                                 'type' => 'literal',
                                 'options' => array(
-                                    'route' => 'api/',
+                                    'route' => '/api',
                                     'defaults' => array(
                                         'controller' => 'Frontend\Api\Controller\Api',
                                         'action' => 'index'

@@ -13,7 +13,7 @@ return array (
                     'impressum' => array(
                         'type' => 'literal',
                         'options' => array(
-                            'route' => 'impressum/',
+                            'route' => 'impressum',
                             'defaults' => array(
                                 'controller' => 'Frontend\Impressum\Controller\Impressum',
                                 'action' => 'index'
