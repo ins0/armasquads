@@ -18,6 +18,7 @@
             ->appendFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
             ->appendFile('//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
             ->appendFile($this->basePath() . '/js/frontend/jquery.modal.js')
+            ->appendFile($this->basePath() . '/js/frontend/display.js')
             ->prependFile($this->basePath() . '/js/frontend/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
             ->prependFile($this->basePath() . '/js/frontend/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',));
 
@@ -182,8 +183,6 @@
                 ga('create', 'UA-47467616-2', '<?php echo $_SERVER['SERVER_NAME']; ?>');
                 ga('require', 'displayfeatures');
                 ga('send', 'pageview');
-
-                (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
         <?php endif; ?>
     </body>

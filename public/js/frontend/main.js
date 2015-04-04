@@ -78,9 +78,7 @@ $(document).ready(function(){
 
         $('#member-count-display').show().html(display);
     });
-
 });
-
 
 // add member
 function add_member()

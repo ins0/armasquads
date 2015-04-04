@@ -17,6 +17,7 @@
             ->appendFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
             ->appendFile('//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
             ->appendFile($this->basePath() . '/js/frontend/jquery.modal.js')
+            ->appendFile($this->basePath() . '/js/frontend/display.js')
             ->prependFile($this->basePath() . '/js/frontend/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
             ->prependFile($this->basePath() . '/js/frontend/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',));
 
@@ -113,11 +114,7 @@
         <div class="container-fluid" style="overflow: hidden;">
             <a class="hidden-xs" href="https://github.com/ins0/armasquads"><img style="position: absolute; top: 45px; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
             <div class="row">
-                <ins style="display: inherit" class="adsbygoogle col-xs-12 col-sm-3 col-sm-push-9"
-                     data-ad-client="ca-pub-5565535079532415"
-                     data-ad-slot="2650568293"
-                     data-ad-format="vertical, horizontal">
-                </ins>
+                <div id="content-right" class="col-xs-12 col-sm-3 col-sm-push-9"></div>
                 <div class="main-content col-xs-12 col-sm-9 col-sm-pull-3">
                     <?php echo $this->flashmessenger()->render(); ?>
                     <?php echo $this->content; ?>
@@ -182,8 +179,6 @@
                 ga('create', 'UA-47467616-2', '<?php echo $_SERVER['SERVER_NAME']; ?>');
                 ga('require', 'displayfeatures');
                 ga('send', 'pageview');
-
-                (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
         <?php endif; ?>
     </body>
