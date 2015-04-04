@@ -16,14 +16,14 @@
 
         $this->headScript()
             ->appendFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
-            ->appendFile('//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
+            ->appendFile('//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
             ->appendFile($this->basePath() . '/js/frontend/jquery.modal.js')
             ->prependFile($this->basePath() . '/js/frontend/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
             ->prependFile($this->basePath() . '/js/frontend/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',));
 
         // css
         echo $this->headLink()
-            ->appendStylesheet('//netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css')
+            ->appendStylesheet('//netdna.bootstrapcdn.com/bootswatch/3.3.4/yeti/bootstrap.min.css')
             ->appendStylesheet('//fonts.googleapis.com/css?family=Open+Sans:400,300,700')
             ->appendStylesheet('//fonts.googleapis.com/css?family=Lato:400,700')
             ->appendStylesheet('//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css')
