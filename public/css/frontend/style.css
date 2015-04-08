@@ -97,6 +97,16 @@ input::-moz-focus-inner {border: 0;padding: 0}
     }
 }
 
+#content-right {
+    margin-top: 0px;
+}
+
+@media (min-width: 768px) {
+    #content-right {
+        margin-top: 150px;
+    }
+}
+
 .no-padding {
     padding-left: 0 !important;
     padding-right: 0 !important;
