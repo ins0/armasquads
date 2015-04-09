@@ -99,11 +99,13 @@ input::-moz-focus-inner {border: 0;padding: 0}
 
 #content-right {
     margin-top: 0px;
+    width: 100%x;
 }
 
 @media (min-width: 768px) {
     #content-right {
         margin-top: 150px;
+        width: 187px;
     }
 }
 
