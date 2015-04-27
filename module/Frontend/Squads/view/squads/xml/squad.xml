@@ -11,5 +11,6 @@
         <email><?php echo $member->getEmail() ? $this->escapeHtml($member->getEmail()) : 'N/A'; ?></email>
         <icq><?php echo $member->getIcq() ? $this->escapeHtml($member->getIcq()) : 'N/A'; ?></icq>
         <remark><?php echo $member->getRemark() ? $this->escapeHtml($member->getRemark()) : 'N/A'; ?></remark>
-    </member><?php endforeach; ?>
+    </member>
+    <?php endforeach; ?>
 </squad>
