@@ -172,7 +172,7 @@ class SquadXmlController extends AbstractFrontendController
         $response = $this->getResponse();
         if ($response instanceof Response) {
             $headers = $this->response->getHeaders();
-            $headers->addHeaderLine('Content-Type', 'application/xml');
+            $headers->addHeaderLine('Content-Type', 'application/xml-dtd');
         }
 
         $viewModel = new ViewModel();
