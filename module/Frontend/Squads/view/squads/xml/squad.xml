@@ -1,15 +1,17 @@
-<?php echo '<?xml version="1.0"?>'; ?>
-<!DOCTYPE squad SYSTEM "squad.dtd">
-<squad nick="<?php echo $this->escapeHtml($this->squad->getTag()); ?>">
-    <name><?php echo $this->squad->getName() ? $this->escapeHtml($this->squad->getName()) : 'N/A'; ?></name>
-    <email><?php echo $this->squad->getEmail() ? $this->escapeHtml($this->squad->getEmail()) : 'N/A'; ?></email>
-    <web><?php echo $this->squad->getHomepage() ? $this->escapeHtml($this->squad->getHomepage()) : 'N/A'; ?></web>
-    <picture><?php echo $this->logoFile ? $this->logoFile : '' ?></picture>
-    <title><?php echo $this->squad->getTitle() ? $this->escapeHtml($this->squad->getTitle()) : 'N/A'; ?></title>
-    <?php foreach($this->squad->getMembers() as $member ): ?><member id="<?php echo $this->escapeHtml($member->getUuid()); ?>" nick="<?php echo $this->escapeHtml($member->getUsername()); ?>">
-        <name><?php echo $member->getName() ? $this->escapeHtml($member->getName()) : 'N/A'; ?></name>
-        <email><?php echo $member->getEmail() ? $this->escapeHtml($member->getEmail()) : 'N/A'; ?></email>
-        <icq><?php echo $member->getIcq() ? $this->escapeHtml($member->getIcq()) : 'N/A'; ?></icq>
-        <remark><?php echo $member->getRemark() ? $this->escapeHtml($member->getRemark()) : 'N/A'; ?></remark>
-    </member><?php endforeach; echo "\r\n"; ?>
-</squad>
+<?php echo '<?xml version="1.0"?>' . "\r\n"; ?>
+<?php echo '<!DOCTYPE squad SYSTEM "squad.dtd">' . "\r\n"; ?>
+<?php echo '<squad nick="' . $this->escapeHtml($this->squad->getTag()) . '">' . "\r\n"; ?>
+<?php echo '    <name>' . ($this->squad->getName() ? $this->escapeHtml($this->squad->getName()) : 'N/A') . '</name>' . "\r\n"; ?>
+<?php echo '    <email>' . ($this->squad->getEmail() ? $this->escapeHtml($this->squad->getEmail()) : 'N/A') . '</email>' . "\r\n"; ?>
+<?php echo '    <web>' . ($this->squad->getHomepage() ? $this->escapeHtml($this->squad->getHomepage()) : 'N/A') . '</web>' . "\r\n"; ?>
+<?php echo '    <picture>' . ($this->logoFile ? $this->logoFile : '') . '</picture>' . "\r\n"; ?>
+<?php echo '    <title>' . ($this->squad->getTitle() ? $this->escapeHtml($this->squad->getTitle()) : 'N/A') . '</title>' . "\r\n"; ?>
+<?php foreach($this->squad->getMembers() as $member ): ?>
+<?php echo '    <member id="' . $this->escapeHtml($member->getUuid()) . '" nick="' . $this->escapeHtml($member->getUsername()) . '">' . "\r\n"; ?>
+<?php echo '        <name>' . ($member->getName() ? $this->escapeHtml($member->getName()) : 'N/A') . '</name>' . "\r\n"; ?>
+<?php echo '        <email>' . ($member->getEmail() ? $this->escapeHtml($member->getEmail()) : 'N/A') . '</email>' . "\r\n"; ?>
+<?php echo '        <icq>' . ($member->getIcq() ? $this->escapeHtml($member->getIcq()) : 'N/A') . '</icq>' . "\r\n"; ?>
+<?php echo '        <remark>' . ($member->getRemark() ? $this->escapeHtml($member->getRemark()) : 'N/A') . '</remark>' . "\r\n"; ?>
+<?php echo '    </member>' . "\r\n"; ?>
+<?php endforeach; ?>
+<?php echo '</squad>'; ?>
