@@ -1,75 +1,124 @@
 <?php
+
 namespace Auth\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Rbac\Role\HierarchicalRoleInterface;
+use ZfcRbac\Permission\PermissionInterface;
 
 /**
- * Benutzer
- * 
+ * @ORM\Table(name="auth_role")
  * @ORM\Entity
- * @ORM\Table(name="auth_gruppen_a7d451")
- * @ORM\Entity(repositoryClass="Auth\Repository\Role")
- * @property int $id
- * @property string $name
- * @property int $parent
- * @property int $supervisor
- *
  */
-class Role {
-	
+class Role implements HierarchicalRoleInterface
+{
     /**
-     * @ORM\ManyToOne(targetEntity="Role", inversedBy="children")
-     * @ORM\JoinColumn(name="GRU_Parent", referencedColumnName="GRU_ID")
+     * @var int|null
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $parent;
-	
-	/**
-	 * @ORM\OneToMany(targetEntity="Role", mappedBy="parent")
-	 */
-	private $children;
-	
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer", name="GRU_ID")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
-
-	/**
-	 * @ORM\Column(type="string", name="GRU_Name")
-	 */
-	protected $name;
-	
-	/**
-	 * @ORM\Column(type="integer", name="GRU_Parent") 
-	 */
-	protected $parentId;
-	
-	/**
-	 * @ORM\Column(type="integer", name="GRU_Supervisor")
-	 */
-	protected $supervisor;
-	
-	/**
-	 * Magic getter to expose protected properties.
-	 *
-	 * @param string $property
-	 * @return mixed
-	 */
-	public function __get($property)
-	{
-		return $this->$property;
-	}
-	
-	/**
-	 * Magic setter to save protected properties.
-	 *
-	 * @param string $property
-	 * @param mixed $value
-	 */
-	public function __set($property, $value)
-	{
-		$this->$property = $value;
-	}
-	
+    protected $id;
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(type="string", length=48, unique=true)
+     */
+    protected $name;
+    /**
+     * @var HierarchicalRoleInterface[]|\Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Auth\Entity\Role")
+     * @ORM\JoinTable(name="auth_role_roles")
+     */
+    protected $children = [];
+    /**
+     * @var PermissionInterface[]|\Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Auth\Entity\Permission", indexBy="name", fetch="LAZY", cascade={"persist"})
+     * @ORM\JoinTable(name="auth_role_permission",
+     *      joinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="permission_id", referencedColumnName="id", unique=true)}
+     *      )
+     */
+    protected $permissions;
+    /**
+     * Init the Doctrine collection
+     */
+    public function __construct()
+    {
+        $this->children    = new ArrayCollection();
+        $this->permissions = new ArrayCollection();
+    }
+    /**
+     * Get the role identifier
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    /**
+     * Set the role name
+     *
+     * @param  string $name
+     * @return void
+     */
+    public function setName($name)
+    {
+        $this->name = (string) $name;
+    }
+    /**
+     * Get the role name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+    /**
+     * {@inheritDoc}
+     */
+    public function addChild(HierarchicalRoleInterface $child)
+    {
+        $this->children[] = $child;
+    }
+    /**
+     * {@inheritDoc}
+     */
+    public function addPermission($permission)
+    {
+        if (is_string($permission)) {
+            $permission = new Permission($permission);
+        }
+        $this->permissions[(string) $permission] = $permission;
+    }
+    /**
+     * {@inheritDoc}
+     */
+    public function hasPermission($permission)
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('name', (string) $permission));
+        $result   = $this->permissions->matching($criteria);
+        return count($result) > 0;
+    }
+    /**
+     * {@inheritDoc}
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+    /**
+     * {@inheritDoc}
+     */
+    public function hasChildren()
+    {
+        return !$this->children->isEmpty();
+    }
 }

@@ -1,11 +1,13 @@
 <?php
 namespace Auth\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Crypt\Key\Derivation\SaltedS2k;
+use Zend\Crypt\Key\Derivation\Pbkdf2;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Math\Rand;
 use Zend\Stdlib\ArraySerializableInterface;
+use ZfcRbac\Identity\IdentityInterface;
 
 /**
  * Benutzer
@@ -14,7 +16,7 @@ use Zend\Stdlib\ArraySerializableInterface;
  * @ORM\Table(name="ben_benutzer_91c48c")
  * @ORM\Entity(repositoryClass="Auth\Repository\Benutzer")
  */
-class Benutzer implements ArraySerializableInterface {
+class Benutzer implements ArraySerializableInterface, IdentityInterface {
 
     public function exchangeArray (Array $array)
     {
@@ -37,17 +39,6 @@ class Benutzer implements ArraySerializableInterface {
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
-	
-	/**
-	 * @ORM\Column(type="integer", name="GRU_ID") 
-	 */
-	protected $gruppenID;
-	
-	/**
-	 * @ORM\OneToOne(targetEntity="Role")
-	 * @ORM\JoinColumn(name="GRU_ID", referencedColumnName="GRU_ID")
-	 */
-	protected $gruppe;
 
 	/**
 	 * @ORM\Column(type="string", name="BEN_Username")
@@ -70,20 +61,97 @@ class Benutzer implements ArraySerializableInterface {
 	protected $disabled;
 
     /**
-     * @ORM\Column(type="string", name="BEN_LastLogin")
+     * @ORM\Column(type="datetime", name="BEN_LastLogin")
      */
     protected $lastLogin;
 
     /**
-     * @ORM\Column(type="string", name="BEN_Register")
+     * @ORM\Column(type="datetime", name="BEN_Register")
      */
     protected $registerDate;
-	
-	/**
-	 * holds if the user is logged in
-	 * @var bool
-	 */
-	protected $loggedIn = false;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Auth\Entity\Role")
+     * @ORM\JoinTable(name="auth_user_role",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="BEN_ID")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id", unique=true)}
+     *      )
+     */
+    protected $roles;
+
+    public function __construct()
+    {
+        $this->roles = new ArrayCollection;
+    }
+
+    /**
+     * Checks if the Account is Disabled
+     *
+     * @author  Marco Rieger
+     * @return bool
+     */
+    public function isAccountDisabled()
+    {
+        return (bool) $this->disabled;
+    }
+
+    /**
+     * Set a new Account Password
+     *
+     * @author  Marco Rieger
+     * @param $password
+     */
+    public function setPassword($password)
+    {
+        $salt = Rand::getBytes(32, true);
+        $salt = Pbkdf2::calc('sha256', $password, $salt, 100000, 32);
+        $bcryp = new Bcrypt();
+        $bcryp->setSalt($salt);
+        $this->password = $bcryp->create($password);
+    }
+
+    /**
+     * Check a Password against this User
+     *
+     * @param $password
+     * @return bool
+     */
+    public function checkAgainstPassword($password)
+    {
+        // verify old md5 passwords
+        if ($isOldValid = ($this->password == md5($password))) {
+            $this->setPassword($password);
+            return $isOldValid;
+        }
+
+        $bcrypt = new Bcrypt();
+        return $bcrypt->verify($password, $this->password);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    }
+    /**
+     * Adds a role
+     *
+     * @param Role $role
+     */
+    public function addRole(Role $role)
+    {
+        $this->roles->add($role);
+    }
 
     /**
      * @param mixed $email
@@ -106,7 +174,7 @@ class Benutzer implements ArraySerializableInterface {
      * @return \DateTime
      */
     public function getLastLogin(){
-        return new \DateTime( $this->lastLogin );
+        return $this->lastLogin;
     }
 
     public function setLastLogin($lastLogin){
@@ -127,7 +195,7 @@ class Benutzer implements ArraySerializableInterface {
      * @return \DateTime
      */
     public function getRegisterDate(){
-        return new \DateTime( $this->registerDate );
+        return $this->registerDate;
     }
 
     /**
@@ -208,32 +276,6 @@ class Benutzer implements ArraySerializableInterface {
     public function getLoggedIn()
     {
         return $this->loggedIn;
-    }
-
-    /**
-     * @param mixed $password
-     */
-    public function setPassword($password)
-    {
-        $salt = Rand::getBytes(32, true);
-        $salt = SaltedS2k::calc('sha256', $password, $salt, 100000);
-
-        $bcryp = new Bcrypt();
-        $bcryp->setSalt($salt);
-
-        $this->password = $bcryp->create($password);
-    }
-
-    /**
-     * Check a Password against this User
-     *
-     * @param $password
-     * @return bool
-     */
-    public function checkAgainstPassword( $password )
-    {
-        $bcrypt = new Bcrypt();
-        return $bcrypt->verify($password, $this->getPassword() );
     }
 
     /**
