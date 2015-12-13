@@ -55,8 +55,6 @@ class Module
             $urlLocale = 'en';
         }
 
-
-
         // ROUTER
         /** @var \Zend\Mvc\Router\Http\TreeRouteStack $router */
         $router = $e->getRouter();
@@ -87,7 +85,7 @@ class Module
         $router->setDefaultParam('locale', $usedLocaleShort);
         $translator->setLocale( $usedLocale );
         $translator->setFallbackLocale( $usedLocale );
-        $translator->addTranslationFile('phpArray', 'vendor/zendframework/zendframework/resources/languages/'.$usedLocaleShort.'/Zend_Validate.php', 'default', $usedLocale);
+        $translator->addTranslationFile('phpArray', 'vendor/zendframework/zend-i18n-resources/languages/'.$usedLocaleShort.'/Zend_Validate.php', 'default', $usedLocale);
 
         \Locale::setDefault( $usedLocale );
         AbstractValidator::setDefaultTranslator($translator);
