@@ -1,7 +1,17 @@
 <?php
 namespace Frontend\Startseite;
 
+use ZfcRbac\Guard\RouteGuard;
+
 return array (
+
+    'zfc_rbac' => [
+        'guards' => [
+            RouteGuard::class => [
+                'frontend/impressum' => ['Guest'],
+            ],
+        ],
+    ],
 
     /**
      * ROUTER

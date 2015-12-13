@@ -11,8 +11,6 @@ class SquadMemberController extends AbstractFrontendController
 
     public function editAction()
     {
-        $this->setAccess('frontend/squads/create');
-
         $squadID = (int) $this->params('id', null);
 
         $squadRepo = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');

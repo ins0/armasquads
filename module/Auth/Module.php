@@ -9,15 +9,6 @@ class Module
 {
     public function onBootstrap(EventInterface $e)
     {
-    	/*
-    	$application = $e->getApplication();
-    	$servicemanager = $application->getServiceManager();
-    	$eventManager = $application->getEventManager();
-    	$sharedEventManager = $eventManager->getSharedManager();
-    	 
-    	$authService = $servicemanager->get('AuthService');
-    	$eventManager->attach(MvcEvent::EVENT_ROUTE, array($authService, 'onRoute'), -100000 );
-    	*/
     }
 
     public function getConfig()

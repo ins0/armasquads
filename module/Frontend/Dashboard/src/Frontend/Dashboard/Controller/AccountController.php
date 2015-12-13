@@ -12,8 +12,6 @@ class AccountController extends AbstractFrontendController
 
     public function indexAction(){
 
-        $this->setAccess('frontend/dashboard/account');
-
         $form = new Account($this->getServiceLocator());
         if( $this->getRequest()->isPost() )
         {

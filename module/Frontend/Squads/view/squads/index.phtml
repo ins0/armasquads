@@ -65,26 +65,22 @@
         <div class="panel-body">
             <input type="text" class="squad-xml form-control" value="<?php echo 'http://' . $_SERVER['SERVER_NAME'] . ($this->url('frontend/user/squads/xml', array('id' => $squad->getPrivateId()))); ?>" id="inputDefault">
             <hr>
-            <?php if($this->hasAccess('frontend/squads/create') ): ?>
-                <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/edit', array('id'=>$squad->getId())) ?>">
-                    <span class="fa fa-edit"></span>
-                    <?php echo $this->translate('Edit'); ?>
-                </a>
-                <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/member', array('id'=>$squad->getId())) ?>">
-                    <span class="fa fa-users"></span>
-                    <?php echo $this->translate('Members'); ?>
-                </a>
-                <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/download', array('id'=>$squad->getId())) ?>">
-                    <span class="fa fa-cloud-download"></span>
-                    <?php echo $this->translate('Download'); ?>
-                </a>
-            <?php endif; ?>
-            <?php if($this->hasAccess('frontend/squads/delete') ): ?>
-                <a class="btn btn-danger btn-sm delete-confirm" href="<?php echo $this->url('frontend/user/squads/delete', array('id'=>$squad->getId())) ?>">
-                    <span class="fa fa-minus-circle"></span>
-                    <?php echo $this->translate('Delete'); ?>
-                </a>
-            <?php endif; ?>
+            <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/edit', array('id'=>$squad->getId())) ?>">
+                <span class="fa fa-edit"></span>
+                <?php echo $this->translate('Edit'); ?>
+            </a>
+            <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/member', array('id'=>$squad->getId())) ?>">
+                <span class="fa fa-users"></span>
+                <?php echo $this->translate('Members'); ?>
+            </a>
+            <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/download', array('id'=>$squad->getId())) ?>">
+                <span class="fa fa-cloud-download"></span>
+                <?php echo $this->translate('Download'); ?>
+            </a>
+            <a class="btn btn-danger btn-sm delete-confirm" href="<?php echo $this->url('frontend/user/squads/delete', array('id'=>$squad->getId())) ?>">
+                <span class="fa fa-minus-circle"></span>
+                <?php echo $this->translate('Delete'); ?>
+            </a>
         </div>
     </div>
 <?php endforeach; ?>

@@ -1,7 +1,18 @@
 <?php
 namespace Frontend\Api;
 
+use ZfcRbac\Guard\RouteGuard;
+
 return array (
+
+    'zfc_rbac' => [
+        'guards' => [
+            RouteGuard::class => [
+                'frontend/restapi' => ['Guest'],
+            ],
+        ],
+    ],
+
     /**
      * ROUTER
      */
