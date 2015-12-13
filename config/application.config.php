@@ -16,6 +16,7 @@ return array(
          * GENERIC
          */
         'Auth',
+        'ZfcRbac',
         'Application',
 
         /**
