@@ -2,10 +2,12 @@
 namespace Frontend\Login\Controller;
 
 use Auth\Entity\Benutzer;
+use Auth\Entity\Role;
+use Auth\Service\AuthenticationService;
 use Frontend\Application\Controller\AbstractFrontendController;
 use Frontend\Login\Form\Login;
-use Auth\Acl\Acl;
 use Frontend\Login\Form\Register;
+use Zend\Authentication\Result;
 use Zend\View\Model\ViewModel;
 use Racecore\GATracking\GATracking;
 use Racecore\GATracking\Tracking\Event;
@@ -23,27 +25,24 @@ class LoginController extends AbstractFrontendController
         $loginForm = new Login();
         $loginForm->init();
 
-        if( $this->request->isPost() ) {
+        if ($this->request->isPost()) {
 
             $registerForm->setData(
                 $this->getRequest()->getPost()
             );
 
-            if( $registerForm->isValid() )
-            {
+            if ($registerForm->isValid()) {
                 $data = $registerForm->getData();
 
                 $benutzer = new Benutzer();
-                $benutzer->setUsername( $data['username'] );
-                $benutzer->setPassword( $data['password'] );
-                $benutzer->setEmail( $data['email'] );
-                $benutzer->setDisabled( false );
-                $benutzer->setRegisterDate( date('c') );
+                $benutzer->setUsername($data['username']);
+                $benutzer->setPassword($data['password']);
+                $benutzer->setEmail($data['email']);
+                $benutzer->setDisabled(false);
+                $benutzer->setRegisterDate(new \DateTime);
+                $benutzer->addRole($this->getEntityManager()->getReference(Role::class, 2));
 
-                $gruppe = $this->getEntityManager()->getReference('Auth\Entity\Role', 1);
-                $benutzer->setGruppe($gruppe);
-
-                $this->getEntityManager()->persist( $benutzer );
+                $this->getEntityManager()->persist($benutzer);
                 $this->getEntityManager()->flush();
 
                 /** @var GATracking $analytics */
@@ -58,9 +57,9 @@ class LoginController extends AbstractFrontendController
                 $analytics->sendTracking($eventTracker);
 
                 // login
-                /** @var Acl $authService */
-                $authService = $this->getServiceLocator()->get('AuthService');
-                $authService->instantLogin( $benutzer );
+                /** @var AuthenticationService $authService */
+                $authService = $this->getServiceLocator()->get(AuthenticationService::class);
+                $authService->forceLogin($benutzer);
 
                 return $this->redirect()->toRoute('frontend/user/home');
 
@@ -84,26 +83,24 @@ class LoginController extends AbstractFrontendController
      *
      * @return ViewModel
      */
-    public function loginAction() {
+    public function loginAction()
+    {
 
-    	// wenn access vorhanden direkt weiter
-    	if( $this->hasAccess('frontend/dashboard/access') ) {
-    		return $this->redirect()->toRoute('frontend/user/home');
-    	}
+        if ($this->identity()) {
+            return $this->redirect()->toRoute('frontend/user/home');
+        }
 
-    	// form
+        // form
         $registerForm = new Register();
-    	$loginForm = new Login();
-    	$loginForm->init();
+        $loginForm = new Login();
+        $loginForm->init();
 
         // fallback uri
         $fallbackUrl = $this->Params()->fromQuery('fallback_url', false);
-        if( $fallbackUrl )
-        {
+        if ($fallbackUrl) {
             // check if fallback have no domain
-            $urlParse = parse_url( $fallbackUrl );
-            if( !$urlParse || !isset($urlParse['path'] ) )
-            {
+            $urlParse = parse_url($fallbackUrl);
+            if (!$urlParse || !isset($urlParse['path'])) {
                 // no valid fallback
                 $fallbackUrl = false;
             } else {
@@ -112,49 +109,41 @@ class LoginController extends AbstractFrontendController
             }
         }
 
-        if( $this->request->isPost() ) {
-    	
-    		$username = $this->request->getPost('email');
-    		$password = $this->request->getPost('password');
-    		
-    		$authService = $this->getServiceLocator()->get('AuthService');
-            $loggedIn = $authService->login( $username, $password);
+        if ($this->request->isPost()) {
 
-    		if( $loggedIn == Acl::LOGIN_WRONG ) {
+            $username = $this->request->getPost('email');
+            $password = $this->request->getPost('password');
 
-    			$this->Message()->addErrorMessage('FRONTEND_LOGIN_AUTH_WRONG');
+            $authService = $this->getServiceLocator()->get(AuthenticationService::class);
+            $authService->getAdapter()->setCredentials($username, $password);
 
-    		} elseif( $loggedIn == Acl::LOGIN_DISABLED ) {
+            /** @var Result $result */
+            $result = $authService->authenticate();
 
-    			$this->Message()->addInfoMessage('FRONTEND_LOGIN_AUTH_BANNED');
-    		
-    		} elseif ( $loggedIn == Acl::LOGIN_SUCCESS ) {
+            if ($result->isValid()) {
 
-    			// last login
-                /** @var Benutzer $benutzer */
-    			$benutzer = $this->identity();
-    			$benutzer->setLastLogin(date('c'));
-
-    			$this->getEntityManager()->merge( $benutzer );
-    			$this->getEntityManager()->flush();
-
-                if( $fallbackUrl )
-                {
+                if ($fallbackUrl) {
                     // redirect to fallback url
-                    return $this->redirect()->toUrl( $fallbackUrl );
-                } else {
-                    // redirect to user home
-                    return $this->redirect()->toRoute('frontend/user/home');
+                    return $this->redirect()->toUrl($fallbackUrl);
                 }
-    		}
-    	}
-    	 
-    	$viewModel = new ViewModel;
+
+                // redirect to user home
+                return $this->redirect()->toRoute('frontend/user/home');
+
+            } else {
+
+                $lastResultMessage = current($result->getMessages());
+                $this->flashMessenger()->addErrorMessage($lastResultMessage);
+                $loginForm->populateValues($this->getRequest()->getPost());
+            }
+        }
+
+        $viewModel = new ViewModel;
         $viewModel->setVariable('loginForm', $loginForm);
         $viewModel->setVariable('loginFallbackUrl', $fallbackUrl);
         $viewModel->setVariable('registerForm', $registerForm);
         $viewModel->setTemplate('/login/login.phtml');
-    	return $viewModel;
+        return $viewModel;
     }
 
     /**
@@ -162,16 +151,15 @@ class LoginController extends AbstractFrontendController
      *
      * @return mixed
      */
-    public function logoutAction(){
+    public function logoutAction()
+    {
+        $authService = $this->getServiceLocator()->get(AuthenticationService::class);
 
-        $authService = $this->getServiceLocator()->get('AuthService');
-
-        if( $authService->hasIdentity() ) {
-
+        if ($authService->hasIdentity()) {
             $authService->clearIdentity();
-            $this->Message()->addSuccessMessage('FRONTEND_LOGIN_AUTH_LOGOUT');
+            $this->flashMessenger()->addSuccessMessage('FRONTEND_LOGIN_AUTH_LOGOUT');
         }
 
-    	return $this->redirect()->toRoute('frontend');
+        return $this->redirect()->toRoute('frontend');
     }
 }
