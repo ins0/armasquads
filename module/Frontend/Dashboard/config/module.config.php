@@ -8,7 +8,10 @@ return array (
     'zfc_rbac' => [
         'guards' => [
             RouteGuard::class => [
-                'frontend/user/*' => ['User'],
+                'frontend/user' => ['User'],
+                'frontend/user/home' => ['User'],
+                'frontend/user/donate' => ['User'],
+                'frontend/user/account' => ['User'],
             ],
         ],
     ],

@@ -15,7 +15,6 @@ return array(
         'guards' => [
             RouteGuard::class => [
                 'frontend' => ['Guest'],
-                'frontend/user/*' => ['Benutzer'],
             ],
         ],
     ],

@@ -102,8 +102,8 @@
                                     <?php endif; ?>
                                     <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="<?php echo $this->ServerUrl('de') . $this->url(null, array(), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /> <?php echo \Locale::getDisplayName('de_DE'); ?></a></li>
-                                    <li><a href="<?php echo $this->ServerUrl('com') . $this->url(null, array(), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /> <?php echo \Locale::getDisplayName('en_EN'); ?></a></li>
+                                    <li><a href="<?php echo $this->ServerUrl('de') . $this->url('frontend', array(), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /> <?php echo \Locale::getDisplayName('de_DE'); ?></a></li>
+                                    <li><a href="<?php echo $this->ServerUrl('com') . $this->url('frontend', array(), true); ?>""><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /> <?php echo \Locale::getDisplayName('en_EN'); ?></a></li>
                                 </ul>
                             </li>
                         <?php endif; ?>
