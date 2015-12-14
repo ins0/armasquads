@@ -84,7 +84,7 @@ return [
             /**
              * Set the template name to render
              */
-            'template' => 'auth/error/403'
+            'template' => 'error/403'
         ],
 
         /**
@@ -105,13 +105,13 @@ return [
             /**
              * Set the route to redirect when user is disconnected (of course, it must exist!)
              */
-            'redirect_to_route_disconnected' => 'auth/login',
+            'redirect_to_route_disconnected' => 'frontend/login',
 
             /**
              * If a user is unauthorized and redirected to another route (login, for instance), should we
              * append the previous URI (the one that was unauthorized) in the query params?
              */
-            'append_previous_uri' => true,
+            'append_previous_uri' => false,
 
             /**
              * If append_previous_uri option is set to true, this option set the query key to use when
