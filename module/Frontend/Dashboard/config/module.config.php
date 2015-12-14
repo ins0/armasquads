@@ -1,7 +1,17 @@
 <?php
 namespace Frontend\Dashboard;
 
+use ZfcRbac\Guard\RouteGuard;
+
 return array (
+
+    'zfc_rbac' => [
+        'guards' => [
+            RouteGuard::class => [
+                'frontend/user/*' => ['User'],
+            ],
+        ],
+    ],
 
     /**
      * ROUTER
