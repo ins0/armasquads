@@ -36,9 +36,6 @@ class DashboardController extends AbstractFrontendController
     }
 
     public function indexAction(){
-
-        $this->setAccess('frontend/dashboard/access');
-
         $viewModel = new ViewModel();
         $viewModel->setTemplate('/dashboard/index.phtml');
 
@@ -47,8 +44,6 @@ class DashboardController extends AbstractFrontendController
 
     public function donateAction()
     {
-        $this->setAccess('frontend/dashboard/access');
-
         // collect some data
         $data = [];
 

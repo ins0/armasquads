@@ -26,21 +26,8 @@ class Module
 
     		if( $moduleNamespace == 'Frontend' ) {
 
-    			// frontend layout
-                // wenn der benutzer eingeloggt ist darf er das admin panel betreten?
-                $authService = $e->getApplication()->getServiceManager()->get('AuthService');
-
                 // normal layout
                 $controller->layout('layout/frontend');
-                /**
-                if( $authService->isLoggedIn() ) {
-                    // layout für registrierte user
-        			$controller->layout('layout/frontend/registered');
-                } else {
-                    // normal layout unregistriert
-                    $controller->layout('layout/frontend');
-                }
-                **/
     		}
 
     	}, 50 );

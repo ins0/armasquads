@@ -11,9 +11,6 @@ class SquadsController extends AbstractFrontendController
 {
 
     public function indexAction(){
-
-        $this->setAccess('frontend/squads/access');
-
         $squadRepo = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
         $userSquads = $squadRepo->findBy(array('user' => $this->identity() ), array('id' => 'desc'));
 
@@ -25,7 +22,6 @@ class SquadsController extends AbstractFrontendController
 
     public function downloadAction()
     {
-        $this->setAccess('frontend/squads/create');
         $squadID = $this->params('id', 0);
 
         $squadRepo = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
@@ -78,8 +74,6 @@ class SquadsController extends AbstractFrontendController
 
     public function deleteAction()
     {
-        $this->setAccess('frontend/squads/delete');
-
         $squadID = $this->params('id', 0);
 
         $squadRepo = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
@@ -113,8 +107,6 @@ class SquadsController extends AbstractFrontendController
 
     public function editAction()
     {
-        $this->setAccess('frontend/squads/create');
-
         $squadID = $this->params('id', 0);
 
         $squadRepo = $this->getEntityManager()->getRepository('Frontend\Squads\Entity\Squad');
@@ -215,8 +207,6 @@ class SquadsController extends AbstractFrontendController
 
     public function createAction()
     {
-        $this->setAccess('frontend/squads/create');
-
         $form  = new SquadForm();
         $form->setEntityManager(
             $this->getEntityManager()

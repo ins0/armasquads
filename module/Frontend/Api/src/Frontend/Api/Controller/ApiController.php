@@ -23,8 +23,6 @@ class ApiController extends AbstractFrontendController
 
     public function indexAction(){
 
-        $this->requireLogin();
-
         $keyRepo = $this->getEntityManager()->getRepository('Frontend\Api\Entity\Key');
         $userKey = $keyRepo->findOneBy(array('user' => $this->identity() ));
 

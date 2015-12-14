@@ -45,6 +45,6 @@
     <div class="panel-body">
         We are currently hosting <b><?php echo $this->totalSquads; ?></b> ArmA squad files with total <b><?php echo $this->totalSquadsMembers; ?></b> Squad Members from <b><?php echo $this->totalUsers; ?></b> registered users. So much so wow.<br />
         <hr>
-        Last registered user: <b><?php echo $this->escapeHtml($this->lastUser->getUsername()); ?></b> - Hey man! Welcome on board!
+        Last registered user: <b><?php echo $this->escapeHtml($this->lastUser ? $this->lastUser->getUsername() : '-'); ?></b> - Hey man! Welcome on board!
     </div>
 </div>
