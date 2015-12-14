@@ -1,10 +1,18 @@
 <?php
+
 namespace Frontend\Squads;
 
+use ZfcRbac\Guard\RouteGuard;
+
 return array (
-    /**
-     * ROUTER
-     */
+    'zfc_rbac' => [
+        'guards' => [
+            RouteGuard::class => [
+                'frontend/user/squads/xml*' => ['Guest'],
+                'frontend/user/squads*' => ['User'],
+            ],
+        ],
+    ],
     'router' => array (
         'routes' => array (
             'frontend' => array (
