@@ -29,8 +29,8 @@
             ->appendStylesheet('//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
             ->appendStylesheet($this->basePath() . '/css/frontend/jquery.modal.css')
             ->appendStylesheet($this->basePath() . '/css/frontend/style.css')
-            ->appendAlternate($this->ServerUrl('de') . $this->url(null, array(), true), null, null, array('hreflang' => 'de'))
-            ->appendAlternate($this->ServerUrl('com') . $this->url(null, array(), true), null, null, array('hreflang' => 'en'));
+            ->appendAlternate($this->ServerUrl('de') . $this->url('frontend', array(), true), null, null, array('hreflang' => 'de'))
+            ->appendAlternate($this->ServerUrl('com') . $this->url('frontend', array(), true), null, null, array('hreflang' => 'en'));
         ?>
     </head>
     <body>
@@ -75,8 +75,8 @@
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="<?php echo $this->ServerUrl('de') . $this->url(null, array(), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /> <?php echo \Locale::getDisplayName('de_DE'); ?></a></li>
-                                    <li><a href="<?php echo $this->ServerUrl('com') . $this->url(null, array(), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /> <?php echo \Locale::getDisplayName('en_EN'); ?></a></li>
+                                    <li><a href="<?php echo $this->ServerUrl('de') . $this->url('frontend', array(), array(), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/de.png'); ?>" /> <?php echo \Locale::getDisplayName('de_DE'); ?></a></li>
+                                    <li><a href="<?php echo $this->ServerUrl('com') . $this->url('frontend', array(), array(), true); ?>"><img src="<?php echo $this->basePath('images/frontend/icons/languages/us.png'); ?>" /> <?php echo \Locale::getDisplayName('en_EN'); ?></a></li>
                                 </ul>
                             </li>
                             <li class="label-primary">
