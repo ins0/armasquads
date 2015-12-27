@@ -9,7 +9,7 @@ return array (
         'guards' => [
             RouteGuard::class => [
                 'frontend/restapi' => ['Guest'],
-                'frontend/user' => ['User'],
+                'frontend/user*' => ['User'],
                 'frontend/api*' => ['Guest'],
             ],
         ],
