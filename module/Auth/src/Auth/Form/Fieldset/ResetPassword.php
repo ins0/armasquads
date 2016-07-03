@@ -1,6 +1,7 @@
 <?php
 namespace Auth\Form\Fieldset;
 
+use Auth\Service\AuthenticationService;
 use Zend\Form\Element\Password;
 use Zend\Form\Element\Submit;
 use Zend\Form\Fieldset;
@@ -60,7 +61,7 @@ class ResetPassword extends Fieldset implements InputFilterProviderInterface
         if( ! $value )
             return false;
 
-        $authService = $this->sm->get('AuthService');
+        $authService = $this->sm->get(AuthenticationService::class);
         return $authService->getIdentity()->checkAgainstPassword($value);
     }
 
