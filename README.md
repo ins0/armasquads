@@ -5,9 +5,9 @@ Introduction
 ------------
 Website for creating Squad XML files in ArmA based games
 
-##Installation
+## Installation
 
-###Main Setup
+### Main Setup
 
  * Clone this project `git clone git://github.com/ins0/armasquads.git`
  * Run `composer install` to initialize your vendors
