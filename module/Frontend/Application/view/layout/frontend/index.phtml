@@ -91,7 +91,7 @@
                             </li>
                         <?php else: ?>
                             <li><a href="<?php echo $this->url('frontend/restapi'); ?>"><?php echo $this->translate('FRONTEND_API_NAV_LABEL'); ?></a></li>
-                            <li class="active"><a href="#ex1" rel="modal:open"><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGIN'); ?></a></li>
+                            <li class="active"><a href="<?php echo $this->url('frontend/login'); ?>><?php echo $this->translate('FRONTEND_LOGIN_NAV_LOGIN'); ?></a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <?php if(\Locale::getDefault() == 'en_EN'): ?>
@@ -160,13 +160,10 @@
                     <?php echo $this->translate('FRONTEND_LAYOUT_DELETE_MODAL_ABORT'); ?>
                 </a>
             </div>
-        <?php else: ?>
-            <?php echo $this->partial('frontend/login/form/modal'); ?>
         <?php endif; ?>
         <!-- container end -->
         <!-- JS TIME! -->
         <?php echo $this->headscript(); ?>
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php echo $this->inlinescript(); ?>
         <?php if( $_SERVER['REMOTE_ADDR'] != '127.0.0.1' ): ?>
             <script>
