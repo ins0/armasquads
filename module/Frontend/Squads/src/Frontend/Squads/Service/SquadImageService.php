@@ -37,7 +37,7 @@ class SquadImageService
             $imageTGA->destroy();
             $imageTGA->clear();
 
-            $command = 'cd '.escapeshellcmd(escapeshellarg(dirname($sourceImage))).' && wine /var/www/racecore/library/TexView2/Pal2PacE.exe ' . escapeshellcmd(escapeshellarg(basename($tgaPath))) . ' ' . escapeshellcmd(escapeshellarg(basename($tgaPath, '.tga') . '.paa'));
+            $command = 'cd '.escapeshellcmd(escapeshellarg(dirname($sourceImage))).' && wine /var/www/armasquads/tool/ImageToPAA/ImageToPAA.exe ' . escapeshellcmd(escapeshellarg(basename($tgaPath))) . ' ' . escapeshellcmd(escapeshellarg(basename($tgaPath, '.tga') . '.paa'));
             exec($command, $response);
 
             @unlink($tgaPath);
@@ -59,7 +59,7 @@ class SquadImageService
     {
         Try {
             // convert to paa
-            $command = 'cd '.escapeshellcmd(escapeshellarg(dirname($sourceImage))).' && wine /var/www/racecore/library/TexView2/Pal2PacE.exe ' . escapeshellcmd(escapeshellarg(basename($sourceImage))) . ' ' . escapeshellcmd(escapeshellarg(basename($sourceImage, '.png') . '.paa'));
+            $command = 'cd '.escapeshellcmd(escapeshellarg(dirname($sourceImage))).' && wine /var/www/armasquads/tool/ImageToPAA/ImageToPAA.exe ' . escapeshellcmd(escapeshellarg(basename($sourceImage))) . ' ' . escapeshellcmd(escapeshellarg(basename($sourceImage, '.png') . '.paa'));
             exec($command, $response);
 
             if( isset($response[1]) && strstr(strtolower($response[1]), "error" ))
