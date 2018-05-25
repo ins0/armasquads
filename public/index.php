@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 define('REQUEST_MICROTIME', microtime(true));
 define('ROOT_PATH', __DIR__);
 
