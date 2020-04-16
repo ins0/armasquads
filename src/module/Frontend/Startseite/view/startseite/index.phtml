@@ -1,0 +1,46 @@
+<?php $this->headtitle('ARMA Squad Generator and Hoster'); ?>
+<div class="jumbotron">
+    <h1><?php echo $this->translate('FRONTEND_STARTSEITE_HEADING'); ?></h1>
+    <p><?php echo $this->translate('FRONTEND_STARTSEITE_SUBHEADING'); ?></p>
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-info">
+            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_ARMA'); ?>
+        </li>
+        <li class="list-group-item">
+            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_FREE'); ?>
+        </li>
+        <li class="list-group-item">
+            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('RESTFul API Interface'); ?>
+        </li>
+        <li class="list-group-item">
+            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_TIME'); ?>
+        </li>
+        <li class="list-group-item">
+            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_SQUADS'); ?>
+        </li>
+        <li class="list-group-item">
+            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_HOSTING'); ?>
+        </li>
+        <li class="list-group-item">
+            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_XML'); ?>
+        </li>
+        <li class="list-group-item">
+            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_CONVERT'); ?>
+        </li>
+        <li class="list-group-item">
+            <span class="text-success fa fa-check-square-o"></span> <?php echo $this->translate('FRONTEND_STARTSEITE_LIST_SUPPORT'); ?>
+        </li>
+
+    </ul>
+    <p><a href="<?php echo $this->url('frontend/user/squads/create'); ?>" class="btn btn-primary btn-lg"> <?php echo $this->translate('FRONTEND_STARTSEITE_BUTTON_START'); ?></a></p>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Statistics</h3>
+    </div>
+    <div class="panel-body">
+        We are currently hosting <b><?php echo $this->totalSquads; ?></b> ArmA squad files with total <b><?php echo $this->totalSquadsMembers; ?></b> Squad Members from <b><?php echo $this->totalUsers; ?></b> registered users. So much so wow.<br />
+        <hr>
+        Last registered user: <b><?php echo $this->escapeHtml($this->lastUser ? $this->lastUser->getUsername() : '-'); ?></b> - Hey man! Welcome on board!
+    </div>
+</div>

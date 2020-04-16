@@ -1,0 +1,45 @@
+version: "3.3"
+
+services:
+  web:
+    build:
+      context: ./
+    image: armasquads
+    container_name: armasquads_web
+    networks:
+      - armasquads
+    ports:
+      - "8080:80"
+    environment:
+      MYSQL_HOST: 'armasquads_mysql'
+      MYSQL_USER: 'armasquads'
+      MYSQL_PWD: 'armasquads'
+      MYSQL_DB: 'db'
+      ANALYTICS_ID: ''
+    volumes:
+      - ./data_armasquads/init/.:/entrypoint.d:ro
+      - ./data_armasquads/bitools:/bitools:ro
+      - ./.git:/tmp/stats/.git:ro
+      - ./data_armasquads/uploads:/app/public/uploads
+    depends_on:
+      - db
+  db:
+    image: mariadb:10.4
+    container_name: armasquads_mysql
+    command: "--innodb_use_native_aio=0"
+    environment:
+      MYSQL_USER: 'armasquads'
+      MYSQL_PASSWORD: 'armasquads'
+      MYSQL_DATABASE: 'db'
+      MYSQL_ROOT_PASSWORD: '!__CHANGE_ME_PLS__!'
+    networks:
+      - armasquads
+    ports:
+      - '127.0.0.1:3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - ./data_mysql:/var/lib/mysql
+
+networks:
+  armasquads:

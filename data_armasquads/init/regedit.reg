@@ -1,0 +1,5 @@
+[HKEY_LOCAL_MACHINE\SOFTWARE\BIStudio]
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\BIStudio\TextureConvert]
+"MAIN"="Z:\\bitools\\"
+"configPath"="Z:\\bitools\\texconvert.cfg"
