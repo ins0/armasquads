@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="panel-body">
-            <input type="text" class="squad-xml form-control" value="<?php echo 'http://' . $_SERVER['HTTP_HOST'] . ($this->url('frontend/user/squads/xml', array('id' => $squad->getPrivateId()))); ?>" id="inputDefault">
+            <input type="text" class="squad-xml form-control" value="<?php echo 'https://' . $_SERVER['HTTP_HOST'] . ($this->url('frontend/user/squads/xml', array('id' => $squad->getPrivateId()))); ?>" id="inputDefault">
             <hr>
             <a class="btn btn-primary btn-sm" href="<?php echo $this->url('frontend/user/squads/edit', array('id'=>$squad->getId())) ?>">
                 <span class="fa fa-edit"></span>
