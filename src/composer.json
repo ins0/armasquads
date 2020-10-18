@@ -48,7 +48,7 @@
         "zendframework/zend-validator": "~2.5",
         "zendframework/zend-view": "~2.5",
         "zendframework/zendgdata": "~2.0",
-        "beberlei/DoctrineExtensions": "~0.3",
+        "beberlei/doctrineextensions": "~0.3",
         "doctrine/doctrine-orm-module": "~0.9"
     },
     "require-dev": {
