@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <?php
-        // titel
+        // title
         echo $this->headtitle(strtolower($_SERVER['HTTP_HOST']), 'APPEND')
             ->setAutoEscape(true)
             ->setSeparator(' » ');
@@ -14,11 +14,8 @@
             ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
 
         $this->headScript()
-            ->appendFile('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
-            ->appendFile('//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
-            ->appendFile($this->basePath() . '/js/frontend/jquery.modal.js')
-            ->prependFile($this->basePath() . '/js/frontend/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
-            ->prependFile($this->basePath() . '/js/frontend/html5shiv.js',   'text/javascript', array('conditional' => 'lt IE 9',));
+            ->appendFile('//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')
+            ->appendFile('//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js');
 
         // css
         echo $this->headLink()
@@ -26,7 +23,6 @@
             ->appendStylesheet('//fonts.googleapis.com/css?family=Open+Sans:400,300,700')
             ->appendStylesheet('//fonts.googleapis.com/css?family=Lato:400,700')
             ->appendStylesheet('//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css')
-            ->appendStylesheet($this->basePath() . '/css/frontend/jquery.modal.css')
             ->appendStylesheet($this->basePath() . '/css/frontend/style.css')
             ->appendAlternate($this->ServerUrl('de') . $this->url('frontend', array(), true), null, null, array('hreflang' => 'de'))
             ->appendAlternate($this->ServerUrl('com') . $this->url('frontend', array(), true), null, null, array('hreflang' => 'en'));
