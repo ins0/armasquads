@@ -3,7 +3,7 @@
 return [
     'zf2-analytics' => [
         // google universal analytics account id (e.g. UA-XXXXXXXX-X)
-        'account_id' => $_SERVER['ANALYTICS_ID'] ?? "CHANGE_ME",
+        'account_id' => $_SERVER['ANALYTICS_ID'],
 
         'client_create_random_id' => true, // create a random client id when the class can't fetch the current client id or none is provided by "client_id"
         //'client_fallback_id' => 555, // fallback client id when cid was not found and random client id is off

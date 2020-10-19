@@ -15,7 +15,7 @@ services:
       MYSQL_USER: 'armasquads'
       MYSQL_PWD: 'armasquads'
       MYSQL_DB: 'db'
-      ANALYTICS_ID: ''
+      ANALYTICS_ID: 'CHANGE_ME_PLS'
     volumes:
       - ./data_armasquads/init/.:/entrypoint.d:ro
       - ./data_armasquads/bitools:/bitools:ro
@@ -31,7 +31,7 @@ services:
       MYSQL_USER: 'armasquads'
       MYSQL_PASSWORD: 'armasquads'
       MYSQL_DATABASE: 'db'
-      MYSQL_ROOT_PASSWORD: '!__CHANGE_ME_PLS__!'
+      MYSQL_ROOT_PASSWORD: 'CHANGE_ME_PLS'
     networks:
       - armasquads
     ports:
