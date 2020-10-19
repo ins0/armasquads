@@ -39,7 +39,6 @@ COPY --chown=application:application ./src/composer.json composer.json
 RUN composer install --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
 
 COPY --chown=application:application ./src/. /app
-COPY --chown=application:application ./.git/. /app/.git/
 RUN mkdir ./data/cache/
 
 RUN find /app -type d -exec chmod 755 {} \;
