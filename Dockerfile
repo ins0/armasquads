@@ -1,4 +1,4 @@
-FROM webdevops/php-nginx:7.2
+FROM webdevops/php-nginx:7.4
 
 ENV WEB_DOCUMENT_ROOT /app/public
 ENV USERNAME wine
@@ -9,12 +9,13 @@ RUN dpkg --add-architecture i386 \
     && apt-get -y install --no-install-recommends \
          software-properties-common \
          ca-certificates \
-         mysql-client \
+         default-mysql-client \
          wine32\
          winetricks \
          winbind \
          git-extras \
          rubygems \
+         bsdmainutils \
     && apt-get -y update
 
 RUN apt-get -y remove --purge software-properties-common \
@@ -38,6 +39,9 @@ COPY --chown=application:application ./src/composer.json composer.json
 RUN composer install --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
 
 COPY --chown=application:application ./src/. /app
+COPY --chown=application:application ./.git/. /app/.git/
+RUN mkdir ./data/cache/
+
 RUN find /app -type d -exec chmod 755 {} \;
 RUN find /app -type f -exec chmod 644 {} \;
 
