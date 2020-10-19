@@ -1,4 +1,4 @@
-[HKEY_LOCAL_MACHINE\SOFTWARE\BIStudio]
+REGEDIT4
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\BIStudio\TextureConvert]
 "MAIN"="Z:\\bitools\\"
