@@ -1,0 +1,76 @@
+<?php
+/** @var Armasquads\View $this */
+/** @var list<Armasquads\Model\Squad> $squads */
+/** @var array<int, int> $memberCounts */
+/** @var Armasquads\Service\LogoService $logos */
+$this->headTitle('My Squads');
+?>
+<div class="page-header">
+    <h1 id="type"><?= $this->escapeHtml($this->translate('My Squads')) ?></h1>
+</div>
+
+<a class="btn btn-success btn-sm" href="<?= $this->url('squad-create') ?>">
+    <?= $this->escapeHtml($this->translate('Create new Squad-File')) ?>
+</a>
+<br /><br /><br />
+<div class="panel panel-default">
+    <div class="panel-body">
+        <legend>Search</legend>
+        <input id="squadSearch" placeholder="Squad Name" type="text" style="width: 100%" value="" />
+    </div>
+</div>
+<br />
+<legend>Display <span id="squad-count-display"><?= count($squads) ?></span> out of <?= count($squads) ?> Squads</legend>
+<div id="squads">
+<?php foreach ($squads as $squad): ?>
+    <?php $members = $memberCounts[$squad->id] ?? 0; ?>
+    <?php $png = $logos->pngPath($squad); ?>
+    <div class="panel panel-default squad">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-12 col-sm-1 text-center">
+                    <?php if ($png !== null): ?>
+                        <img width="64" height="64" style="border: 1px solid rgba(0, 0, 0, 0.1)" src="<?= $this->escapeHtml($this->basePath($png)) ?>" class="img-circle" />
+                    <?php else: ?>
+                        <span style="font-size: 64px" class="fa fa-times-circle"></span>
+                    <?php endif; ?>
+                </div>
+                <div class="col-xs-12 col-sm-7">
+                    <h3 class="list-group-item-heading">
+                        »<em><?= $this->escapeHtml($squad->tag) ?></em>«
+                        <b class="squad-name"><?= $this->escapeHtml($squad->name) ?></b>
+                    </h3>
+                    <p class="list-group-item-text">
+                        <?= $this->escapeHtml($squad->title) ?>
+                    </p>
+                </div>
+                <div class="col-xs-12 col-sm-4 text-right-not-xs">
+                    <hr class="visible-xs">
+                    <?= $members . ' ' . $this->escapeHtml($this->translatePlural('Member', 'Members', $members)) ?><br />
+                    <?= $this->escapeHtml($squad->email) ?>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <input type="text" class="squad-xml form-control" value="<?= $this->escapeHtml('https://' . $this->host() . $this->url('squad-xml', ['id' => $squad->privateId])) ?>" readonly>
+            <hr>
+            <a class="btn btn-primary btn-sm" href="<?= $this->url('squad-edit', ['id' => $squad->id]) ?>">
+                <span class="fa fa-edit"></span>
+                <?= $this->escapeHtml($this->translate('Edit')) ?>
+            </a>
+            <a class="btn btn-primary btn-sm" href="<?= $this->url('squad-members', ['id' => $squad->id]) ?>">
+                <span class="fa fa-users"></span>
+                <?= $this->escapeHtml($this->translate('Members')) ?>
+            </a>
+            <a class="btn btn-primary btn-sm" href="<?= $this->url('squad-download', ['id' => $squad->id]) ?>">
+                <span class="fa fa-cloud-download"></span>
+                <?= $this->escapeHtml($this->translate('Download')) ?>
+            </a>
+            <a class="btn btn-danger btn-sm delete-confirm" href="<?= $this->escapeHtml($this->url('squad-delete', ['id' => $squad->id], ['token' => $this->csrfToken()])) ?>">
+                <span class="fa fa-minus-circle"></span>
+                <?= $this->escapeHtml($this->translate('Delete')) ?>
+            </a>
+        </div>
+    </div>
+<?php endforeach; ?>
+</div>

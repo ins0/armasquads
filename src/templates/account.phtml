@@ -1,0 +1,51 @@
+<?php
+/** @var Armasquads\View $this */
+/** @var list<string> $errors */
+$this->headTitle('My Account');
+$user = $this->identity();
+?>
+<?= $this->formErrors($errors) ?>
+<div class="page-header">
+    <h1 id="type">
+        <img src="<?= $this->escapeHtml($user->gravatar(64)) ?>" class="img-circle" />
+        »<em><?= $this->escapeHtml($user->username) ?></em>«
+    </h1>
+</div>
+<legend>Profile Details</legend>
+<ul class="list-group">
+    <li class="list-group-item">
+        <span class="badge"><strong><?= $this->escapeHtml($user->username) ?></strong></span>
+        Username
+    </li>
+    <li class="list-group-item">
+        <span class="badge"><strong><?= $this->escapeHtml($user->email) ?></strong></span>
+        E-Mail
+    </li>
+    <li class="list-group-item">
+        <span class="badge"><strong><?= $this->escapeHtml($this->dateFormat($user->registerDate)) ?></strong></span>
+        Register Date
+    </li>
+    <li class="list-group-item">
+        <span class="badge"><strong><?= $this->escapeHtml($this->dateFormat($user->lastLogin)) ?></strong></span>
+        Last Login
+    </li>
+</ul>
+<form method="post" class="form-horizontal" role="form" id="account" name="account" action="<?= $this->url('account') ?>">
+    <?= $this->csrfField() ?>
+    <fieldset>
+        <legend>Account Password change</legend>
+        <?php foreach (['oldPass' => 'LABEL_CHANGE_PASSWORD_OLD_PASS', 'newPass' => 'LABEL_CHANGE_PASSWORD_NEW_PASS', 'newPassConfirm' => 'LABEL_CHANGE_PASSWORD_NEW_CONFIRM'] as $field => $label): ?>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="<?= $field ?>"><?= $this->escapeHtml($this->translate($label)) ?></label>
+                <div class="col-lg-2">
+                    <input type="password" name="<?= $field ?>" id="<?= $field ?>" class="form-control" value="">
+                </div>
+            </div>
+        <?php endforeach; ?>
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <input type="submit" name="resetPasswordSubmit" class="btn btn-default" value="<?= $this->escapeHtml($this->translate('LABEL_CHANGE_PASSWORD_SUBMIT')) ?>">
+            </div>
+        </div>
+    </fieldset>
+</form>

@@ -47,4 +47,7 @@ return array (
   'FRONTEND_SQUAD_LOGO_INVALID_FORMAT' => 'Upload a logo in one of the following dimensions: 16x16/32x32/64x64/128x128/256x256',
   'FRONTEND_API_NAV_LABEL' => '<span class="fa fa-puzzle-piece"></span> API',
   'ERROR_FORM_CSRF' => 'The form you submitted is invalid. Please try again.',
+  'FRONTEND_SQUAD_URL_INVALID_FORMAT' => 'Please enter a complete URL, e.g. https://example.com',
+  'FRONTEND_SQUAD_EMAIL_INVALID_FORMAT' => 'Please enter a valid email address.',
+  'FRONTEND_SQUAD_LOGO_INVALID_EXTENSION' => 'Supported logo formats: png, jpg, jpeg, gif',
 );

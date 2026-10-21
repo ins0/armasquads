@@ -1,0 +1,80 @@
+<?php
+/** @var Armasquads\View $this */
+/** @var ?Armasquads\Model\Squad $squad */
+/** @var ?string $logoPng */
+/** @var array<string, mixed> $values */
+/** @var list<string> $errors */
+$creating = $squad === null;
+$heading = $creating ? 'Create new Squad' : 'Edit Squad';
+$this->headTitle($heading);
+$action = $creating ? $this->url('squad-create') : $this->url('squad-edit', ['id' => $squad->id]);
+$value = fn (string $field): string => $this->escapeHtml(is_scalar($values[$field] ?? null) ? $values[$field] : '');
+$fields = [
+    'name' => ['text', 'Squad Name *'],
+    'title' => ['text', 'Squad Title'],
+    'homepage' => ['url', 'Squad Homepage'],
+    'email' => ['email', 'Squad Email'],
+];
+?>
+<?= $this->formErrors($errors) ?>
+<div class="page-header">
+    <h1 id="type"><?= $this->escapeHtml($this->translate($heading)) ?></h1>
+</div>
+<form method="post" class="form-horizontal" name="squad" id="squad" enctype="multipart/form-data" action="<?= $action ?>">
+    <?= $this->csrfField() ?>
+    <fieldset>
+        <div class="form-group">
+            <label class="col-lg-2 control-label" for="tag">Squad Tag *</label>
+            <div class="col-lg-1">
+                <input type="text" name="tag" id="tag" class="form-control" value="<?= $value('tag') ?>">
+            </div>
+        </div>
+        <?php foreach ($fields as $field => [$type, $label]): ?>
+            <div class="form-group">
+                <label class="col-lg-2 control-label" for="<?= $field ?>"><?= $label ?></label>
+                <div class="col-lg-10">
+                    <input type="<?= $type ?>" name="<?= $field ?>" id="<?= $field ?>" class="form-control" value="<?= $value($field) ?>">
+                </div>
+            </div>
+        <?php endforeach; ?>
+        <div class="form-group">
+            <label class="col-lg-2 control-label" for="logo">Logo</label>
+            <div class="col-lg-10">
+                <input type="file" name="logo" id="logo" class="form-control" accept="image/jpg,image/jpeg,image/gif,image/png">
+                <?php if (!$creating && $squad->logo): ?>
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-8">
+                                <p class="text-primary"><?= $this->escapeHtml($this->translate('Current Squad Image')) ?>:</p>
+                                <hr>
+                                <div class="checkbox">
+                                    <input type="hidden" name="deleteLogo" value="0">
+                                    <input type="checkbox" name="deleteLogo" id="deleteLogo" value="1">
+                                    <label class="checkbox-inline" for="deleteLogo">Delete Image</label>
+                                </div>
+                                <br /><br />
+                            </div>
+                            <div class="col-xs-12 col-sm-4">
+                                <?php if ($logoPng !== null): ?>
+                                    <img class="img-responsive" style="border: 1px solid rgba(0, 0, 0, 0.1)" src="<?= $this->escapeHtml($this->basePath($logoPng)) ?>" />
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php if (!$creating): ?><br /><?php endif; ?>
+        <div class="form-group">
+            <div class="col-lg-10 col-lg-offset-2">
+                <a class="btn btn-danger" href="<?= $this->url('squads') ?>">Cancel</a>
+                <?php if ($creating): ?>
+                    <button type="submit" class="btn btn-success"><?= $this->escapeHtml($this->translate('Create my awesome Squad!')) ?></button>
+                <?php else: ?>
+                    <button type="submit" class="btn btn-primary"><?= $this->escapeHtml($this->translate('Edit my awesome Squad!')) ?></button>
+                <?php endif; ?>
+            </div>
+        </div>
+        <label>* required fields</label>
+    </fieldset>
+</form>

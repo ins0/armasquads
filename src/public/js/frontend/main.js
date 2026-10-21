@@ -1,126 +1,71 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
-    //modal delete confirm
-    $('.delete-confirm, .btn-confirm').click(function(event){
-        event.preventDefault();
-        var delLnk = $(this).attr('href');
-        var delJs = $(this).data('confirm');
-        $('div#delete-confirm').on($.modal.BLOCK, function(){
-            $(this).find("[rel^='modal:confirm']").click(function(e){
-                e.preventDefault();
-                if( delJs ) {
-                    var returnBool = new Function(delJs)();
-                    returnBool == true ? document.location = delLnk : $.modal.close();
-                } else {
-                    document.location = delLnk;
-                }
-            });
-        }).modal();
+    // delete confirm
+    var deleteConfirmMessage = $('script[data-delete-confirm]').data('delete-confirm');
+    $('.delete-confirm').on('click', function (event) {
+        if (!window.confirm(deleteConfirmMessage)) {
+            event.preventDefault();
+        }
     });
 
     // squad link full copy
-    $('#squads div.squad .squad-xml').bind('click', function(){
+    $('#squads div.squad .squad-xml').on('click', function () {
         $(this).select();
     });
 
     // squad search box
-    $('#squadSearch').bind('keyup', function(){
-        var searchTerm = $(this).val();
+    $('#squadSearch').on('keyup', function () {
+        var searchTerm = $(this).val().toLowerCase();
         var squads = $('#squads div.squad');
-        var display = squads.length;
+        var display = 0;
 
-        if( searchTerm.length <= 0 )
-        {
-            squads.show();
-            $('#squad-count-display').html(display);
-            return;
-        }
-
-        display = 0;
-        squads.show().each(function(){
-            var squadName = $(this).find('b.squad-name').html();
-            if( squadName.toLowerCase().indexOf(searchTerm.toLowerCase()) == -1 )
-            {
-                $(this).hide();
-            } else {
-                display++;
-            }
+        squads.each(function () {
+            var visible = $(this).find('b.squad-name').text().toLowerCase().indexOf(searchTerm) !== -1;
+            $(this).toggle(visible);
+            display += visible ? 1 : 0;
         });
 
-        $('#squad-count-display').show().html(display);
+        $('#squad-count-display').text(display);
     });
 
     // member search box
-    $('#memberSearch').bind('keyup', function(){
-        var searchTerm = $(this).val();
+    $('#memberSearch').on('keyup', function () {
+        var searchTerm = $(this).val().toLowerCase();
         var members = $('div.members div.member');
-        var display = members.length;
+        var display = 0;
 
-        if( searchTerm.length <= 0 )
-        {
-            members.show();
-            $('#member-count-display').html(display);
-            return;
-        }
-
-        display = 0;
-        members.show().each(function(){
+        members.each(function () {
             var playerUid = $(this).find('input.uuid').val().toLowerCase();
             var playerUsername = $(this).find('input.username').val().toLowerCase();
-
-            if( playerUid.indexOf(searchTerm) == -1 && playerUsername.indexOf(searchTerm) == -1 )
-            {
-                $(this).hide();
-            } else {
-                display++;
-            }
+            var visible = playerUid.indexOf(searchTerm) !== -1 || playerUsername.indexOf(searchTerm) !== -1;
+            $(this).toggle(visible);
+            display += visible ? 1 : 0;
         });
 
-        $('#member-count-display').show().html(display);
+        $('#member-count-display').text(display);
+    });
+
+    // add and remove members
+    var memberIndex = $('.members-collection > div.member').length;
+
+    function updateMemberCount() {
+        var count = $('.members-collection > div.member').length;
+        $('span.member-count, #member-count-display').text(count);
+        $('.members p.no-member-hint').toggle(count === 0);
+    }
+
+    $('.add-member').on('click', function () {
+        var template = $('#member-template').html().replace(/__index__/g, String(memberIndex++));
+        var member = $(template).hide();
+        $('.members-collection').append(member);
+        member.slideDown();
+        updateMemberCount();
+    });
+
+    $('.members-collection').on('click', '.remove-member', function () {
+        $(this).closest('div.member').slideUp(function () {
+            $(this).remove();
+            updateMemberCount();
+        });
     });
 });
-
-// add member
-function add_member()
-{
-    // current fields
-    var currentCount = $('.members > .members-collection > div.item').length;
-
-    // form template
-    var template = $('.template-member').clone();
-    template.find('div.panel-body').html(template.data('template') + "<label>* required fields</label>");
-    template.removeAttr('data-template');
-    template.removeClass('template-member');
-    template = template.get(0).outerHTML.replace(/__index__/g, currentCount);
-
-    // update form
-    $('.members > .members-collection').append(template);
-    $('.members p.no-member-hint').hide();
-    $('.members > .members-collection > div').last().stop(true, true).slideDown();
-
-    // update member info
-    $('span.member-count').html(currentCount + 1);
-
-    return false;
-}
-// remove member
-function remove_member(obj)
-{
-    $(obj).parent().parent().slideUp(function(){
-        // remove field
-        $(this).remove();
-
-        // current member fields
-        var currentCount = $('.members > .members-collection > div.item').length;
-
-        // update member info
-        $('span.member-count').html(currentCount);
-
-        // show info for empty squad
-        if( currentCount == 0 )
-        {
-            $('.members p.no-member-hint').show();
-        }
-    });
-    return false;
-}

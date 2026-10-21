@@ -54,6 +54,14 @@ abstract class Controller
         return is_array($body) ? $body : [];
     }
 
+    /**
+     * @param array<string, mixed> $post
+     */
+    protected static function field(array $post, string $name): string
+    {
+        return is_string($post[$name] ?? null) ? $post[$name] : '';
+    }
+
     protected static function isValidCsrf(ServerRequestInterface $request): bool
     {
         return Context::of($request)->session->isValidCsrfToken(self::post($request)['csrf'] ?? null);

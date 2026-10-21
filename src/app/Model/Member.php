@@ -32,21 +32,6 @@ final readonly class Member
     }
 
     /**
-     * @param array<string, mixed> $data
-     */
-    public static function fromInput(array $data): self
-    {
-        return new self(
-            uuid: (string) $data['uuid'],
-            username: $data['username'] ?? null,
-            name: $data['name'] ?? null,
-            email: $data['email'] ?? null,
-            icq: $data['icq'] ?? null,
-            remark: $data['remark'] ?? null,
-        );
-    }
-
-    /**
      * @return array{uuid: string, username: ?string, name: ?string, email: ?string, icq: ?string, remark: ?string}
      */
     public function toArray(): array

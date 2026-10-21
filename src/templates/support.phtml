@@ -1,0 +1,54 @@
+<?php
+/** @var Armasquads\View $this */
+/** @var array<string, string|int> $data */
+$this->headTitle('Support this Service');
+$paypalButton = $this->locale() === 'de_DE' ? 'R3W67WZACP28J' : 'ZA7Y7D995JQH4';
+?>
+<div class="page-header">
+    <h1 id="type">Help Keep This Service Alive</h1>
+</div>
+<p class="text-justify">
+    This Service is completely free of any charge. Help to keep this project alive would be very welcome.<br />
+</p>
+<hr>
+<br />
+<h2>Give Feedback!</h2>
+<blockquote>
+    <p>With <a target="_blank" href="http://forums.bistudio.com/showthread.php?178233-Online-Squad-xml-Editor-WebApp">your feedback</a> we can make this site even better or <a href="https://github.com/ins0/armasquads/issues">report a bug or request a new feature</a>.</p>
+    <p>Of course you can ping me by mail: <a href="mailto:ins0@racecore.de">ins0@racecore.de</a></p>
+</blockquote>
+<br />
+<h2>Support with a small donation</h2>
+<blockquote>
+    <p>
+        This server and domains needs payed every month, so spend a few bugs helps directly to keep this service alive.<br />
+        Or maybe you just want to say thanks, spend me a coffee or just a little present for the hole time i spend into this project :)<br />
+        <br />
+        <a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=<?= $paypalButton ?>">
+            <img alt="" border="0" src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" />
+        </a>
+    </p>
+</blockquote>
+<hr>
+<h3 class="text-center">
+    <b>Thanks for your support!</b><br />
+    <br />
+    Here are some stats about this Project.
+</h3>
+<hr/>
+<br />
+<div class="row">
+    <div class="col-xs-12 col-sm-6">
+        <ul class="list-group">
+            <?php foreach ($data as $key => $value): ?>
+            <li class="list-group-item">
+                <span class="badge"><b><?= $this->escapeHtml($value) ?></b></span>
+                &nbsp;&nbsp;&nbsp;<?= $this->escapeHtml($key) ?>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <img class="img-responsive" src="<?= $this->basePath('images/frontend/stats.jpg') ?>" /><br />
+    </div>
+</div>

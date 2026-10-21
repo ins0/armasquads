@@ -48,4 +48,8 @@ return array (
   'FRONTEND_SQUAD_LOGO_INVALID_FORMAT' => 'Das Logo muss folgende Abmasse haben: 16x16/32x32/64x64/128x128/256x256',
   'FRONTEND_API_NAV_LABEL' => '<span class="fa fa-puzzle-piece"></span> API',
   'ERROR_FORM_CSRF' => 'Das von Ihnen abgesendete Formular ist ungültig. Bitte versuchen Sie es erneut.',
+  'FRONTEND_SQUAD_URL_INVALID_FORMAT' => 'Bitte gib eine vollständige URL ein, z. B. https://example.com',
+  'FRONTEND_SQUAD_EMAIL_INVALID_FORMAT' => 'Bitte gib eine gültige E-Mail-Adresse ein.',
+  'FRONTEND_SQUAD_LOGO_INVALID_EXTENSION' => 'Es werden folgende Logos unterstützt: png,jpg,jpeg,gif',
+  'PlayerID already exists in this squad!' => 'Diese PlayerID gibt es in diesem Squad schon!',
 );
