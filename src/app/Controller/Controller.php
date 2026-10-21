@@ -62,6 +62,34 @@ abstract class Controller
         return is_string($post[$name] ?? null) ? $post[$name] : '';
     }
 
+    /**
+     * Only a local path is accepted as redirect target, so the parameter cannot send users to another site.
+     */
+    protected static function localPath(mixed $url): ?string
+    {
+        if (!is_string($url) || $url === '') {
+            return null;
+        }
+
+        $path = parse_url($url, PHP_URL_PATH);
+        if (!is_string($path) || !str_starts_with($path, '/') || str_starts_with($path, '//') || str_contains($path, '\\')) {
+            return null;
+        }
+
+        return $path;
+    }
+
+    /**
+     * The nginx-proxy in front of the container appends the client address to X-Forwarded-For.
+     */
+    protected static function clientIp(ServerRequestInterface $request): string
+    {
+        $forwarded = array_map(trim(...), explode(',', $request->getHeaderLine('X-Forwarded-For')));
+        $last = end($forwarded);
+
+        return $last !== false && $last !== '' ? $last : (string) ($request->getServerParams()['REMOTE_ADDR'] ?? '');
+    }
+
     protected static function isValidCsrf(ServerRequestInterface $request): bool
     {
         return Context::of($request)->session->isValidCsrfToken(self::post($request)['csrf'] ?? null);

@@ -25,7 +25,7 @@ final class AuthController extends Controller
             return self::redirectToRoute($request, $response, 'dashboard');
         }
 
-        $fallbackUrl = self::fallbackUrl($request->getQueryParams()['fallback_url'] ?? null);
+        $fallbackUrl = self::localPath($request->getQueryParams()['fallback_url'] ?? null);
         $post = self::post($request);
         $email = is_string($post['email'] ?? null) ? $post['email'] : '';
 
@@ -156,22 +156,5 @@ final class AuthController extends Controller
         }
 
         return $validator;
-    }
-
-    /**
-     * Only a local path is accepted as redirect target after the login.
-     */
-    private static function fallbackUrl(mixed $url): ?string
-    {
-        if (!is_string($url) || $url === '') {
-            return null;
-        }
-
-        $path = parse_url($url, PHP_URL_PATH);
-        if (!is_string($path) || !str_starts_with($path, '/') || str_starts_with($path, '//') || str_contains($path, '\\')) {
-            return null;
-        }
-
-        return $path;
     }
 }

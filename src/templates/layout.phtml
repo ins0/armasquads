@@ -60,8 +60,8 @@ $languageIcon = $this->locale() === 'en_EN' ? 'us.png' : 'de.png';
                                 <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?= $this->escapeHtml($this->serverUrl('de') . $this->url('home')) ?>"><img src="<?= $this->basePath('images/frontend/icons/languages/de.png') ?>" /> <?= $this->escapeHtml($this->languageName('de_DE')) ?></a></li>
-                                <li><a href="<?= $this->escapeHtml($this->serverUrl('com') . $this->url('home')) ?>"><img src="<?= $this->basePath('images/frontend/icons/languages/us.png') ?>" /> <?= $this->escapeHtml($this->languageName('en_EN')) ?></a></li>
+                                <li><a href="<?= $this->escapeHtml($this->languageUrl('de')) ?>"><img src="<?= $this->basePath('images/frontend/icons/languages/de.png') ?>" /> <?= $this->escapeHtml($this->languageName('de_DE')) ?></a></li>
+                                <li><a href="<?= $this->escapeHtml($this->languageUrl('en')) ?>"><img src="<?= $this->basePath('images/frontend/icons/languages/us.png') ?>" /> <?= $this->escapeHtml($this->languageName('en_EN')) ?></a></li>
                             </ul>
                         </li>
                         <?php if ($this->identity()): ?>

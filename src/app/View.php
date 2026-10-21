@@ -34,6 +34,7 @@ final class View
         private readonly ?User $identity,
         private readonly string $host,
         private readonly string $scheme,
+        private readonly string $path,
     ) {
     }
 
@@ -116,6 +117,18 @@ final class View
         }
 
         return $this->scheme . '://' . $host;
+    }
+
+    /**
+     * Link to the same page in the other language. Logged in users go through the login handoff.
+     */
+    public function languageUrl(string $language): string
+    {
+        if ($this->identity !== null) {
+            return $this->url('language', ['language' => $language], ['path' => $this->path]);
+        }
+
+        return $this->serverUrl($language === 'de' ? 'de' : 'com') . $this->path;
     }
 
     public function host(): string

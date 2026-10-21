@@ -8,6 +8,7 @@ use Armasquads\Api\ApiController;
 use Armasquads\Controller\AccountController;
 use Armasquads\Controller\ApiDocsController;
 use Armasquads\Controller\AuthController;
+use Armasquads\Controller\LanguageController;
 use Armasquads\Controller\MemberController;
 use Armasquads\Controller\PageController;
 use Armasquads\Controller\SquadController;
@@ -17,6 +18,7 @@ use Armasquads\Middleware\RequireUser;
 use Armasquads\Repository\ApiKeyRepository;
 use Armasquads\Repository\SquadRepository;
 use Armasquads\Repository\UserRepository;
+use Armasquads\Service\LoginHandoff;
 use Armasquads\Service\LogoService;
 use Armasquads\Service\SquadFiles;
 use Slim\App;
@@ -45,6 +47,7 @@ final class Bootstrap
 
         $pages = new PageController($users, $squads, $config->publicPath . '/uploads/logos', $config->templatePath . '/news');
         $auth = new AuthController($users);
+        $language = new LanguageController(new LoginHandoff(sys_get_temp_dir() . '/armasquads-login-handoff'), $users);
         $account = new AccountController($users);
         $apiDocs = new ApiDocsController($keys);
         $squadPages = new SquadController($squads, $logos, $squadFiles);
@@ -52,13 +55,15 @@ final class Bootstrap
         $files = new SquadFileController($squads, $logos, $squadFiles);
         $api = new ApiController($config, $keys, $squads, $logos);
 
-        $app->group('', function (RouteCollectorProxy $web) use ($pages, $auth, $account, $apiDocs, $squadPages, $members, $requireUser): void {
+        $app->group('', function (RouteCollectorProxy $web) use ($pages, $auth, $language, $account, $apiDocs, $squadPages, $members, $requireUser): void {
             $web->get('/', [$pages, 'home'])->setName('home');
             $web->get('/impressum', [$pages, 'impressum'])->setName('impressum');
             $web->map(['GET', 'POST'], '/login', [$auth, 'login'])->setName('login');
             $web->map(['GET', 'POST'], '/register', [$auth, 'register'])->setName('register');
             $web->get('/logout', [$auth, 'logout'])->setName('logout');
             $web->get('/RESTful/api', [$apiDocs, 'public'])->setName('api-docs');
+            $web->get('/language/{language:de|en}', [$language, 'switch'])->setName('language');
+            $web->get('/language/handoff', [$language, 'handoff'])->setName('language-handoff');
 
             $web->group('/user', function (RouteCollectorProxy $user) use ($pages, $account, $apiDocs, $squadPages, $members): void {
                 $user->get('', [$pages, 'dashboard'])->setName('user');

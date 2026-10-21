@@ -42,7 +42,7 @@ final readonly class ContextMiddleware implements MiddlewareInterface
         $session = Session::start($scheme === 'https');
         $translator = Translator::forHost($host, $this->config->languagePath);
         $user = $session->userId() !== null ? $this->users->find($session->userId()) : null;
-        $view = new View($this->config->templatePath, $this->routeParser, $translator, $session, $user, $host, $scheme);
+        $view = new View($this->config->templatePath, $this->routeParser, $translator, $session, $user, $host, $scheme, $request->getUri()->getPath());
 
         return $request->withAttribute(Context::class, new Context($session, $translator, $user, $view));
     }
