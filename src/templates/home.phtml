@@ -1,0 +1,33 @@
+<?php
+/** @var Armasquads\View $this */
+/** @var ?Armasquads\Model\User $lastUser */
+/** @var int $totalUsers */
+/** @var int $totalSquads */
+/** @var int $totalSquadsMembers */
+$this->headTitle('ARMA Squad Generator and Hoster');
+?>
+<div class="jumbotron">
+    <h1><?= $this->translate('FRONTEND_STARTSEITE_HEADING') ?></h1>
+    <p><?= $this->translate('FRONTEND_STARTSEITE_SUBHEADING') ?></p>
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-info">
+            <span class="text-success fa fa-check-square-o"></span> <?= $this->translate('FRONTEND_STARTSEITE_LIST_ARMA') ?>
+        </li>
+        <?php foreach (['FRONTEND_STARTSEITE_LIST_FREE', 'RESTFul API Interface', 'FRONTEND_STARTSEITE_LIST_TIME', 'FRONTEND_STARTSEITE_LIST_SQUADS', 'FRONTEND_STARTSEITE_LIST_HOSTING', 'FRONTEND_STARTSEITE_LIST_XML', 'FRONTEND_STARTSEITE_LIST_CONVERT', 'FRONTEND_STARTSEITE_LIST_SUPPORT'] as $feature): ?>
+            <li class="list-group-item">
+                <span class="text-success fa fa-check-square-o"></span> <?= $this->translate($feature) ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <p><a href="<?= $this->url('squad-create') ?>" class="btn btn-primary btn-lg"> <?= $this->translate('FRONTEND_STARTSEITE_BUTTON_START') ?></a></p>
+</div>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Statistics</h3>
+    </div>
+    <div class="panel-body">
+        We are currently hosting <b><?= $totalSquads ?></b> ArmA squad files with total <b><?= $totalSquadsMembers ?></b> Squad Members from <b><?= $totalUsers ?></b> registered users. So much so wow.<br />
+        <hr>
+        Last registered user: <b><?= $this->escapeHtml($lastUser ? $lastUser->username : '-') ?></b> - Hey man! Welcome on board!
+    </div>
+</div>

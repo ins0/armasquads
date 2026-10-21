@@ -1,0 +1,6 @@
+.git
+.idea
+data_armasquads
+data_mysql
+src/vendor
+src/.phpunit.cache

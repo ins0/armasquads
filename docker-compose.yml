@@ -1,5 +1,3 @@
-version: "3.3"
-
 services:
   web:
     build:
@@ -15,11 +13,7 @@ services:
       MYSQL_USER: 'armasquads'
       MYSQL_PWD: 'armasquads'
       MYSQL_DB: 'db'
-      ANALYTICS_ID: 'CHANGE_ME_PLS'
     volumes:
-      - ./data_armasquads/init/.:/entrypoint.d:ro
-      - ./data_armasquads/bitools:/bitools:ro
-      - ./.git:/tmp/stats/.git:ro
       - ./data_armasquads/uploads:/app/public/uploads
     depends_on:
       - db
@@ -36,10 +30,9 @@ services:
       - armasquads
     ports:
       - '127.0.0.1:3306:3306'
-    expose:
-      - '3306'
     volumes:
       - ./data_mysql:/var/lib/mysql
+      - ./docker/mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
 
 networks:
   armasquads:

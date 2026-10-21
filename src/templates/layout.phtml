@@ -1,0 +1,128 @@
+<?php
+/** @var Armasquads\View $this */
+/** @var string $content */
+$languageIcon = $this->locale() === 'en_EN' ? 'us.png' : 'de.png';
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <?= $this->renderTitle() ?>
+
+        <meta name="description" content="<?= $this->escapeHtml($this->translate('FRONTEND_META_DESCRIPTION')) ?>" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link href="//netdna.bootstrapcdn.com/bootswatch/3.3.4/yeti/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="<?= $this->basePath('css/frontend/style.css') ?>" media="screen" rel="stylesheet" type="text/css" />
+        <link href="<?= $this->escapeHtml($this->serverUrl('de') . $this->url('home')) ?>" hreflang="de" rel="alternate" />
+        <link href="<?= $this->escapeHtml($this->serverUrl('com') . $this->url('home')) ?>" hreflang="en" rel="alternate" />
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-top" role="navigation">
+            <div>
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="<?= $this->url('home') ?>">
+                        <img width="60px" style="display: inline-block;" src="<?= $this->basePath('images/frontend/Arma3_Trans_Logo.png') ?>" alt="Arma"/>
+                        <span class="hidden-xs">
+                            <?= $this->translate('FRONTEND_NAV_BRAND') ?>
+                        </span>
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <?php if ($this->identity()): ?>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><?= $this->translate('FRONTEND_APPLICATION_NAV_MENUE') ?></b> <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="<?= $this->url('account') ?>"><?= $this->translate('FRONTEND_ACCOUNT_NAV_LABEL') ?></a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="<?= $this->url('dashboard') ?>"><?= $this->translate('FRONTEND_DASHBOARD_NAV_LABEL') ?></a></li>
+                                    <li><a href="<?= $this->url('squads') ?>"><?= $this->translate('FRONTEND_SQUADS_NAV_LABEL') ?></a></li>
+                                    <li><a href="<?= $this->url('user-api') ?>"><?= $this->translate('FRONTEND_API_NAV_LABEL') ?></a></li>
+                                    <li><a href="<?= $this->url('support') ?>"><?= $this->translate('FRONTEND_SUPPORT_NAV_LABEL') ?></a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="<?= $this->url('logout') ?>"><?= $this->translate('FRONTEND_LOGIN_NAV_LOGOUT') ?></a></li>
+                                </ul>
+                            </li>
+                        <?php else: ?>
+                            <li><a href="<?= $this->url('api-docs') ?>"><?= $this->translate('FRONTEND_API_NAV_LABEL') ?></a></li>
+                            <li class="active"><a href="<?= $this->url('login') ?>"><?= $this->translate('FRONTEND_LOGIN_NAV_LOGIN') ?></a></li>
+                        <?php endif; ?>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="<?= $this->basePath('images/frontend/icons/languages/' . $languageIcon) ?>" />
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<?= $this->escapeHtml($this->serverUrl('de') . $this->url('home')) ?>"><img src="<?= $this->basePath('images/frontend/icons/languages/de.png') ?>" /> <?= $this->escapeHtml($this->languageName('de_DE')) ?></a></li>
+                                <li><a href="<?= $this->escapeHtml($this->serverUrl('com') . $this->url('home')) ?>"><img src="<?= $this->basePath('images/frontend/icons/languages/us.png') ?>" /> <?= $this->escapeHtml($this->languageName('en_EN')) ?></a></li>
+                            </ul>
+                        </li>
+                        <?php if ($this->identity()): ?>
+                            <li class="label-primary">
+                                <?php if ($this->locale() === 'de_DE'): ?>
+                                    <a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=R3W67WZACP28J">
+                                        <span class="fa fa-paypal"></span> Spenden
+                                    </a>
+                                <?php else: ?>
+                                    <a target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=ZA7Y7D995JQH4">
+                                        <span class="fa fa-paypal"></span> Donation
+                                    </a>
+                                <?php endif; ?>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container-fluid" style="overflow: hidden;">
+            <a class="hidden-xs" href="https://github.com/ins0/armasquads"><img style="z-index:100;position: absolute; top: 45px; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
+            <div class="row">
+                <div class="main-content col-xs-12">
+                    <?= $this->flashMessages() ?>
+                    <?= $content ?>
+                </div>
+            </div>
+            <footer>
+                <hr>
+                <div class="alert alert-dismissable alert-warning">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <?= $this->translate('FRONTEND_LAYOUT_GITHUB_HINT') ?>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 text-right">
+                            <a href="https://github.com/ins0/armasquads.de/issues" target="_blank">
+                                <img src="<?= $this->basePath('images/frontend/github_logo.png') ?>" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul class="list-unstyled">
+                            <li class="pull-right"><a href="#top">Back to top</a></li>
+                        </ul>
+                        <p>This website is not affiliated or authorized by Bohemia Interactive a.s. Bohemia Interactive, ARMA, DAYZ and all associated logos and designs are trademarks or registered trademarks of Bohemia Interactive a.s.</p>
+                        <br />
+                        <p>Created with <span class="fa fa-heart"></span> by <a href="http://racecore.de" target="_blank">racecore.de</a></p>
+                        <p>Don't have a copy of Arma 3? Buy it on <a target="_blank" href="http://store.steampowered.com/app/107410/">Steam</a>!</p>
+                        <p>Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow">Font Awesome</a>.</p>
+                        <p><a href="<?= $this->url('impressum') ?>"><?= $this->translate('FRONTEND_IMPRESSUM_HEADING') ?></a></p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <?php if ($this->identity()): ?>
+            <script type="text/javascript" src="<?= $this->basePath('js/frontend/main.js') ?>?v=<?= (int) @filemtime(__DIR__ . '/../public/js/frontend/main.js') ?>" data-delete-confirm="<?= $this->escapeHtml($this->translate('FRONTEND_LAYOUT_DELETE_MODAL')) ?>"></script>
+        <?php endif; ?>
+    </body>
+</html>

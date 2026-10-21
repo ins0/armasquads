@@ -1,57 +1,37 @@
-FROM webdevops/php-nginx:7.4
+FROM webdevops/php-nginx:8.4 AS armake
 
-ENV WEB_DOCUMENT_ROOT /app/public
-ENV USERNAME wine
+ARG ARMAKE_COMMIT=e4940fa
 
-# DEP
-RUN dpkg --add-architecture i386 \
-    && apt-get -y update \
-    && apt-get -y install --no-install-recommends \
-         software-properties-common \
-         ca-certificates \
-         default-mysql-client \
-         wine32\
-         winetricks \
-         winbind \
-         git-extras \
-         rubygems \
-         bsdmainutils \
-    && apt-get -y update
+# The Makefile predates GNU make 4.3 (.RECIPEPREFIX) and GCC 10 (-fno-common by default).
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends build-essential bison flex git libssl-dev \
+    && git clone https://github.com/KoffeinFlummi/armake.git /tmp/armake \
+    && git -C /tmp/armake checkout "$ARMAKE_COMMIT" \
+    && sed -i -e '1d' -e 's/^    /\t/' -e 's/^CFLAGS = /CFLAGS = -fcommon /' /tmp/armake/Makefile \
+    && make -C /tmp/armake \
+    && install -m 0755 /tmp/armake/bin/armake /usr/local/bin/armake
 
-RUN apt-get -y remove --purge software-properties-common \
-    && apt-get -y autoremove --purge \
-    && apt-get -y clean \
-    && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
+FROM composer:2 AS vendor
 
-RUN useradd -u 1001 -d /home/${USERNAME} -m -s /bin/bash wine \
-    && mkdir /tmp/.X11-unix \
-    && chmod 1777 /tmp/.X11-unix
+WORKDIR /app
+COPY src/composer.json src/composer.lock ./
+RUN composer install --no-dev --no-interaction --no-progress --no-scripts --no-autoloader --ignore-platform-reqs
+COPY src/app ./app
+RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
 
-RUN curl -sS https://getcomposer.org/installer | \
-    php -- --install-dir=/usr/bin/ --filename=composer
+FROM webdevops/php-nginx:8.4
 
-RUN gem install git_time_extractor
+ENV WEB_DOCUMENT_ROOT=/app/public
 
-# APP
-WORKDIR /app/
+RUN rm -f /usr/local/etc/php/conf.d/00-ioncube.ini
 
-COPY --chown=application:application ./src/composer.json composer.json
-RUN composer install --prefer-dist --no-scripts --no-dev --no-autoloader && rm -rf /root/.composer
+COPY --from=armake /usr/local/bin/armake /usr/local/bin/armake
+COPY docker/nginx/conf.d/ /opt/docker/etc/nginx/conf.d/
+COPY docker/nginx/vhost.common.d/ /opt/docker/etc/nginx/vhost.common.d/
 
-COPY --chown=application:application ./src/. /app
-RUN mkdir ./data/cache/
-
-RUN find /app -type d -exec chmod 755 {} \;
-RUN find /app -type f -exec chmod 644 {} \;
-
-RUN groupadd volumes -g 999
-RUN usermod -a -G volumes application
-RUN usermod -a -G volumes www-data
-
-RUN composer dump-autoload --no-scripts --no-dev --optimize
-
-USER application
-ENV WINEARCH win32
-RUN winecfg
-
-USER root
+WORKDIR /app
+COPY --chown=application:application src/app ./app
+COPY --chown=application:application src/lang ./lang
+COPY --chown=application:application src/public ./public
+COPY --chown=application:application src/templates ./templates
+COPY --from=vendor --chown=application:application /app/vendor ./vendor

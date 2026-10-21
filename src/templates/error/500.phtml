@@ -1,0 +1,13 @@
+<?php
+/** @var Armasquads\View $this */
+/** @var ?Throwable $exception */
+?>
+<h1><?= $this->escapeHtml($this->translate('An error occurred')) ?></h1>
+<h2><?= $this->escapeHtml($this->translate('An error occurred during execution; please try again later.')) ?></h2>
+<?php if ($exception !== null): ?>
+    <hr/>
+    <h3><?= $this->escapeHtml($exception::class) ?></h3>
+    <pre><?= $this->escapeHtml($exception->getFile() . ':' . $exception->getLine()) ?></pre>
+    <pre><?= $this->escapeHtml($exception->getMessage()) ?></pre>
+    <pre><?= $this->escapeHtml($exception->getTraceAsString()) ?></pre>
+<?php endif; ?>
