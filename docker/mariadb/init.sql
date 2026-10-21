@@ -6,7 +6,9 @@ CREATE TABLE `api_keys_s83dks` (
   `KEY_LastRequest` datetime DEFAULT NULL,
   `KEY_Requests` int(20) NOT NULL DEFAULT 0,
   `BEN_ID` int(11) NOT NULL,
-  PRIMARY KEY (`KEY_ID`)
+  PRIMARY KEY (`KEY_ID`),
+  UNIQUE KEY `uniq_key` (`KEY_Value`),
+  KEY `idx_user` (`BEN_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 CREATE TABLE `auth_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -32,7 +34,8 @@ CREATE TABLE `auth_role_roles` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 CREATE TABLE `auth_user_role` (
   `user_id` int(255) NOT NULL,
-  `role_id` int(11) NOT NULL
+  `role_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`,`role_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 CREATE TABLE `ben_benutzer_91c48c` (
   `BEN_ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -43,7 +46,9 @@ CREATE TABLE `ben_benutzer_91c48c` (
   `BEN_Disabled` tinyint(1) NOT NULL DEFAULT 0,
   `BEN_LastLogin` timestamp NULL DEFAULT NULL,
   `BEN_Register` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`BEN_ID`)
+  PRIMARY KEY (`BEN_ID`),
+  KEY `idx_email` (`BEN_Email`),
+  KEY `idx_username` (`BEN_Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE TABLE `sqa_squad_member_4de785` (
   `SQA_ID` int(11) NOT NULL,
@@ -66,7 +71,9 @@ CREATE TABLE `sqa_squads_6d4c2s` (
   `SQA_Title` varchar(255) DEFAULT NULL,
   `SQA_Homepage` varchar(255) DEFAULT NULL,
   `SQA_Email` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`SQA_ID`)
+  PRIMARY KEY (`SQA_ID`),
+  UNIQUE KEY `uniq_private_id` (`SQA_PrivateID`),
+  KEY `idx_user` (`BEN_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `auth_role` VALUES (1,'Guest',NULL,NULL),(2,'User',1,NULL),(4,'Admin',NULL,NULL);
