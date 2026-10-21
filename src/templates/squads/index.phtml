@@ -6,21 +6,21 @@
 $this->headTitle('My Squads');
 ?>
 <div class="page-header">
-    <h1 id="type"><?= $this->escapeHtml($this->translate('My Squads')) ?></h1>
+    <h1 id="type"><?= $this->t('My Squads') ?></h1>
 </div>
 
 <a class="btn btn-success btn-sm" href="<?= $this->url('squad-create') ?>">
-    <?= $this->escapeHtml($this->translate('Create new Squad-File')) ?>
+    <?= $this->t('Create new Squad-File') ?>
 </a>
 <br /><br /><br />
 <div class="panel panel-default">
     <div class="panel-body">
-        <legend>Search</legend>
-        <input id="squadSearch" placeholder="Squad Name" type="text" style="width: 100%" value="" />
+        <legend><?= $this->t('Search') ?></legend>
+        <input id="squadSearch" placeholder="<?= $this->t('Squad Name') ?>" type="text" style="width: 100%" value="" />
     </div>
 </div>
 <br />
-<legend>Display <span id="squad-count-display"><?= count($squads) ?></span> out of <?= count($squads) ?> Squads</legend>
+<legend><?= sprintf($this->t('Display %s out of %s Squads'), '<span id="squad-count-display">' . count($squads) . '</span>', count($squads)) ?></legend>
 <div id="squads">
 <?php foreach ($squads as $squad): ?>
     <?php $members = $memberCounts[$squad->id] ?? 0; ?>
@@ -56,19 +56,19 @@ $this->headTitle('My Squads');
             <hr>
             <a class="btn btn-primary btn-sm" href="<?= $this->url('squad-edit', ['id' => $squad->id]) ?>">
                 <span class="fa fa-edit"></span>
-                <?= $this->escapeHtml($this->translate('Edit')) ?>
+                <?= $this->t('Edit') ?>
             </a>
             <a class="btn btn-primary btn-sm" href="<?= $this->url('squad-members', ['id' => $squad->id]) ?>">
                 <span class="fa fa-users"></span>
-                <?= $this->escapeHtml($this->translate('Members')) ?>
+                <?= $this->t('Members') ?>
             </a>
             <a class="btn btn-primary btn-sm" href="<?= $this->url('squad-download', ['id' => $squad->id]) ?>">
                 <span class="fa fa-cloud-download"></span>
-                <?= $this->escapeHtml($this->translate('Download')) ?>
+                <?= $this->t('Download') ?>
             </a>
             <a class="btn btn-danger btn-sm delete-confirm" href="<?= $this->escapeHtml($this->url('squad-delete', ['id' => $squad->id], ['token' => $this->csrfToken()])) ?>">
                 <span class="fa fa-minus-circle"></span>
-                <?= $this->escapeHtml($this->translate('Delete')) ?>
+                <?= $this->t('Delete') ?>
             </a>
         </div>
     </div>

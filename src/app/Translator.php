@@ -32,6 +32,14 @@ final class Translator
         return $this->locale;
     }
 
+    /**
+     * "de" or "en".
+     */
+    public function language(): string
+    {
+        return substr($this->locale, 0, 2);
+    }
+
     public function translate(string $message): string
     {
         return $this->messages[$message] ?? $message;

@@ -43,7 +43,7 @@ final class Bootstrap
         $context = new ContextMiddleware($config, $routeParser, $users);
         $requireUser = new RequireUser($responseFactory, $routeParser);
 
-        $pages = new PageController($users, $squads, $config->publicPath . '/uploads/logos');
+        $pages = new PageController($users, $squads, $config->publicPath . '/uploads/logos', $config->templatePath . '/news');
         $auth = new AuthController($users);
         $account = new AccountController($users);
         $apiDocs = new ApiDocsController($keys);

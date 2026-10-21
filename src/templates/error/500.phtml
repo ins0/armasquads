@@ -2,8 +2,8 @@
 /** @var Armasquads\View $this */
 /** @var ?Throwable $exception */
 ?>
-<h1><?= $this->escapeHtml($this->translate('An error occurred')) ?></h1>
-<h2><?= $this->escapeHtml($this->translate('An error occurred during execution; please try again later.')) ?></h2>
+<h1><?= $this->t('An error occurred') ?></h1>
+<h2><?= $this->t('An error occurred during execution; please try again later.') ?></h2>
 <?php if ($exception !== null): ?>
     <hr/>
     <h3><?= $this->escapeHtml($exception::class) ?></h3>

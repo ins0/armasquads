@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Armasquads\Controller;
 
+use Armasquads\Context;
 use Armasquads\Repository\SquadRepository;
 use Armasquads\Repository\UserRepository;
 use FilesystemIterator;
@@ -20,6 +21,7 @@ final class PageController extends Controller
         private readonly UserRepository $users,
         private readonly SquadRepository $squads,
         private readonly string $logoPath,
+        private readonly string $newsPath,
     ) {
     }
 
@@ -42,7 +44,26 @@ final class PageController extends Controller
 
     public function dashboard(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        return self::render($request, $response, 'dashboard');
+        return self::render($request, $response, 'dashboard', [
+            'news' => $this->news(Context::of($request)->translator->language()),
+        ]);
+    }
+
+    /**
+     * News are files named <date>.<language>.phtml in templates/news; a post without translation is shown in English.
+     *
+     * @return list<string>
+     */
+    private function news(string $language): array
+    {
+        $posts = [];
+        foreach (glob($this->newsPath . '/*.en.phtml') ?: [] as $file) {
+            $post = basename($file, '.en.phtml');
+            $posts[$post] = is_file("$this->newsPath/$post.$language.phtml") ? "news/$post.$language" : "news/$post.en";
+        }
+        krsort($posts);
+
+        return array_values($posts);
     }
 
     public function support(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface

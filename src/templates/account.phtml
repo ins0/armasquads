@@ -11,32 +11,32 @@ $user = $this->identity();
         »<em><?= $this->escapeHtml($user->username) ?></em>«
     </h1>
 </div>
-<legend>Profile Details</legend>
+<legend><?= $this->t('Profile Details') ?></legend>
 <ul class="list-group">
     <li class="list-group-item">
         <span class="badge"><strong><?= $this->escapeHtml($user->username) ?></strong></span>
-        Username
+        <?= $this->t('Username') ?>
     </li>
     <li class="list-group-item">
         <span class="badge"><strong><?= $this->escapeHtml($user->email) ?></strong></span>
-        E-Mail
+        <?= $this->t('E-Mail') ?>
     </li>
     <li class="list-group-item">
         <span class="badge"><strong><?= $this->escapeHtml($this->dateFormat($user->registerDate)) ?></strong></span>
-        Register Date
+        <?= $this->t('Register Date') ?>
     </li>
     <li class="list-group-item">
         <span class="badge"><strong><?= $this->escapeHtml($this->dateFormat($user->lastLogin)) ?></strong></span>
-        Last Login
+        <?= $this->t('Last Login') ?>
     </li>
 </ul>
 <form method="post" class="form-horizontal" role="form" id="account" name="account" action="<?= $this->url('account') ?>">
     <?= $this->csrfField() ?>
     <fieldset>
-        <legend>Account Password change</legend>
-        <?php foreach (['oldPass' => 'LABEL_CHANGE_PASSWORD_OLD_PASS', 'newPass' => 'LABEL_CHANGE_PASSWORD_NEW_PASS', 'newPassConfirm' => 'LABEL_CHANGE_PASSWORD_NEW_CONFIRM'] as $field => $label): ?>
+        <legend><?= $this->t('Account Password change') ?></legend>
+        <?php foreach (['oldPass' => $this->t('LABEL_CHANGE_PASSWORD_OLD_PASS'), 'newPass' => $this->t('LABEL_CHANGE_PASSWORD_NEW_PASS'), 'newPassConfirm' => $this->t('LABEL_CHANGE_PASSWORD_NEW_CONFIRM')] as $field => $label): ?>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="<?= $field ?>"><?= $this->escapeHtml($this->translate($label)) ?></label>
+                <label class="col-sm-2 control-label" for="<?= $field ?>"><?= $label ?></label>
                 <div class="col-lg-2">
                     <input type="password" name="<?= $field ?>" id="<?= $field ?>" class="form-control" value="">
                 </div>
@@ -44,7 +44,7 @@ $user = $this->identity();
         <?php endforeach; ?>
         <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
-                <input type="submit" name="resetPasswordSubmit" class="btn btn-default" value="<?= $this->escapeHtml($this->translate('LABEL_CHANGE_PASSWORD_SUBMIT')) ?>">
+                <input type="submit" name="resetPasswordSubmit" class="btn btn-default" value="<?= $this->t('LABEL_CHANGE_PASSWORD_SUBMIT') ?>">
             </div>
         </div>
     </fieldset>

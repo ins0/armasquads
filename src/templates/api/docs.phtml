@@ -6,27 +6,27 @@
 $this->headTitle('API Interface');
 ?>
 <div class="page-header">
-    <h1 id="type"><?= $this->escapeHtml($this->translate($public ? 'RESTful API Interface' : 'API Interface')) ?></h1>
+    <h1 id="type"><?= $public ? $this->t('RESTful API Interface') : $this->t('API Interface') ?></h1>
 </div>
 <div class="row">
     <div class="col-xs-12 col-sm-6">
         <ul class="list-group">
             <li class="list-group-item">
-                <span class="badge badge-success">Online</span>
-                &nbsp;&nbsp;&nbsp;API Status
+                <span class="badge badge-success"><?= $this->t('Online') ?></span>
+                &nbsp;&nbsp;&nbsp;<?= $this->t('API Status') ?>
             </li>
             <li class="list-group-item">
                 <span class="badge"><b>1</b></span>
-                &nbsp;&nbsp;&nbsp;API Version
+                &nbsp;&nbsp;&nbsp;<?= $this->t('API Version') ?>
             </li>
             <li class="list-group-item">
                 <span class="badge"><b><a href="https://armasquads.com/api/v1" target="_blank">https://armasquads.com/api/v1</a></b></span>
-                &nbsp;&nbsp;&nbsp;API Endpoint
+                &nbsp;&nbsp;&nbsp;<?= $this->t('API Endpoint') ?>
             </li>
         </ul>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><b>API SDK</b></h3>
+                <h3 class="panel-title"><b><?= $this->t('API SDK') ?></b></h3>
             </div>
             <div class="panel-body">
                 <ul class="list-group">
@@ -38,7 +38,7 @@ $this->headTitle('API Interface');
             </div>
         </div>
         <div class="well">
-            API Calls are currently limited with <?= Armasquads\Model\ApiKey::DEFAULT_RATE_LIMIT ?> Requests/per Hour. If you are interested into make more calls ping me by mail.<br />
+            <?= sprintf($this->t('API Calls are currently limited with %s Requests/per Hour. If you are interested into make more calls ping me by mail.'), Armasquads\Model\ApiKey::DEFAULT_RATE_LIMIT) ?><br />
             <br />
             E-Mail: ins0@racecore.de
         </div>
@@ -48,7 +48,7 @@ $this->headTitle('API Interface');
             <?php $panelClass = !$userKey->active ? 'panel-danger' : ($userKey->isLimitExceeded() ? 'panel-warning' : 'panel-success'); ?>
             <div class="panel <?= $panelClass ?>">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Your API Key</h3>
+                    <h3 class="panel-title"><?= $this->t('Your API Key') ?></h3>
                 </div>
                 <div class="panel-body">
                     <div class="text-center">
@@ -60,29 +60,29 @@ $this->headTitle('API Interface');
                     <ul class="list-group text-left">
                         <li class="list-group-item">
                             <?php if (!$userKey->active): ?>
-                                <span class="badge badge-error"><b>Banned from API</b></span>
+                                <span class="badge badge-error"><b><?= $this->t('Banned from API') ?></b></span>
                             <?php elseif ($userKey->isLimitExceeded()): ?>
-                                <span class="badge badge-warning"><b>Too many Requests</b></span>
+                                <span class="badge badge-warning"><b><?= $this->t('Too many Requests') ?></b></span>
                             <?php else: ?>
                                 <span class="badge badge-success"><b>OK</b></span>
                             <?php endif; ?>
-                            &nbsp;&nbsp;&nbsp;Key Status
+                            &nbsp;&nbsp;&nbsp;<?= $this->t('Key Status') ?>
                         </li>
                         <li class="list-group-item">
                             <span class="badge"><b><?= $this->escapeHtml($userKey->limit) ?></b></span>
-                            &nbsp;&nbsp;&nbsp;Rate Limit/Hour
+                            &nbsp;&nbsp;&nbsp;<?= $this->t('Rate Limit/Hour') ?>
                         </li>
                         <li class="list-group-item">
                             <span class="badge"><b><?= $this->escapeHtml($userKey->remainingRate()) ?></b></span>
-                            &nbsp;&nbsp;&nbsp;Rate Remaining/Hour
+                            &nbsp;&nbsp;&nbsp;<?= $this->t('Rate Remaining/Hour') ?>
                         </li>
                         <li class="list-group-item">
                             <span class="badge"><b><?= $this->escapeHtml($this->dateFormat($nextRateReset)) ?></b></span>
-                            &nbsp;&nbsp;&nbsp;Next Rate Reset
+                            &nbsp;&nbsp;&nbsp;<?= $this->t('Next Rate Reset') ?>
                         </li>
                         <li class="list-group-item">
                             <span class="badge"><b><?= $this->escapeHtml($this->dateFormat($userKey->lastRequest)) ?></b></span>
-                            &nbsp;&nbsp;&nbsp;Last API Request
+                            &nbsp;&nbsp;&nbsp;<?= $this->t('Last API Request') ?>
                         </li>
                     </ul>
                 </div>
@@ -90,7 +90,7 @@ $this->headTitle('API Interface');
         <?php else: ?>
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Your API Key</h3>
+                    <h3 class="panel-title"><?= $this->t('Your API Key') ?></h3>
                 </div>
                 <div class="panel-body">
                     <?php if ($public): ?>
@@ -98,7 +98,7 @@ $this->headTitle('API Interface');
                     <?php else: ?>
                         <a class="btn btn-success btn-sm" href="<?= $this->escapeHtml($this->url('user-api', [], ['getKey' => 1])) ?>">
                     <?php endif; ?>
-                        <?= $this->escapeHtml($this->translate('Claim API Key')) ?>
+                        <?= $this->t('Claim API Key') ?>
                     </a>
                 </div>
             </div>
@@ -106,14 +106,14 @@ $this->headTitle('API Interface');
     </div>
 </div>
 <div class="page-header">
-    <h1 id="type"><?= $this->translate('API Authentication') ?></h1>
+    <h1 id="type"><?= $this->t('API Authentication') ?></h1>
 </div>
 <div class="well well-lg">
-    To Authenticate with the API and send commands you need to send a specific Header on every request against the API.<br />
+    <?= $this->t('To Authenticate with the API and send commands you need to send a specific Header on every request against the API.') ?><br />
     <br />
     <code>X-API-Key</code>:<code>[YOUR_API_KEY]</code><br />
     <br />
-    Example:
+    <?= $this->t('Example:') ?>
     <hr>
     POST /api/v1/ HTTP/1.1<br />
     Host: x.x.x.x<br />
@@ -123,49 +123,49 @@ $this->headTitle('API Interface');
     [data]<br />
     <br />
     <hr>
-    Alternatively add <code>?key=[YOUR_API_KEY]</code> to the request url to authenticate. *not recommended*<br />
+    <?= sprintf($this->t('Alternatively add %s to the request url to authenticate. *not recommended*'), '<code>?key=[YOUR_API_KEY]</code>') ?><br />
     <br />
     <br />
-    Example:
+    <?= $this->t('Example:') ?>
     <hr>
     <code>https://armasquads.com/api/v1/squads?key=YOUR_API_KEY</code>
 </div>
 <div class="page-header">
-    <h1 id="type"><?= $this->translate('Send POST/PUT Data') ?></h1>
+    <h1 id="type"><?= $this->t('Send POST/PUT Data') ?></h1>
 </div>
 <div class="well well-lg">
-    Sending Data to the API need to format as valid JSON<br />
+    <?= $this->t('Sending Data to the API need to format as valid JSON') ?><br />
     <br />
     { "keyName": "value", [...] }
 </div>
 <div class="page-header">
-    <h1 id="type"><?= $this->translate('Squad Image Format') ?></h1>
+    <h1 id="type"><?= $this->t('Squad Image Format') ?></h1>
 </div>
 <div class="well well-lg">
-    Sending a Squad Image requires the Image Data converted to Base64<br />
+    <?= $this->t('Sending a Squad Image requires the Image Data converted to Base64') ?><br />
     <br />
     { "logo": "iVBORw0KGgoAA[...]" }
 </div>
 <div class="page-header">
-    <h1 id="type"><?= $this->translate('REST API Commands/Resources') ?></h1>
+    <h1 id="type"><?= $this->t('REST API Commands/Resources') ?></h1>
 </div>
 <div class="well">
-    <h2>Squads</h2>
+    <h2><?= $this->t('Squads') ?></h2>
     <hr>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title"><b>Create a new Squad</b> <code>POST</code> <code>/squads</code></h4>
+            <h4 class="panel-title"><b><?= $this->t('Create a new Squad') ?></b> <code>POST</code> <code>/squads</code></h4>
         </div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <td><b>Name</b></td>
-                        <td><b>DataType</b></td>
-                        <td><b>Required</b></td>
-                        <td><b>Example</b></td>
-                        <td><b>Description</b></td>
+                        <td><b><?= $this->t('Name') ?></b></td>
+                        <td><b><?= $this->t('DataType') ?></b></td>
+                        <td><b><?= $this->t('Required') ?></b></td>
+                        <td><b><?= $this->t('Example') ?></b></td>
+                        <td><b><?= $this->t('Description') ?></b></td>
                     </tr>
                     </thead>
                     <tbody>
@@ -174,47 +174,47 @@ $this->headTitle('API Interface');
                         <td>string</td>
                         <td><span class="fa fa-check-square-o"></span></td>
                         <td><code>"tag": "AS"</code></td>
-                        <td>Squad Tag</td>
+                        <td><?= $this->t('Squad Tag') ?></td>
                     </tr>
                     <tr>
                         <td>name</td>
                         <td>string</td>
                         <td><span class="fa fa-check-square-o"></span></td>
                         <td><code>"name": "Awesome Squad"</code></td>
-                        <td>Squad Name</td>
+                        <td><?= $this->t('Squad Name') ?></td>
                     </tr>
                     <tr>
                         <td>email</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"email": "example@example.com"</code></td>
-                        <td>Squad Email</td>
+                        <td><?= $this->t('Squad Email') ?></td>
                     </tr>
                     <tr>
                         <td>logo</td>
                         <td>base64 string</td>
                         <td></td>
                         <td><code>"logo": "iVBORw0KGgoAA[...]"</code></td>
-                        <td>Squad Logo in Base64 Format</td>
+                        <td><?= $this->t('Squad Logo in Base64 Format') ?></td>
                     </tr>
                     <tr>
                         <td>homepage</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"homepage": "http://example.com"</code></td>
-                        <td>Squad Homepage</td>
+                        <td><?= $this->t('Squad Homepage') ?></td>
                     </tr>
                     <tr>
                         <td>title</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"title": "We are Awesome"</code></td>
-                        <td>Squad Tag</td>
+                        <td><?= $this->t('Squad Tag') ?></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <h5>Example POST:</h5>
+            <h5><?= $this->t('Example POST:') ?></h5>
             <code>/squads</code><br />
             <br />
             <div class="markdown table-responsive">
@@ -234,28 +234,28 @@ $this->headTitle('API Interface');
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title"><b>Get all user squads</b> <code>GET</code> <code>/squads</code></h4>
+            <h4 class="panel-title"><b><?= $this->t('Get all user squads') ?></b> <code>GET</code> <code>/squads</code></h4>
         </div>
         <div class="panel-body">
-            <h5>Example GET:</h5>
+            <h5><?= $this->t('Example GET:') ?></h5>
             <code>/squads</code>
         </div>
     </div>
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title"><b>Get specific user squad by ID</b> <code>GET</code> <code>/squads/[id]</code></h4>
+            <h4 class="panel-title"><b><?= $this->t('Get specific user squad by ID') ?></b> <code>GET</code> <code>/squads/[id]</code></h4>
         </div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <td><b>Name</b></td>
-                        <td><b>DataType</b></td>
-                        <td><b>Required</b></td>
-                        <td><b>Example</b></td>
-                        <td><b>Description</b></td>
+                        <td><b><?= $this->t('Name') ?></b></td>
+                        <td><b><?= $this->t('DataType') ?></b></td>
+                        <td><b><?= $this->t('Required') ?></b></td>
+                        <td><b><?= $this->t('Example') ?></b></td>
+                        <td><b><?= $this->t('Description') ?></b></td>
                     </tr>
                     </thead>
                     <tbody>
@@ -264,30 +264,30 @@ $this->headTitle('API Interface');
                         <td>integer</td>
                         <td><span class="fa fa-check-square-o"></span></td>
                         <td><code>/squads/123456</code></td>
-                        <td>URL Parameter (Squad ID)</td>
+                        <td><?= $this->t('URL Parameter (Squad ID)') ?></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <h5>Example GET:</h5>
+            <h5><?= $this->t('Example GET:') ?></h5>
             <code>/squads/123456</code>
         </div>
     </div>
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title"><b>Update specific squad data by ID</b> <code>PUT</code> <code>/squads/[id]</code></h4>
+            <h4 class="panel-title"><b><?= $this->t('Update specific squad data by ID') ?></b> <code>PUT</code> <code>/squads/[id]</code></h4>
         </div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <td><b>Name</b></td>
-                        <td><b>DataType</b></td>
-                        <td><b>Required</b></td>
-                        <td><b>Example</b></td>
-                        <td><b>Description</b></td>
+                        <td><b><?= $this->t('Name') ?></b></td>
+                        <td><b><?= $this->t('DataType') ?></b></td>
+                        <td><b><?= $this->t('Required') ?></b></td>
+                        <td><b><?= $this->t('Example') ?></b></td>
+                        <td><b><?= $this->t('Description') ?></b></td>
                     </tr>
                     </thead>
                     <tbody>
@@ -296,54 +296,54 @@ $this->headTitle('API Interface');
                         <td>integer</td>
                         <td></td>
                         <td><code>/squads/123456</code></td>
-                        <td>URL Parameter (Squad ID)</td>
+                        <td><?= $this->t('URL Parameter (Squad ID)') ?></td>
                     </tr>
                     <tr>
                         <td>tag</td>
                         <td>string</td>
                         <td></span></td>
                         <td><code>"tag": "AS"</code></td>
-                        <td>Squad Tag</td>
+                        <td><?= $this->t('Squad Tag') ?></td>
                     </tr>
                     <tr>
                         <td>name</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"name": "Awesome Squad"</code></td>
-                        <td>Squad Name</td>
+                        <td><?= $this->t('Squad Name') ?></td>
                     </tr>
                     <tr>
                         <td>email</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"email": "example@example.com"</code></td>
-                        <td>Squad Email</td>
+                        <td><?= $this->t('Squad Email') ?></td>
                     </tr>
                     <tr>
                         <td>logo</td>
                         <td>base64 string</td>
                         <td></td>
                         <td><code>"logo": "iVBORw0KGgoAA[...]"</code></td>
-                        <td>Squad Logo in Base64 Format</td>
+                        <td><?= $this->t('Squad Logo in Base64 Format') ?></td>
                     </tr>
                     <tr>
                         <td>homepage</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"homepage": "http://example.com"</code></td>
-                        <td>Squad Homepage</td>
+                        <td><?= $this->t('Squad Homepage') ?></td>
                     </tr>
                     <tr>
                         <td>title</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"title": "We are Awesome"</code></td>
-                        <td>Squad Tag</td>
+                        <td><?= $this->t('Squad Tag') ?></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <h5>Example PUT:</h5>
+            <h5><?= $this->t('Example PUT:') ?></h5>
             <code>/squads/123456</code><br />
             <br />
             <div class="markdown table-responsive">
@@ -363,18 +363,18 @@ $this->headTitle('API Interface');
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title"><b>Delete a specific user squad by ID</b> <code>DELETE</code> <code>/squads/[id]</code></h4>
+            <h4 class="panel-title"><b><?= $this->t('Delete a specific user squad by ID') ?></b> <code>DELETE</code> <code>/squads/[id]</code></h4>
         </div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <td><b>Name</b></td>
-                        <td><b>DataType</b></td>
-                        <td><b>Required</b></td>
-                        <td><b>Example</b></td>
-                        <td><b>Description</b></td>
+                        <td><b><?= $this->t('Name') ?></b></td>
+                        <td><b><?= $this->t('DataType') ?></b></td>
+                        <td><b><?= $this->t('Required') ?></b></td>
+                        <td><b><?= $this->t('Example') ?></b></td>
+                        <td><b><?= $this->t('Description') ?></b></td>
                     </tr>
                     </thead>
                     <tbody>
@@ -383,12 +383,12 @@ $this->headTitle('API Interface');
                         <td>integer</td>
                         <td><span class="fa fa-check-square-o"></span></td>
                         <td><code>/squads/123456</code></td>
-                        <td>URL Parameter (Squad ID)</td>
+                        <td><?= $this->t('URL Parameter (Squad ID)') ?></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <h5>Example DELETE:</h5>
+            <h5><?= $this->t('Example DELETE:') ?></h5>
             <code>/squads/123456</code>
         </div>
     </div>
@@ -396,22 +396,22 @@ $this->headTitle('API Interface');
     <br />
     <br />
     <br />
-    <h2>Members</h2>
+    <h2><?= $this->t('Members') ?></h2>
     <hr>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title"><b>Create a new Squad Member</b> <code>POST</code> <code>/squads/[id]/members</code></h4>
+            <h4 class="panel-title"><b><?= $this->t('Create a new Squad Member') ?></b> <code>POST</code> <code>/squads/[id]/members</code></h4>
         </div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <td><b>Name</b></td>
-                        <td><b>DataType</b></td>
-                        <td><b>Required</b></td>
-                        <td><b>Example</b></td>
-                        <td><b>Description</b></td>
+                        <td><b><?= $this->t('Name') ?></b></td>
+                        <td><b><?= $this->t('DataType') ?></b></td>
+                        <td><b><?= $this->t('Required') ?></b></td>
+                        <td><b><?= $this->t('Example') ?></b></td>
+                        <td><b><?= $this->t('Description') ?></b></td>
                     </tr>
                     </thead>
                     <tbody>
@@ -420,54 +420,54 @@ $this->headTitle('API Interface');
                         <td>integer</td>
                         <td><span class="fa fa-check-square-o"></span></td>
                         <td><code>/squads/123456/members</code></td>
-                        <td>URL Parameter (Squad ID)</td>
+                        <td><?= $this->t('URL Parameter (Squad ID)') ?></td>
                     </tr>
                     <tr>
                         <td>uuid</td>
                         <td>mixed</td>
                         <td><span class="fa fa-check-square-o"></span></td>
                         <td><code>"uuid": "123456789"</code></td>
-                        <td>ARMA Player UUID</td>
+                        <td><?= $this->t('ARMA Player UUID') ?></td>
                     </tr>
                     <tr>
                         <td>username</td>
                         <td>string</td>
                         <td><span class="fa fa-check-square-o"></span></td>
                         <td><code>"username": "TBone"</code></td>
-                        <td>ARMA Player Username</td>
+                        <td><?= $this->t('ARMA Player Username') ?></td>
                     </tr>
                     <tr>
                         <td>name</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"name": "Tommy Awesome"</code></td>
-                        <td>Member Name</td>
+                        <td><?= $this->t('Member Name') ?></td>
                     </tr>
                     <tr>
                         <td>email</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"email": "example@example.com"</code></td>
-                        <td>Member Email Address</td>
+                        <td><?= $this->t('Member Email Address') ?></td>
                     </tr>
                     <tr>
                         <td>icq</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"icq": "123456789"</code></td>
-                        <td>Member ICQ UIN</td>
+                        <td><?= $this->t('Member ICQ UIN') ?></td>
                     </tr>
                     <tr>
                         <td>remark</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"remark": "He is Awesome!"</code></td>
-                        <td>Member Remark</td>
+                        <td><?= $this->t('Member Remark') ?></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <h5>Example POST:</h5>
+            <h5><?= $this->t('Example POST:') ?></h5>
             <code>/squads/123456/members</code><br />
             <br />
             <div class="markdown table-responsive">
@@ -487,18 +487,18 @@ $this->headTitle('API Interface');
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title"><b>Get all members from specific squad</b> <code>GET</code> <code>/squads/[id]/members</code></h4>
+            <h4 class="panel-title"><b><?= $this->t('Get all members from specific squad') ?></b> <code>GET</code> <code>/squads/[id]/members</code></h4>
         </div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <td><b>Name</b></td>
-                        <td><b>DataType</b></td>
-                        <td><b>Required</b></td>
-                        <td><b>Example</b></td>
-                        <td><b>Description</b></td>
+                        <td><b><?= $this->t('Name') ?></b></td>
+                        <td><b><?= $this->t('DataType') ?></b></td>
+                        <td><b><?= $this->t('Required') ?></b></td>
+                        <td><b><?= $this->t('Example') ?></b></td>
+                        <td><b><?= $this->t('Description') ?></b></td>
                     </tr>
                     </thead>
                     <tbody>
@@ -507,12 +507,12 @@ $this->headTitle('API Interface');
                             <td>integer</td>
                             <td><span class="fa fa-check-square-o"></span></td>
                             <td><code>/squads/123456/members</code></td>
-                            <td>URL Parameter (Squad ID)</td>
+                            <td><?= $this->t('URL Parameter (Squad ID)') ?></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <h5>Example GET:</h5>
+            <h5><?= $this->t('Example GET:') ?></h5>
             <code>/squads/123456/members</code>
         </div>
     </div>
@@ -520,18 +520,18 @@ $this->headTitle('API Interface');
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title"><b>Return specific member data from UUID</b> <code>GET</code> <code>/squads/[id]/members/[uuid]</code></h4>
+            <h4 class="panel-title"><b><?= $this->t('Return specific member data from UUID') ?></b> <code>GET</code> <code>/squads/[id]/members/[uuid]</code></h4>
         </div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <td><b>Name</b></td>
-                            <td><b>DataType</b></td>
-                            <td><b>Required</b></td>
-                            <td><b>Example</b></td>
-                            <td><b>Description</b></td>
+                            <td><b><?= $this->t('Name') ?></b></td>
+                            <td><b><?= $this->t('DataType') ?></b></td>
+                            <td><b><?= $this->t('Required') ?></b></td>
+                            <td><b><?= $this->t('Example') ?></b></td>
+                            <td><b><?= $this->t('Description') ?></b></td>
                         </tr>
                     </thead>
                     <tbody>
@@ -540,37 +540,37 @@ $this->headTitle('API Interface');
                             <td>integer</td>
                             <td><span class="fa fa-check-square-o"></span></td>
                             <td><code>/squads/123456/members</code></td>
-                            <td>URL Parameter (Squad ID)</td>
+                            <td><?= $this->t('URL Parameter (Squad ID)') ?></td>
                         </tr>
                         <tr>
                             <td>[uuid]</td>
                             <td>mixed</td>
                             <td><span class="fa fa-check-square-o"></span></td>
                             <td><code>/squads/123456/members/123456789</code></td>
-                            <td>URL Parameter (Member UUID)</td>
+                            <td><?= $this->t('URL Parameter (Member UUID)') ?></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <h5>Example GET:</h5>
+            <h5><?= $this->t('Example GET:') ?></h5>
             <code>/squads/123456/members/123456789</code>
         </div>
     </div>
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title"><b>Update a Squad Member Data</b> <code>PUT</code> <code>/squads/[id]/members/[uuid]</code></h4>
+            <h4 class="panel-title"><b><?= $this->t('Update a Squad Member Data') ?></b> <code>PUT</code> <code>/squads/[id]/members/[uuid]</code></h4>
         </div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <td><b>Name</b></td>
-                        <td><b>DataType</b></td>
-                        <td><b>Required</b></td>
-                        <td><b>Example</b></td>
-                        <td><b>Description</b></td>
+                        <td><b><?= $this->t('Name') ?></b></td>
+                        <td><b><?= $this->t('DataType') ?></b></td>
+                        <td><b><?= $this->t('Required') ?></b></td>
+                        <td><b><?= $this->t('Example') ?></b></td>
+                        <td><b><?= $this->t('Description') ?></b></td>
                     </tr>
                     </thead>
                     <tbody>
@@ -579,61 +579,61 @@ $this->headTitle('API Interface');
                         <td>integer</td>
                         <td><span class="fa fa-check-square-o"></span></td>
                         <td><code>/squads/123456/members</code></td>
-                        <td>URL Parameter (Squad ID)</td>
+                        <td><?= $this->t('URL Parameter (Squad ID)') ?></td>
                     </tr>
                     <tr>
                         <td>[uuid]</td>
                         <td>mixed</td>
                         <td><span class="fa fa-check-square-o"></span></td>
                         <td><code>/squads/123456/members/123456789</code></td>
-                        <td>URL Parameter (Member UUID)</td>
+                        <td><?= $this->t('URL Parameter (Member UUID)') ?></td>
                     </tr>
                     <tr>
                         <td>uuid</td>
                         <td>mixed</td>
                         <td></td>
                         <td><code>"uuid": "123456789"</code></td>
-                        <td>ARMA Player UUID</td>
+                        <td><?= $this->t('ARMA Player UUID') ?></td>
                     </tr>
                     <tr>
                         <td>username</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"username": "TBone"</code></td>
-                        <td>ARMA Player Username</td>
+                        <td><?= $this->t('ARMA Player Username') ?></td>
                     </tr>
                     <tr>
                         <td>name</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"name": "Tommy Awesome"</code></td>
-                        <td>Member Name</td>
+                        <td><?= $this->t('Member Name') ?></td>
                     </tr>
                     <tr>
                         <td>email</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"email": "example@example.com"</code></td>
-                        <td>Member Email Address</td>
+                        <td><?= $this->t('Member Email Address') ?></td>
                     </tr>
                     <tr>
                         <td>icq</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"icq": "123456789"</code></td>
-                        <td>Member ICQ UIN</td>
+                        <td><?= $this->t('Member ICQ UIN') ?></td>
                     </tr>
                     <tr>
                         <td>remark</td>
                         <td>string</td>
                         <td></td>
                         <td><code>"remark": "He is Awesome!"</code></td>
-                        <td>Member Remark</td>
+                        <td><?= $this->t('Member Remark') ?></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <h5>Example PUT:</h5>
+            <h5><?= $this->t('Example PUT:') ?></h5>
             <code>/squads/123456/members/123456789</code><br />
             <br />
             <div class="markdown table-responsive">
@@ -653,18 +653,18 @@ $this->headTitle('API Interface');
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title"><b>Delete a specific member from squad</b> <code>DELETE</code> <code>/squads/[id]/members/[uuid]</code></h4>
+            <h4 class="panel-title"><b><?= $this->t('Delete a specific member from squad') ?></b> <code>DELETE</code> <code>/squads/[id]/members/[uuid]</code></h4>
         </div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
-                        <td><b>Name</b></td>
-                        <td><b>DataType</b></td>
-                        <td><b>Required</b></td>
-                        <td><b>Example</b></td>
-                        <td><b>Description</b></td>
+                        <td><b><?= $this->t('Name') ?></b></td>
+                        <td><b><?= $this->t('DataType') ?></b></td>
+                        <td><b><?= $this->t('Required') ?></b></td>
+                        <td><b><?= $this->t('Example') ?></b></td>
+                        <td><b><?= $this->t('Description') ?></b></td>
                     </tr>
                     </thead>
                     <tbody>
@@ -673,19 +673,19 @@ $this->headTitle('API Interface');
                         <td>integer</td>
                         <td><span class="fa fa-check-square-o"></span></td>
                         <td><code>/squads/123456/members</code></td>
-                        <td>URL Parameter (Squad ID)</td>
+                        <td><?= $this->t('URL Parameter (Squad ID)') ?></td>
                     </tr>
                     <tr>
                         <td>[uuid]</td>
                         <td>mixed</td>
                         <td><span class="fa fa-check-square-o"></span></td>
                         <td><code>/squads/123456/members/123456789</code></td>
-                        <td>URL Parameter (Member UUID)</td>
+                        <td><?= $this->t('URL Parameter (Member UUID)') ?></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <h5>Example DELETE:</h5>
+            <h5><?= $this->t('Example DELETE:') ?></h5>
             <code>/squads/123456/members/123456789</code>
         </div>
     </div>

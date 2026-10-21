@@ -21,15 +21,15 @@ $loginAction = $this->url('login', [], $fallbackUrl !== null ? ['fallback_url' =
                 <?= $this->csrfField() ?>
                 <fieldset>
                     <div class="form-group">
-                        <label class="col-lg-12" for="email">E-Mail</label>
+                        <label class="col-lg-12" for="email"><?= $this->t('E-Mail') ?></label>
                         <div class="col-lg-10">
-                            <input type="email" name="email" id="email" class="form-control" placeholder="E-Mail" value="<?= $this->escapeHtml($loginEmail) ?>">
+                            <input type="email" name="email" id="email" class="form-control" placeholder="<?= $this->t('E-Mail') ?>" value="<?= $this->escapeHtml($loginEmail) ?>">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-12" for="password">Password</label>
+                        <label class="col-lg-12" for="password"><?= $this->t('Password') ?></label>
                         <div class="col-lg-10">
-                            <input type="password" name="password" id="password" class="form-control" placeholder="Password" value="">
+                            <input type="password" name="password" id="password" class="form-control" placeholder="<?= $this->t('Password') ?>" value="">
                         </div>
                     </div>
                     <div class="form-group">
@@ -48,27 +48,27 @@ $loginAction = $this->url('login', [], $fallbackUrl !== null ? ['fallback_url' =
                 <?= $this->csrfField() ?>
                 <fieldset>
                     <div class="form-group">
-                        <label class="col-lg-12" for="username">Username</label>
+                        <label class="col-lg-12" for="username"><?= $this->t('Username') ?></label>
                         <div class="col-lg-10">
-                            <input type="text" name="username" id="username" class="form-control" placeholder="Username" value="<?= $this->escapeHtml($registerValues['username'] ?? '') ?>">
+                            <input type="text" name="username" id="username" class="form-control" placeholder="<?= $this->t('Username') ?>" value="<?= $this->escapeHtml($registerValues['username'] ?? '') ?>">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-12" for="register-email">Email</label>
+                        <label class="col-lg-12" for="register-email"><?= $this->t('E-Mail') ?></label>
                         <div class="col-lg-10">
-                            <input type="email" name="email" id="register-email" class="form-control" placeholder="Email" value="<?= $this->escapeHtml($registerValues['email'] ?? '') ?>">
+                            <input type="email" name="email" id="register-email" class="form-control" placeholder="<?= $this->t('E-Mail') ?>" value="<?= $this->escapeHtml($registerValues['email'] ?? '') ?>">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-lg-12" for="register-password">Password</label>
+                        <label class="col-lg-12" for="register-password"><?= $this->t('Password') ?></label>
                         <div class="col-lg-10">
-                            <input type="password" name="password" id="register-password" class="form-control" placeholder="Password" value="">
-                            <input type="password" name="password2" id="password2" class="form-control" placeholder="Confirm Password" value="">
+                            <input type="password" name="password" id="register-password" class="form-control" placeholder="<?= $this->t('Password') ?>" value="">
+                            <input type="password" name="password2" id="password2" class="form-control" placeholder="<?= $this->t('Confirm Password') ?>" value="">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-10">
-                            <input type="submit" name="submit" id="register-submit" class="btn btn-success" value="Get my Account!">
+                            <input type="submit" name="submit" id="register-submit" class="btn btn-success" value="<?= $this->t('Get my Account!') ?>">
                         </div>
                     </div>
                 </fieldset>

@@ -13,9 +13,9 @@ $this->headTitle('ARMA Squad Generator and Hoster');
         <li class="list-group-item list-group-item-info">
             <span class="text-success fa fa-check-square-o"></span> <?= $this->translate('FRONTEND_STARTSEITE_LIST_ARMA') ?>
         </li>
-        <?php foreach (['FRONTEND_STARTSEITE_LIST_FREE', 'RESTFul API Interface', 'FRONTEND_STARTSEITE_LIST_TIME', 'FRONTEND_STARTSEITE_LIST_SQUADS', 'FRONTEND_STARTSEITE_LIST_HOSTING', 'FRONTEND_STARTSEITE_LIST_XML', 'FRONTEND_STARTSEITE_LIST_CONVERT', 'FRONTEND_STARTSEITE_LIST_SUPPORT'] as $feature): ?>
+        <?php foreach ([$this->translate('FRONTEND_STARTSEITE_LIST_FREE'), $this->t('RESTFul API Interface'), $this->translate('FRONTEND_STARTSEITE_LIST_TIME'), $this->translate('FRONTEND_STARTSEITE_LIST_SQUADS'), $this->translate('FRONTEND_STARTSEITE_LIST_HOSTING'), $this->translate('FRONTEND_STARTSEITE_LIST_XML'), $this->translate('FRONTEND_STARTSEITE_LIST_CONVERT'), $this->translate('FRONTEND_STARTSEITE_LIST_SUPPORT')] as $feature): ?>
             <li class="list-group-item">
-                <span class="text-success fa fa-check-square-o"></span> <?= $this->translate($feature) ?>
+                <span class="text-success fa fa-check-square-o"></span> <?= $feature ?>
             </li>
         <?php endforeach; ?>
     </ul>
@@ -23,11 +23,11 @@ $this->headTitle('ARMA Squad Generator and Hoster');
 </div>
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h3 class="panel-title">Statistics</h3>
+        <h3 class="panel-title"><?= $this->t('Statistics') ?></h3>
     </div>
     <div class="panel-body">
-        We are currently hosting <b><?= $totalSquads ?></b> ArmA squad files with total <b><?= $totalSquadsMembers ?></b> Squad Members from <b><?= $totalUsers ?></b> registered users. So much so wow.<br />
+        <?= sprintf($this->t('We are currently hosting %s ArmA squad files with total %s Squad Members from %s registered users. So much so wow.'), '<b>' . $totalSquads . '</b>', '<b>' . $totalSquadsMembers . '</b>', '<b>' . $totalUsers . '</b>') ?><br />
         <hr>
-        Last registered user: <b><?= $this->escapeHtml($lastUser ? $lastUser->username : '-') ?></b> - Hey man! Welcome on board!
+        <?= sprintf($this->t('Last registered user: %s - Hey man! Welcome on board!'), '<b>' . $this->escapeHtml($lastUser ? $lastUser->username : '-') . '</b>') ?>
     </div>
 </div>

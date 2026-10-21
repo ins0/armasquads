@@ -73,6 +73,14 @@ final class View
         return $this->translator->translate($message);
     }
 
+    /**
+     * Translated and HTML escaped.
+     */
+    public function t(string $message): string
+    {
+        return $this->escapeHtml($this->translate($message));
+    }
+
     public function translatePlural(string $singular, string $plural, int $count): string
     {
         return $this->translator->translatePlural($singular, $plural, $count);

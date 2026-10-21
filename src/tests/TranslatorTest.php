@@ -27,7 +27,7 @@ final class TranslatorTest extends TestCase
 
     public function testUnknownMessagesStayAsTheyAre(): void
     {
-        self::assertSame('My Squads', Translator::forHost('armasquads.de', self::LANGUAGE_PATH)->translate('My Squads'));
+        self::assertSame('Not translated anywhere', Translator::forHost('armasquads.de', self::LANGUAGE_PATH)->translate('Not translated anywhere'));
     }
 
     public function testPlural(): void
