@@ -19,6 +19,9 @@ $fields = [
 <div class="page-header">
     <h1 id="type"><?= $creating ? $this->t('Create new Squad') : $this->t('Edit Squad') ?></h1>
 </div>
+<?php if (!$creating && $squad->logo && Armasquads\Validation\SquadInput::isRiskyLogoTag($squad->tag)): ?>
+    <div class="alert alert-warning"><?= $this->t('FRONTEND_SQUAD_TAG_LOGO_WARNING') ?></div>
+<?php endif; ?>
 <form method="post" class="form-horizontal" name="squad" id="squad" enctype="multipart/form-data" action="<?= $action ?>">
     <?= $this->csrfField() ?>
     <fieldset>

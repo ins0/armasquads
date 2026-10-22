@@ -67,6 +67,9 @@ final class SquadController extends Controller
                     email: $input->email,
                 ));
                 $context->session->flash('success', 'Squad successfully created!');
+                if ($newLogo !== null && SquadInput::isRiskyLogoTag((string) $input->tag)) {
+                    $context->session->flash('default', 'FRONTEND_SQUAD_TAG_LOGO_WARNING');
+                }
 
                 return self::redirectToRoute($request, $response, 'squads');
             }

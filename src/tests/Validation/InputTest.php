@@ -50,6 +50,16 @@ final class InputTest extends TestCase
         self::assertSame(['logo' => [Validator::WRONG_EXTENSION => 'FRONTEND_SQUAD_LOGO_INVALID_EXTENSION']], $validator->errors());
     }
 
+    public function testFlagsSquadTagsThatCanHideTheLogo(): void
+    {
+        foreach (['W.S.C.', 'ABC ', 'A/B', 'A\\B', 'A:B', 'A*B', 'A?B', 'A"B', 'A<B>', 'A|B'] as $tag) {
+            self::assertTrue(SquadInput::isRiskyLogoTag($tag), $tag);
+        }
+        foreach (['WSC', 'F.O.O', '[ABC]', 'A-B', 'A B', '(SOC)', 'Ünited'] as $tag) {
+            self::assertFalse(SquadInput::isRiskyLogoTag($tag), $tag);
+        }
+    }
+
     public function testSquadKeepsMissingFieldsAsNull(): void
     {
         $input = SquadInput::fromArray(['tag' => 'T', 'name' => 7, 'title' => ['array']]);

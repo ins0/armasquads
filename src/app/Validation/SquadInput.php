@@ -35,6 +35,15 @@ final readonly class SquadInput
     }
 
     /**
+     * Arma stores squad logos in a folder named after the tag. Windows folder names must not end with a period or space
+     * and must not contain any of \ / : * ? " < > |, so such tags can keep the logo from showing in game.
+     */
+    public static function isRiskyLogoTag(string $tag): bool
+    {
+        return preg_match('/[\\\\\\/:*?"<>|]|[. ]\z/', $tag) === 1;
+    }
+
+    /**
      * @param ?array{file: string, name: string} $logo uploaded image and its original file name
      */
     public function validate(?array $logo): Validator

@@ -51,4 +51,5 @@ return array (
   'FRONTEND_SQUAD_EMAIL_INVALID_FORMAT' => 'Please enter a valid email address.',
   'FRONTEND_SQUAD_LOGO_INVALID_EXTENSION' => 'Supported logo formats: png, jpg, jpeg, gif',
   'FRONTEND_SQUAD_LOGO_CONVERSION_FAILED' => 'The logo could not be converted for ArmA. Please try another image.',
+  'FRONTEND_SQUAD_TAG_LOGO_WARNING' => 'Your squad tag ends with a period or a space or contains one of the characters \\ / : * ? " < > |. With such a tag, ArmA might not show your squad logo in game.',
 );

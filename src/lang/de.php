@@ -52,6 +52,7 @@ return array (
   'FRONTEND_SQUAD_EMAIL_INVALID_FORMAT' => 'Bitte gib eine gültige E-Mail-Adresse ein.',
   'FRONTEND_SQUAD_LOGO_INVALID_EXTENSION' => 'Es werden folgende Logos unterstützt: png,jpg,jpeg,gif',
   'FRONTEND_SQUAD_LOGO_CONVERSION_FAILED' => 'Das Logo konnte nicht für ArmA umgewandelt werden. Bitte versuch es mit einem anderen Bild.',
+  'FRONTEND_SQUAD_TAG_LOGO_WARNING' => 'Dein Squad-Tag endet auf einen Punkt oder ein Leerzeichen oder enthält eines der Zeichen \\ / : * ? " < > |. Mit so einem Tag zeigt ArmA dein Squad-Logo im Spiel eventuell nicht an.',
   'PlayerID already exists in this squad!' => 'Diese PlayerID gibt es in diesem Squad schon!',
   'Back to top' => 'Nach oben',
   'This website is not affiliated or authorized by Bohemia Interactive a.s. Bohemia Interactive, ARMA, DAYZ and all associated logos and designs are trademarks or registered trademarks of Bohemia Interactive a.s.' => 'Diese Website steht in keiner Verbindung zu Bohemia Interactive a.s. und ist nicht von Bohemia Interactive autorisiert. Bohemia Interactive, ARMA, DAYZ und alle zugehörigen Logos und Designs sind Marken oder eingetragene Marken von Bohemia Interactive a.s.',
