@@ -81,12 +81,12 @@ $this->headTitle('My Squads');
                 </a>
             <?php endif; ?>
             <?php if ($owner === null): ?>
-                <a class="btn btn-danger btn-sm delete-confirm" href="<?= $this->escapeHtml($this->url('squad-delete', ['id' => $squad->id], ['token' => $this->csrfToken()])) ?>">
+                <a class="btn btn-danger btn-sm delete-confirm" href="<?= $this->escapeHtml($this->url('squad-delete', ['id' => $squad->id], ['csrf' => $this->csrfToken()])) ?>">
                     <span class="fa fa-minus-circle"></span>
                     <?= $this->t('Delete') ?>
                 </a>
             <?php else: ?>
-                <a class="btn btn-warning btn-sm" href="<?= $this->escapeHtml($this->url('squad-leave', ['id' => $squad->id], ['token' => $this->csrfToken()])) ?>">
+                <a class="btn btn-warning btn-sm" href="<?= $this->escapeHtml($this->url('squad-leave', ['id' => $squad->id], ['csrf' => $this->csrfToken()])) ?>">
                     <span class="fa fa-sign-out"></span>
                     <?= $this->t('Leave') ?>
                 </a>

@@ -80,7 +80,7 @@ final class EditorController extends Controller
         $userId = $context->user()->id;
         $squad = $this->squads->findEditable($userId, (int) $args['id']);
 
-        if (!$context->session->isValidCsrfToken($request->getQueryParams()['token'] ?? null)) {
+        if (!$context->session->isValidCsrfToken($request->getQueryParams()['csrf'] ?? null)) {
             $context->session->flash('error', 'ERROR_FORM_CSRF');
         } elseif ($squad === null || $squad->userId === $userId) {
             $context->session->flash('error', 'Squad not found');
