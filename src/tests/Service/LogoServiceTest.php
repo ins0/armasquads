@@ -125,6 +125,71 @@ final class LogoServiceTest extends TestCase
         self::assertSame("\x05\xff", substr((string) file_get_contents($logos->absolutePath((string) $paa)), 0, 2), 'DXT5 PAA header');
     }
 
+    public function testRebuildScalesAnOldLogoAndCreatesItsPaa(): void
+    {
+        $logo = $this->legacyLogo(225, 225);
+        $logos = new LogoService($this->publicPath, $this->fakeArmake());
+
+        self::assertTrue($logos->rebuild($logo));
+        $png = new Imagick($this->publicPath . "/uploads/logos/$logo/$logo.png");
+        self::assertSame([256, 256], [$png->getImageWidth(), $png->getImageHeight()]);
+        self::assertFileExists($this->publicPath . "/uploads/logos/$logo/$logo.paa");
+    }
+
+    public function testRebuildKeepsThePngOfALogoThatAlreadyHasAnArmaSize(): void
+    {
+        $logo = $this->legacyLogo(64, 64);
+        $pngFile = $this->publicPath . "/uploads/logos/$logo/$logo.png";
+        $before = md5_file($pngFile);
+
+        self::assertTrue((new LogoService($this->publicPath, $this->fakeArmake()))->rebuild($logo));
+        self::assertSame($before, md5_file($pngFile));
+        self::assertFileExists($this->publicPath . "/uploads/logos/$logo/$logo.paa");
+    }
+
+    public function testRebuildChangesNothingIfTheConversionFails(): void
+    {
+        $logo = $this->legacyLogo(225, 225);
+        $pngFile = $this->publicPath . "/uploads/logos/$logo/$logo.png";
+        $before = md5_file($pngFile);
+
+        self::assertFalse((new LogoService($this->publicPath, '/bin/false'))->rebuild($logo));
+        self::assertSame($before, md5_file($pngFile));
+        self::assertSame(["$logo.png"], array_values(array_diff(scandir($this->publicPath . "/uploads/logos/$logo"), ['.', '..'])));
+    }
+
+    public function testRebuildRewrites16BitPngsThatArmakeCannotRead(): void
+    {
+        exec('command -v armake', $output, $exitCode);
+        if ($exitCode !== 0) {
+            self::markTestSkipped('armake is not installed');
+        }
+
+        $logo = bin2hex(random_bytes(16));
+        $pngFile = $this->publicPath . "/uploads/logos/$logo/$logo.png";
+        mkdir(dirname($pngFile));
+        $image = new Imagick();
+        $image->newImage(64, 64, new ImagickPixel('gray50'));
+        $image->setImageType(Imagick::IMGTYPE_GRAYSCALE);
+        $image->setOption('png:bit-depth', '16');
+        $image->setOption('png:color-type', '0');
+        $image->writeImage('png:' . $pngFile);
+        exec('armake img2paa -z -t DXT5 ' . escapeshellarg($pngFile) . ' /dev/null 2>&1', $output, $exitCode);
+        self::assertNotSame(0, $exitCode, 'armake cannot read the 16 bit PNG as it is');
+
+        self::assertTrue((new LogoService($this->publicPath, 'armake'))->rebuild($logo));
+        self::assertSame(8, (new Imagick($pngFile))->getImageDepth());
+        self::assertFileExists($this->publicPath . "/uploads/logos/$logo/$logo.paa");
+    }
+
+    public function testRebuildRejectsMissingLogosAndPathCharacters(): void
+    {
+        $logos = new LogoService($this->publicPath, $this->fakeArmake());
+
+        self::assertFalse($logos->rebuild(str_repeat('b', 32)));
+        self::assertFalse($logos->rebuild('../uploads'));
+    }
+
     public function testIgnoresLogoNamesWithPathCharacters(): void
     {
         $logos = new LogoService($this->publicPath, 'armake');
@@ -133,6 +198,18 @@ final class LogoServiceTest extends TestCase
         self::assertNull($logos->pngPath($squad));
         $logos->delete('../uploads');
         self::assertDirectoryExists($this->publicPath . '/uploads/logos');
+    }
+
+    /**
+     * A logo as old uploads left it: only a PNG in its directory, in any size.
+     */
+    private function legacyLogo(int $width, int $height): string
+    {
+        $logo = bin2hex(random_bytes(16));
+        mkdir($this->publicPath . "/uploads/logos/$logo");
+        copy($this->image($width, $height), $this->publicPath . "/uploads/logos/$logo/$logo.png");
+
+        return $logo;
     }
 
     /**

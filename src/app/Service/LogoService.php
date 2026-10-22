@@ -94,7 +94,6 @@ final readonly class LogoService
 
     /**
      * Stores an uploaded image as PNG, converts it to PAA and returns the new logo name, or null if either step fails.
-     * Images are scaled to the closest allowed square size and padded with transparency if they are not square.
      */
     public function save(string $imageFile): ?string
     {
@@ -106,22 +105,7 @@ final readonly class LogoService
             if (!mkdir($directory, 0755)) {
                 return null;
             }
-
-            $image = new Imagick($imageFile);
-            $image->setIteratorIndex(0);
-            $image->setImageBackgroundColor('transparent');
-            $width = $image->getImageWidth();
-            $height = $image->getImageHeight();
-            $size = self::targetSize($width, $height);
-            if ($width !== $size || $height !== $size) {
-                $image->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
-                $image->resizeImage($size, $size, Imagick::FILTER_LANCZOS, 1, true);
-                $image->extentImage($size, $size, -intdiv($size - $image->getImageWidth(), 2), -intdiv($size - $image->getImageHeight(), 2));
-            }
-            $image->stripImage();
-            $image->setImageFormat('png');
-            $image->writeImage('png32:' . $pngFile);
-            $image->clear();
+            self::writePng($imageFile, $pngFile);
         } catch (Throwable) {
             $this->delete($logo);
 
@@ -135,6 +119,44 @@ final readonly class LogoService
         }
 
         return $logo;
+    }
+
+    /**
+     * Creates the missing PAA of an existing logo. The PNG is rewritten first if it does not have an allowed size or
+     * armake cannot read it (16 bit PNGs, for example). The logo keeps its name and nothing is changed unless the
+     * conversion succeeds.
+     */
+    public function rebuild(string $logo): bool
+    {
+        $pngFile = $this->publicPath . '/uploads/logos/' . $logo . '/' . $logo . '.png';
+        if (!self::isValidName($logo) || !is_file($pngFile)) {
+            return false;
+        }
+
+        $workDirectory = sys_get_temp_dir() . '/armasquads-rebuild-' . bin2hex(random_bytes(8));
+        $workPng = $workDirectory . '/' . $logo . '.png';
+        try {
+            $image = new Imagick();
+            $image->pingImage($pngFile);
+            $size = self::targetSize($image->getImageWidth(), $image->getImageHeight());
+            if ($image->getImageWidth() === $size && $image->getImageHeight() === $size && $this->convert($pngFile)) {
+                return true;
+            }
+
+            mkdir($workDirectory, 0700);
+            self::writePng($pngFile, $workPng);
+
+            return $this->convert($workPng)
+                && copy($workPng, $pngFile)
+                && copy(substr($workPng, 0, -4) . '.paa', substr($pngFile, 0, -4) . '.paa');
+        } catch (Throwable) {
+            return false;
+        } finally {
+            array_map(unlink(...), glob($workDirectory . '/*') ?: []);
+            if (is_dir($workDirectory)) {
+                rmdir($workDirectory);
+            }
+        }
     }
 
     public function delete(?string $logo): void
@@ -154,6 +176,29 @@ final readonly class LogoService
             }
         }
         rmdir($directory);
+    }
+
+    /**
+     * Writes the first frame of an image as PNG, scaled to the closest allowed size and padded with transparency if it
+     * is not square.
+     */
+    private static function writePng(string $imageFile, string $pngFile): void
+    {
+        $image = new Imagick($imageFile);
+        $image->setIteratorIndex(0);
+        $image->setImageBackgroundColor('transparent');
+        $width = $image->getImageWidth();
+        $height = $image->getImageHeight();
+        $size = self::targetSize($width, $height);
+        if ($width !== $size || $height !== $size) {
+            $image->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
+            $image->resizeImage($size, $size, Imagick::FILTER_LANCZOS, 1, true);
+            $image->extentImage($size, $size, -intdiv($size - $image->getImageWidth(), 2), -intdiv($size - $image->getImageHeight(), 2));
+        }
+        $image->stripImage();
+        $image->setImageFormat('png');
+        $image->writeImage('png32:' . $pngFile);
+        $image->clear();
     }
 
     private function convert(string $pngFile): bool

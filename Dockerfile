@@ -31,6 +31,7 @@ COPY docker/nginx/vhost.common.d/ /opt/docker/etc/nginx/vhost.common.d/
 
 WORKDIR /app
 COPY --chown=application:application src/app ./app
+COPY --chown=application:application src/bin ./bin
 COPY --chown=application:application src/lang ./lang
 COPY --chown=application:application src/public ./public
 COPY --chown=application:application src/templates ./templates
