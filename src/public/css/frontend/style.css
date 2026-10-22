@@ -158,3 +158,18 @@ code {
 .badge a:focus {
     color: white;
 }
+
+.btn .badge {
+    top: 0;
+    margin-left: 4px;
+}
+
+a.dashboard-tile {
+    display: block;
+}
+
+a.dashboard-tile:hover,
+a.dashboard-tile:focus {
+    text-decoration: none;
+    border-color: #008cba;
+}

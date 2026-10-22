@@ -4,6 +4,7 @@
 /** @var int $userId */
 /** @var array<int, string> $owners usernames of the owners of squads shared with the user */
 /** @var array<int, int> $memberCounts */
+/** @var array<int, int> $editorCounts */
 /** @var Armasquads\Service\LogoService $logos */
 $this->headTitle('My Squads');
 ?>
@@ -52,7 +53,6 @@ $this->headTitle('My Squads');
                 </div>
                 <div class="col-xs-12 col-sm-4 text-right-not-xs">
                     <hr class="visible-xs">
-                    <?= $members . ' ' . $this->escapeHtml($this->translatePlural('Member', 'Members', $members)) ?><br />
                     <?= $this->escapeHtml($squad->email) ?>
                 </div>
             </div>
@@ -67,6 +67,7 @@ $this->headTitle('My Squads');
             <a class="btn btn-primary btn-sm" href="<?= $this->url('squad-members', ['id' => $squad->id]) ?>">
                 <span class="fa fa-users"></span>
                 <?= $this->t('Members') ?>
+                <span class="badge"><?= $members ?></span>
             </a>
             <a class="btn btn-primary btn-sm" href="<?= $this->url('squad-download', ['id' => $squad->id]) ?>">
                 <span class="fa fa-cloud-download"></span>
@@ -76,6 +77,7 @@ $this->headTitle('My Squads');
                 <a class="btn btn-primary btn-sm" href="<?= $this->url('squad-editors', ['id' => $squad->id]) ?>">
                     <span class="fa fa-share-alt"></span>
                     <?= $this->t('Editors') ?>
+                    <span class="badge"><?= $editorCounts[$squad->id] ?? 0 ?></span>
                 </a>
             <?php endif; ?>
             <?php if ($owner === null): ?>

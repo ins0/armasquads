@@ -37,6 +37,7 @@ final class SquadController extends Controller
             'userId' => $userId,
             'owners' => $this->users->usernames(array_values(array_diff($ownerIds, [$userId]))),
             'memberCounts' => $this->squads->memberCounts(array_map(static fn (Squad $squad): int => (int) $squad->id, $squads)),
+            'editorCounts' => $this->squads->editorCounts(array_map(static fn (Squad $squad): int => (int) $squad->id, $squads)),
             'logos' => $this->logos,
         ]);
     }

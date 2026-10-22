@@ -78,6 +78,25 @@ final readonly class SquadRepository
         return array_map(strval(...), $statement->fetchAll(PDO::FETCH_KEY_PAIR));
     }
 
+    /**
+     * @param list<int> $squadIds
+     * @return array<int, int> number of editors by squad id
+     */
+    public function editorCounts(array $squadIds): array
+    {
+        if ($squadIds === []) {
+            return [];
+        }
+
+        $placeholders = implode(',', array_fill(0, count($squadIds), '?'));
+        $statement = $this->db->prepare(
+            "SELECT SQA_ID, COUNT(*) FROM sqa_squad_editor WHERE SQA_ID IN ($placeholders) GROUP BY SQA_ID"
+        );
+        $statement->execute($squadIds);
+
+        return array_map(intval(...), $statement->fetchAll(PDO::FETCH_KEY_PAIR));
+    }
+
     public function addEditor(int $squadId, int $userId): void
     {
         $this->db->prepare('INSERT IGNORE INTO sqa_squad_editor (SQA_ID, BEN_ID) VALUES (?, ?)')->execute([$squadId, $userId]);

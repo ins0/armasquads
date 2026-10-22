@@ -1,10 +1,27 @@
 <?php
 /** @var Armasquads\View $this */
 /** @var list<string> $news templates in templates/news, newest first */
+/** @var int $squadCount squads the user owns or edits */
+/** @var int $memberCount members in these squads */
 $this->headTitle('Dashboard');
 ?>
 <div class="page-header">
     <h1 id="type"><?= sprintf($this->t('Welcome back, %s!'), '<b>' . $this->escapeHtml($this->identity()->username) . '</b>') ?></h1>
+</div>
+<div class="row">
+    <?php foreach ([
+        [$squadCount, $this->translatePlural('Squad', 'Squads', $squadCount), 'fa-file-code-o'],
+        [$memberCount, $this->translatePlural('Member', 'Members', $memberCount), 'fa-users'],
+    ] as [$count, $label, $icon]): ?>
+        <div class="col-xs-6">
+            <a href="<?= $this->url('squads') ?>" class="panel panel-default text-center dashboard-tile">
+                <div class="panel-body">
+                    <h2 style="margin-top: 0"><span class="fa <?= $icon ?>"></span> <?= $count ?></h2>
+                    <?= $this->escapeHtml($label) ?>
+                </div>
+            </a>
+        </div>
+    <?php endforeach; ?>
 </div>
 <div class="well well-lg">
     <h4 class="text-center"><b><?= $this->t('Choose your action from the menu in the upper right corner.') ?></b></h4>

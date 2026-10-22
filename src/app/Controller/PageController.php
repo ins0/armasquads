@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Armasquads\Controller;
 
 use Armasquads\Context;
+use Armasquads\Model\Squad;
 use Armasquads\Repository\SquadRepository;
 use Armasquads\Repository\UserRepository;
 use FilesystemIterator;
@@ -44,8 +45,13 @@ final class PageController extends Controller
 
     public function dashboard(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
+        $context = Context::of($request);
+        $squadIds = array_map(static fn (Squad $squad): int => (int) $squad->id, $this->squads->findEditableByUser($context->user()->id));
+
         return self::render($request, $response, 'dashboard', [
-            'news' => $this->news(Context::of($request)->translator->language()),
+            'news' => $this->news($context->translator->language()),
+            'squadCount' => count($squadIds),
+            'memberCount' => array_sum($this->squads->memberCounts($squadIds)),
         ]);
     }
 

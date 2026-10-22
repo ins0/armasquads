@@ -212,6 +212,7 @@ return array (
   'URL Parameter (Member UUID)' => 'URL-Parameter (UUID des Mitglieds)',
   'Update a Squad Member Data' => 'Daten eines Squad-Mitglieds ändern',
   'Delete a specific member from squad' => 'Ein Mitglied aus dem Squad löschen',
+  'Squad' => 'Squad',
   'Shared by %s' => 'Geteilt von %s',
   'Leave' => 'Verlassen',
   'Editors' => 'Bearbeiter',
