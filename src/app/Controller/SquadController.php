@@ -46,17 +46,20 @@ final class SquadController extends Controller
             $input = SquadInput::fromArray($values);
             $logo = self::uploadedLogo($request);
             $validator = $input->validate($logo);
+            $newLogo = null;
 
             if (!self::isValidCsrf($request)) {
                 $errors = ['ERROR_FORM_CSRF'];
             } elseif (!$validator->isValid()) {
                 $errors = $validator->messages();
+            } elseif ($logo !== null && ($newLogo = $this->logos->save($logo['file'])) === null) {
+                $errors = ['FRONTEND_SQUAD_LOGO_CONVERSION_FAILED'];
             } else {
                 $this->squads->insert(new Squad(
                     id: null,
                     userId: $context->user()->id,
                     privateId: $this->squads->createUniquePrivateId(),
-                    logo: $logo !== null ? $this->logos->save($logo['file']) : null,
+                    logo: $newLogo,
                     tag: (string) $input->tag,
                     name: (string) $input->name,
                     title: $input->title,
@@ -93,18 +96,18 @@ final class SquadController extends Controller
             $input = SquadInput::fromArray($values);
             $logo = self::uploadedLogo($request);
             $validator = $input->validate($logo);
+            $newLogo = null;
 
             if (!self::isValidCsrf($request)) {
                 $errors = ['ERROR_FORM_CSRF'];
             } elseif (!$validator->isValid()) {
                 $errors = $validator->messages();
+            } elseif ($logo !== null && ($newLogo = $this->logos->save($logo['file'])) === null) {
+                $errors = ['FRONTEND_SQUAD_LOGO_CONVERSION_FAILED'];
             } else {
-                if (self::field($values, 'deleteLogo') === '1' || $logo !== null) {
+                if ($newLogo !== null || self::field($values, 'deleteLogo') === '1') {
                     $this->logos->delete($squad->logo);
-                    $squad->logo = null;
-                }
-                if ($logo !== null) {
-                    $squad->logo = $this->logos->save($logo['file']);
+                    $squad->logo = $newLogo;
                 }
 
                 $squad->tag = (string) $input->tag;

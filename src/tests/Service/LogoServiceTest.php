@@ -36,19 +36,46 @@ final class LogoServiceTest extends TestCase
         self::assertFalse(LogoService::hasAllowedDimensions(__FILE__));
     }
 
-    public function testSaveStoresPngAndDeleteRemovesTheDirectory(): void
+    public function testSaveStoresPngAndPaaAndDeleteRemovesTheDirectory(): void
     {
-        $logos = new LogoService($this->publicPath, '/bin/false');
+        $logos = new LogoService($this->publicPath, $this->fakeArmake());
         $logo = $logos->save($this->image(32, 32));
         $squad = new Squad(1, 1, 'private', $logo, 'T', 'N', null, null, null);
 
         self::assertMatchesRegularExpression('/^[a-f0-9]{32}$/', (string) $logo);
         self::assertSame("/uploads/logos/$logo/$logo.png", $logos->pngPath($squad));
-        self::assertNull($logos->paaPath($squad), 'failed conversion leaves no PAA');
-        self::assertSame("/uploads/logos/$logo/$logo.png", $logos->serverLogo($squad), 'falls back to the PNG');
+        self::assertSame("/uploads/logos/$logo/$logo.paa", $logos->paaPath($squad));
 
         $logos->delete($logo);
         self::assertDirectoryDoesNotExist($this->publicPath . "/uploads/logos/$logo");
+    }
+
+    public function testSaveReturnsNullAndKeepsNoFilesIfTheConversionFails(): void
+    {
+        $logos = new LogoService($this->publicPath, '/bin/false');
+
+        self::assertNull($logos->save($this->image(32, 32)));
+        self::assertSame([], array_values(array_diff(scandir($this->publicPath . '/uploads/logos'), ['.', '..'])));
+    }
+
+    public function testSaveReturnsNullAndKeepsNoFilesIfTheImageCannotBeRead(): void
+    {
+        $logos = new LogoService($this->publicPath, $this->fakeArmake());
+
+        self::assertNull($logos->save(__FILE__));
+        self::assertSame([], array_values(array_diff(scandir($this->publicPath . '/uploads/logos'), ['.', '..'])));
+    }
+
+    public function testServerLogoFallsBackToThePngOfALogoWithoutPaa(): void
+    {
+        $logo = str_repeat('a', 32);
+        mkdir($this->publicPath . "/uploads/logos/$logo");
+        copy($this->image(32, 32), $this->publicPath . "/uploads/logos/$logo/$logo.png");
+        $logos = new LogoService($this->publicPath, '/bin/false');
+        $squad = new Squad(1, 1, 'private', $logo, 'T', 'N', null, null, null);
+
+        self::assertNull($logos->paaPath($squad));
+        self::assertSame("/uploads/logos/$logo/$logo.png", $logos->serverLogo($squad), 'falls back to the PNG');
     }
 
     public function testConvertsToPaaWithArmake(): void
@@ -75,6 +102,18 @@ final class LogoServiceTest extends TestCase
         self::assertNull($logos->pngPath($squad));
         $logos->delete('../uploads');
         self::assertDirectoryExists($this->publicPath . '/uploads/logos');
+    }
+
+    /**
+     * Stands in for armake: writes the PAA file it is asked for (img2paa -z -t DXT5 <png> <paa>).
+     */
+    private function fakeArmake(): string
+    {
+        $file = $this->publicPath . '/armake';
+        file_put_contents($file, "#!/bin/sh\nprintf PAA > \"\$6\"\n");
+        chmod($file, 0755);
+
+        return $file;
     }
 
     private function image(int $width, int $height): string

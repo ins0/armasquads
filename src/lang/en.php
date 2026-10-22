@@ -50,4 +50,5 @@ return array (
   'FRONTEND_SQUAD_URL_INVALID_FORMAT' => 'Please enter a complete URL, e.g. https://example.com',
   'FRONTEND_SQUAD_EMAIL_INVALID_FORMAT' => 'Please enter a valid email address.',
   'FRONTEND_SQUAD_LOGO_INVALID_EXTENSION' => 'Supported logo formats: png, jpg, jpeg, gif',
+  'FRONTEND_SQUAD_LOGO_CONVERSION_FAILED' => 'The logo could not be converted for ArmA. Please try another image.',
 );

@@ -75,7 +75,7 @@ final readonly class LogoService
     }
 
     /**
-     * Stores an uploaded image as PNG, converts it to PAA and returns the new logo name.
+     * Stores an uploaded image as PNG, converts it to PAA and returns the new logo name, or null if either step fails.
      */
     public function save(string $imageFile): ?string
     {
@@ -95,10 +95,16 @@ final readonly class LogoService
             $image->writeImage('png32:' . $pngFile);
             $image->clear();
         } catch (Throwable) {
+            $this->delete($logo);
+
             return null;
         }
 
-        $this->convert($pngFile);
+        if (!$this->convert($pngFile)) {
+            $this->delete($logo);
+
+            return null;
+        }
 
         return $logo;
     }
