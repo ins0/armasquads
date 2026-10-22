@@ -47,7 +47,7 @@ final class MemberController extends Controller
                 $this->squads->replaceMembers((int) $squad->id, array_map(MemberInput::toMember(...), $rows));
                 $context->session->flash('success', 'Members successfully edited!');
 
-                return self::redirectToRoute($request, $response, 'squad-members', ['id' => (int) $squad->id]);
+                return self::redirectToRoute($request, $response, 'squads');
             }
         }
 
