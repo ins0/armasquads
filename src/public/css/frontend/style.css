@@ -152,3 +152,9 @@ code {
     background-color: #f04124;
     color: white;
 }
+
+.badge a,
+.badge a:hover,
+.badge a:focus {
+    color: white;
+}
