@@ -14,7 +14,7 @@ $languageIcon = $this->locale() === 'en_EN' ? 'us.png' : 'de.png';
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <link href="//netdna.bootstrapcdn.com/bootswatch/3.3.4/yeti/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" media="screen" rel="stylesheet" type="text/css" />
-        <link href="<?= $this->basePath('css/frontend/style.css') ?>" media="screen" rel="stylesheet" type="text/css" />
+        <link href="<?= $this->basePath('css/frontend/style.css') ?>?v=<?= (int) @filemtime(__DIR__ . '/../public/css/frontend/style.css') ?>" media="screen" rel="stylesheet" type="text/css" />
         <link href="<?= $this->escapeHtml($this->serverUrl('de') . $this->url('home')) ?>" hreflang="de" rel="alternate" />
         <link href="<?= $this->escapeHtml($this->serverUrl('com') . $this->url('home')) ?>" hreflang="en" rel="alternate" />
     </head>
