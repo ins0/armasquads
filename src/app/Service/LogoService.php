@@ -16,6 +16,7 @@ final readonly class LogoService
 {
     private const array ALLOWED_SIZES = [16, 32, 64, 128, 256];
     private const array ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'gif', 'png'];
+    private const int MAX_SOURCE_SIZE = 4096;
 
     public function __construct(
         private string $publicPath,
@@ -62,20 +63,38 @@ final readonly class LogoService
         return in_array(strtolower(pathinfo($fileName, PATHINFO_EXTENSION)), self::ALLOWED_EXTENSIONS, true);
     }
 
-    public static function hasAllowedDimensions(string $imageFile): bool
+    public static function isUsableImage(string $imageFile): bool
     {
         try {
-            $image = new Imagick($imageFile);
-            $height = $image->getImageHeight();
+            $image = new Imagick();
+            $image->pingImage($imageFile);
 
-            return $height === $image->getImageWidth() && in_array($height, self::ALLOWED_SIZES, true);
+            return max($image->getImageWidth(), $image->getImageHeight()) <= self::MAX_SOURCE_SIZE
+                && min($image->getImageWidth(), $image->getImageHeight()) > 0;
         } catch (Throwable) {
             return false;
         }
     }
 
     /**
+     * The allowed square size closest to the longer side of the image, the larger one on a tie.
+     */
+    public static function targetSize(int $width, int $height): int
+    {
+        $longerSide = max($width, $height);
+        $best = self::ALLOWED_SIZES[0];
+        foreach (self::ALLOWED_SIZES as $size) {
+            if (abs($size - $longerSide) <= abs($best - $longerSide)) {
+                $best = $size;
+            }
+        }
+
+        return $best;
+    }
+
+    /**
      * Stores an uploaded image as PNG, converts it to PAA and returns the new logo name, or null if either step fails.
+     * Images are scaled to the closest allowed square size and padded with transparency if they are not square.
      */
     public function save(string $imageFile): ?string
     {
@@ -89,7 +108,16 @@ final readonly class LogoService
             }
 
             $image = new Imagick($imageFile);
+            $image->setIteratorIndex(0);
             $image->setImageBackgroundColor('transparent');
+            $width = $image->getImageWidth();
+            $height = $image->getImageHeight();
+            $size = self::targetSize($width, $height);
+            if ($width !== $size || $height !== $size) {
+                $image->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
+                $image->resizeImage($size, $size, Imagick::FILTER_LANCZOS, 1, true);
+                $image->extentImage($size, $size, -intdiv($size - $image->getImageWidth(), 2), -intdiv($size - $image->getImageHeight(), 2));
+            }
             $image->stripImage();
             $image->setImageFormat('png');
             $image->writeImage('png32:' . $pngFile);

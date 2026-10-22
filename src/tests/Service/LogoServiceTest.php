@@ -27,13 +27,44 @@ final class LogoServiceTest extends TestCase
         exec('rm -rf ' . escapeshellarg($this->publicPath));
     }
 
-    public function testAcceptsOnlySquareImagesWithArmaSizes(): void
+    public function testAcceptsReadableImagesUpTo4096Pixels(): void
     {
-        self::assertTrue(LogoService::hasAllowedDimensions($this->image(64, 64)));
-        self::assertTrue(LogoService::hasAllowedDimensions($this->image(256, 256)));
-        self::assertFalse(LogoService::hasAllowedDimensions($this->image(50, 50)));
-        self::assertFalse(LogoService::hasAllowedDimensions($this->image(64, 32)));
-        self::assertFalse(LogoService::hasAllowedDimensions(__FILE__));
+        self::assertTrue(LogoService::isUsableImage($this->image(64, 64)));
+        self::assertTrue(LogoService::isUsableImage($this->image(50, 30)));
+        self::assertTrue(LogoService::isUsableImage($this->image(4096, 8)));
+        self::assertFalse(LogoService::isUsableImage($this->image(4097, 8)));
+        self::assertFalse(LogoService::isUsableImage(__FILE__));
+    }
+
+    public function testTargetSizeIsTheClosestArmaSize(): void
+    {
+        $cases = [[16, 16, 16], [5, 5, 16], [20, 20, 16], [24, 24, 32], [48, 48, 64], [100, 100, 128], [225, 225, 256], [500, 500, 256], [300, 150, 256], [40, 90, 64]];
+        foreach ($cases as [$width, $height, $expected]) {
+            self::assertSame($expected, LogoService::targetSize($width, $height), "{$width}x$height");
+        }
+    }
+
+    public function testSaveScalesAndPadsImagesToTheClosestArmaSize(): void
+    {
+        $logos = new LogoService($this->publicPath, $this->fakeArmake());
+        $logo = $logos->save($this->image(300, 150));
+        $png = new Imagick($this->publicPath . "/uploads/logos/$logo/$logo.png");
+
+        self::assertSame([256, 256], [$png->getImageWidth(), $png->getImageHeight()]);
+        self::assertSame(0.0, $png->getImagePixelColor(128, 10)->getColorValue(Imagick::COLOR_ALPHA), 'transparent border above');
+        self::assertSame(0.0, $png->getImagePixelColor(128, 245)->getColorValue(Imagick::COLOR_ALPHA), 'transparent border below');
+        self::assertGreaterThan(0.4, $png->getImagePixelColor(128, 128)->getColorValue(Imagick::COLOR_ALPHA), 'image in the middle');
+    }
+
+    public function testSaveKeepsImagesThatAlreadyHaveAnArmaSize(): void
+    {
+        $logos = new LogoService($this->publicPath, $this->fakeArmake());
+        $source = new Imagick($this->image(64, 64));
+        $logo = $logos->save($this->image(64, 64));
+        $png = new Imagick($this->publicPath . "/uploads/logos/$logo/$logo.png");
+
+        self::assertSame([64, 64], [$png->getImageWidth(), $png->getImageHeight()]);
+        self::assertSame($source->getImagePixelColor(10, 10)->getColorAsString(), $png->getImagePixelColor(10, 10)->getColorAsString());
     }
 
     public function testSaveStoresPngAndPaaAndDeleteRemovesTheDirectory(): void

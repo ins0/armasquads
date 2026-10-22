@@ -66,7 +66,7 @@ final readonly class SquadInput
         if ($logo !== null) {
             if (!LogoService::hasAllowedExtension($logo['name'])) {
                 $validator->add('logo', Validator::WRONG_EXTENSION, 'FRONTEND_SQUAD_LOGO_INVALID_EXTENSION');
-            } elseif (!LogoService::hasAllowedDimensions($logo['file'])) {
+            } elseif (!LogoService::isUsableImage($logo['file'])) {
                 $validator->add('logo', Validator::INVALID_VALUE, 'FRONTEND_SQUAD_LOGO_INVALID_FORMAT');
             }
         }

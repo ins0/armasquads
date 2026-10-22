@@ -43,6 +43,7 @@ $fields = [
             <label class="col-lg-2 control-label" for="logo"><?= $this->t('Logo') ?></label>
             <div class="col-lg-10">
                 <input type="file" name="logo" id="logo" class="form-control" accept="image/jpg,image/jpeg,image/gif,image/png">
+                <span class="help-block"><?= $this->t('FRONTEND_SQUAD_LOGO_HINT') ?></span>
                 <?php if (!$creating && $squad->logo): ?>
                     <div class="well">
                         <div class="row">
