@@ -2,7 +2,7 @@
     "name": "ins0/armasquads",
     "description": "Website for creating Squad XML files in ArmA based games",
     "type": "project",
-    "license": "BSD-3-Clause",
+    "license": "GPL-2.0-only",
     "require": {
         "php": ">=8.4",
         "ext-imagick": "*",
