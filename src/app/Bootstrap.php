@@ -8,6 +8,7 @@ use Armasquads\Api\ApiController;
 use Armasquads\Controller\AccountController;
 use Armasquads\Controller\ApiDocsController;
 use Armasquads\Controller\AuthController;
+use Armasquads\Controller\EditorController;
 use Armasquads\Controller\LanguageController;
 use Armasquads\Controller\MemberController;
 use Armasquads\Controller\PageController;
@@ -50,12 +51,13 @@ final class Bootstrap
         $language = new LanguageController(new LoginHandoff(sys_get_temp_dir() . '/armasquads-login-handoff'), $users);
         $account = new AccountController($users);
         $apiDocs = new ApiDocsController($keys);
-        $squadPages = new SquadController($squads, $logos, $squadFiles);
+        $squadPages = new SquadController($squads, $logos, $squadFiles, $users);
+        $editors = new EditorController($squads, $users, $logos);
         $members = new MemberController($squads, $logos);
         $files = new SquadFileController($squads, $logos, $squadFiles);
         $api = new ApiController($config, $keys, $squads, $logos);
 
-        $app->group('', function (RouteCollectorProxy $web) use ($pages, $auth, $language, $account, $apiDocs, $squadPages, $members, $requireUser): void {
+        $app->group('', function (RouteCollectorProxy $web) use ($pages, $auth, $language, $account, $apiDocs, $squadPages, $members, $editors, $requireUser): void {
             $web->get('/', [$pages, 'home'])->setName('home');
             $web->get('/impressum', [$pages, 'impressum'])->setName('impressum');
             $web->map(['GET', 'POST'], '/login', [$auth, 'login'])->setName('login');
@@ -65,7 +67,7 @@ final class Bootstrap
             $web->get('/language/{language:de|en}', [$language, 'switch'])->setName('language');
             $web->get('/language/handoff', [$language, 'handoff'])->setName('language-handoff');
 
-            $web->group('/user', function (RouteCollectorProxy $user) use ($pages, $account, $apiDocs, $squadPages, $members): void {
+            $web->group('/user', function (RouteCollectorProxy $user) use ($pages, $account, $apiDocs, $squadPages, $members, $editors): void {
                 $user->get('', [$pages, 'dashboard'])->setName('user');
                 $user->get('/home', [$pages, 'dashboard'])->setName('dashboard');
                 $user->get('/support', [$pages, 'support'])->setName('support');
@@ -77,6 +79,8 @@ final class Bootstrap
                 $user->get('/squads/delete/{id}', [$squadPages, 'delete'])->setName('squad-delete');
                 $user->map(['GET', 'POST'], '/squads/member/{id}', [$members, 'edit'])->setName('squad-members');
                 $user->get('/squads/download/{id}', [$squadPages, 'download'])->setName('squad-download');
+                $user->map(['GET', 'POST'], '/squads/editors/{id}', [$editors, 'edit'])->setName('squad-editors');
+                $user->get('/squads/leave/{id}', [$editors, 'leave'])->setName('squad-leave');
             })->add($requireUser);
         })->add($context);
 

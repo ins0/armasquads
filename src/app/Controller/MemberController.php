@@ -26,7 +26,7 @@ final class MemberController extends Controller
     public function edit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $context = Context::of($request);
-        $squad = $this->squads->findForUser($context->user()->id, (int) $args['id']);
+        $squad = $this->squads->findEditable($context->user()->id, (int) $args['id']);
         if ($squad === null) {
             $context->session->flash('error', 'Squad not found');
 

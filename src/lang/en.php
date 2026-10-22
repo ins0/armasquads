@@ -53,4 +53,11 @@ return array (
   'FRONTEND_SQUAD_LOGO_CONVERSION_FAILED' => 'The logo could not be converted for ArmA. Please try another image.',
   'FRONTEND_SQUAD_LOGO_HINT' => 'Any size works: the logo is scaled to the closest ArmA size (16x16 to 256x256 pixels), and non-square images get a transparent border.',
   'FRONTEND_SQUAD_TAG_LOGO_WARNING' => 'Your squad tag ends with a period or a space or contains one of the characters \\ / : * ? " < > |. With such a tag, ArmA might not show your squad logo in game.',
+  'FRONTEND_SQUAD_SHARED_HINT' => '%s shared this squad with you. You can change the squad, its logo and its members. Only the owner can delete it or change its editors.',
+  'FRONTEND_SQUAD_EDITORS_HINT' => 'Editors are other accounts that can change this squad, its logo and its members. Only you can delete the squad or change its editors. Changes on this page are saved right away.',
+  'FRONTEND_SQUAD_EDITOR_ENTER_USERNAME' => 'Please enter the username of the account.',
+  'FRONTEND_SQUAD_EDITOR_UNKNOWN' => 'There is no account with this username.',
+  'FRONTEND_SQUAD_EDITOR_AMBIGUOUS' => 'Several accounts use this username, so it cannot be added.',
+  'FRONTEND_SQUAD_EDITOR_IS_OWNER' => 'You already own this squad.',
+  'FRONTEND_SQUAD_EDITOR_ALREADY_ADDED' => 'This account is already an editor of this squad.',
 );

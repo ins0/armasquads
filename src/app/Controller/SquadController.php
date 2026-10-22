@@ -7,6 +7,7 @@ namespace Armasquads\Controller;
 use Armasquads\Context;
 use Armasquads\Model\Squad;
 use Armasquads\Repository\SquadRepository;
+use Armasquads\Repository\UserRepository;
 use Armasquads\Service\LogoService;
 use Armasquads\Service\SquadFiles;
 use Armasquads\Validation\SquadInput;
@@ -21,15 +22,20 @@ final class SquadController extends Controller
         private readonly SquadRepository $squads,
         private readonly LogoService $logos,
         private readonly SquadFiles $files,
+        private readonly UserRepository $users,
     ) {
     }
 
     public function index(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $squads = $this->squads->findByUser(Context::of($request)->user()->id);
+        $userId = Context::of($request)->user()->id;
+        $squads = $this->squads->findEditableByUser($userId);
+        $ownerIds = array_values(array_unique(array_map(static fn (Squad $squad): int => $squad->userId, $squads)));
 
         return self::render($request, $response, 'squads/index', [
             'squads' => $squads,
+            'userId' => $userId,
+            'owners' => $this->users->usernames(array_values(array_diff($ownerIds, [$userId]))),
             'memberCounts' => $this->squads->memberCounts(array_map(static fn (Squad $squad): int => (int) $squad->id, $squads)),
             'logos' => $this->logos,
         ]);
@@ -84,7 +90,7 @@ final class SquadController extends Controller
     public function edit(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $context = Context::of($request);
-        $squad = $this->squads->findForUser($context->user()->id, (int) $args['id']);
+        $squad = $this->squads->findEditable($context->user()->id, (int) $args['id']);
         if ($squad === null) {
             $context->session->flash('error', 'Squad not found');
 
@@ -125,11 +131,14 @@ final class SquadController extends Controller
             }
         }
 
+        $isOwner = $squad->userId === $context->user()->id;
+
         return self::render($request, $response, 'squads/form', [
             'squad' => $squad,
             'logoPng' => $this->logos->pngPath($squad),
             'values' => $values,
             'errors' => $errors,
+            'owner' => $isOwner ? null : ($this->users->usernames([$squad->userId])[$squad->userId] ?? ''),
         ]);
     }
 
@@ -160,7 +169,7 @@ final class SquadController extends Controller
     public function download(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $context = Context::of($request);
-        $squad = $this->squads->findForUser($context->user()->id, (int) $args['id']);
+        $squad = $this->squads->findEditable($context->user()->id, (int) $args['id']);
         if ($squad === null) {
             $context->session->flash('error', 'Squad not found');
 

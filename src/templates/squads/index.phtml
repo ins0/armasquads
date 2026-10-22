@@ -1,6 +1,8 @@
 <?php
 /** @var Armasquads\View $this */
 /** @var list<Armasquads\Model\Squad> $squads */
+/** @var int $userId */
+/** @var array<int, string> $owners usernames of the owners of squads shared with the user */
 /** @var array<int, int> $memberCounts */
 /** @var Armasquads\Service\LogoService $logos */
 $this->headTitle('My Squads');
@@ -25,6 +27,7 @@ $this->headTitle('My Squads');
 <?php foreach ($squads as $squad): ?>
     <?php $members = $memberCounts[$squad->id] ?? 0; ?>
     <?php $png = $logos->pngPath($squad); ?>
+    <?php $owner = $squad->userId === $userId ? null : ($owners[$squad->userId] ?? ''); ?>
     <div class="panel panel-default squad">
         <div class="panel-heading">
             <div class="row">
@@ -43,6 +46,9 @@ $this->headTitle('My Squads');
                     <p class="list-group-item-text">
                         <?= $this->escapeHtml($squad->title) ?>
                     </p>
+                    <?php if ($owner !== null): ?>
+                        <span class="label label-info"><span class="fa fa-share-alt"></span> <?= sprintf($this->t('Shared by %s'), $this->escapeHtml($owner)) ?></span>
+                    <?php endif; ?>
                 </div>
                 <div class="col-xs-12 col-sm-4 text-right-not-xs">
                     <hr class="visible-xs">
@@ -66,10 +72,23 @@ $this->headTitle('My Squads');
                 <span class="fa fa-cloud-download"></span>
                 <?= $this->t('Download') ?>
             </a>
-            <a class="btn btn-danger btn-sm delete-confirm" href="<?= $this->escapeHtml($this->url('squad-delete', ['id' => $squad->id], ['token' => $this->csrfToken()])) ?>">
-                <span class="fa fa-minus-circle"></span>
-                <?= $this->t('Delete') ?>
-            </a>
+            <?php if ($owner === null): ?>
+                <a class="btn btn-primary btn-sm" href="<?= $this->url('squad-editors', ['id' => $squad->id]) ?>">
+                    <span class="fa fa-share-alt"></span>
+                    <?= $this->t('Editors') ?>
+                </a>
+            <?php endif; ?>
+            <?php if ($owner === null): ?>
+                <a class="btn btn-danger btn-sm delete-confirm" href="<?= $this->escapeHtml($this->url('squad-delete', ['id' => $squad->id], ['token' => $this->csrfToken()])) ?>">
+                    <span class="fa fa-minus-circle"></span>
+                    <?= $this->t('Delete') ?>
+                </a>
+            <?php else: ?>
+                <a class="btn btn-warning btn-sm" href="<?= $this->escapeHtml($this->url('squad-leave', ['id' => $squad->id], ['token' => $this->csrfToken()])) ?>">
+                    <span class="fa fa-sign-out"></span>
+                    <?= $this->t('Leave') ?>
+                </a>
+            <?php endif; ?>
         </div>
     </div>
 <?php endforeach; ?>

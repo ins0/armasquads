@@ -31,6 +31,34 @@ final readonly class UserRepository
         return $this->fetchOne('SELECT * FROM ben_benutzer_91c48c ORDER BY BEN_ID DESC LIMIT 1', []);
     }
 
+    /**
+     * @return list<int> all accounts with this username, old accounts can share one
+     */
+    public function idsByUsername(string $username): array
+    {
+        $statement = $this->db->prepare('SELECT BEN_ID FROM ben_benutzer_91c48c WHERE BEN_Username = ?');
+        $statement->execute([$username]);
+
+        return array_map(intval(...), $statement->fetchAll(PDO::FETCH_COLUMN));
+    }
+
+    /**
+     * @param list<int> $ids
+     * @return array<int, string> usernames by user id
+     */
+    public function usernames(array $ids): array
+    {
+        if ($ids === []) {
+            return [];
+        }
+
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $statement = $this->db->prepare("SELECT BEN_ID, BEN_Username FROM ben_benutzer_91c48c WHERE BEN_ID IN ($placeholders)");
+        $statement->execute($ids);
+
+        return array_map(strval(...), $statement->fetchAll(PDO::FETCH_KEY_PAIR));
+    }
+
     public function usernameExists(string $username): bool
     {
         return $this->exists('SELECT 1 FROM ben_benutzer_91c48c WHERE BEN_Username = ? LIMIT 1', $username);

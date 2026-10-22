@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Armasquads\Tests\Validation;
 
+use Armasquads\Validation\EditorInput;
 use Armasquads\Validation\MemberInput;
 use Armasquads\Validation\SquadInput;
 use Armasquads\Validation\Validator;
@@ -58,6 +59,22 @@ final class InputTest extends TestCase
         foreach (['WSC', 'F.O.O', '[ABC]', 'A-B', 'A B', '(SOC)', 'Ünited'] as $tag) {
             self::assertFalse(SquadInput::isRiskyLogoTag($tag), $tag);
         }
+    }
+
+    public function testEditorMustBeExactlyOneOtherAccountThatIsNotAddedYet(): void
+    {
+        $cases = [
+            ['', [], [Validator::IS_EMPTY => 'FRONTEND_SQUAD_EDITOR_ENTER_USERNAME']],
+            ['nobody', [], [Validator::INVALID_VALUE => 'FRONTEND_SQUAD_EDITOR_UNKNOWN']],
+            ['twins', [7, 8], [Validator::INVALID_VALUE => 'FRONTEND_SQUAD_EDITOR_AMBIGUOUS']],
+            ['owner', [1], [Validator::INVALID_VALUE => 'FRONTEND_SQUAD_EDITOR_IS_OWNER']],
+            ['friend', [5], [Validator::ALREADY_EXISTS => 'FRONTEND_SQUAD_EDITOR_ALREADY_ADDED']],
+        ];
+        foreach ($cases as [$username, $matches, $error]) {
+            self::assertSame(['username' => $error], EditorInput::validate($username, $matches, 1, [5])->errors(), $username);
+        }
+
+        self::assertTrue(EditorInput::validate('newfriend', [9], 1, [5])->isValid());
     }
 
     public function testSquadKeepsMissingFieldsAsNull(): void

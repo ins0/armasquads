@@ -61,6 +61,12 @@ CREATE TABLE `sqa_squad_member_4de785` (
   PRIMARY KEY (`SQA_ID`,`MEM_UID`),
   UNIQUE KEY `SQA_ID` (`SQA_ID`,`MEM_UID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `sqa_squad_editor` (
+  `SQA_ID` int(11) NOT NULL,
+  `BEN_ID` int(11) NOT NULL,
+  PRIMARY KEY (`SQA_ID`,`BEN_ID`),
+  KEY `idx_user` (`BEN_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE TABLE `sqa_squads_6d4c2s` (
   `SQA_ID` int(11) NOT NULL AUTO_INCREMENT,
   `BEN_ID` int(11) NOT NULL,

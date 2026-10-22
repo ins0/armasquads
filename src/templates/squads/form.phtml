@@ -4,7 +4,9 @@
 /** @var ?string $logoPng */
 /** @var array<string, mixed> $values */
 /** @var list<string> $errors */
+/** @var ?string $owner username of the owner if the squad is shared with the user */
 $creating = $squad === null;
+$owner ??= null;
 $creating ? $this->headTitle('Create new Squad') : $this->headTitle('Edit Squad');
 $action = $creating ? $this->url('squad-create') : $this->url('squad-edit', ['id' => $squad->id]);
 $value = fn (string $field): string => $this->escapeHtml(is_scalar($values[$field] ?? null) ? $values[$field] : '');
@@ -19,65 +21,57 @@ $fields = [
 <div class="page-header">
     <h1 id="type"><?= $creating ? $this->t('Create new Squad') : $this->t('Edit Squad') ?></h1>
 </div>
+<?php if ($owner !== null): ?>
+    <div class="alert alert-info"><?= sprintf($this->t('FRONTEND_SQUAD_SHARED_HINT'), '<b>' . $this->escapeHtml($owner) . '</b>') ?></div>
+<?php endif; ?>
 <?php if (!$creating && $squad->logo && Armasquads\Validation\SquadInput::isRiskyLogoTag($squad->tag)): ?>
     <div class="alert alert-warning"><?= $this->t('FRONTEND_SQUAD_TAG_LOGO_WARNING') ?></div>
 <?php endif; ?>
-<form method="post" class="form-horizontal" name="squad" id="squad" enctype="multipart/form-data" action="<?= $action ?>">
+<form method="post" name="squad" id="squad" enctype="multipart/form-data" action="<?= $action ?>">
     <?= $this->csrfField() ?>
     <fieldset>
         <div class="form-group">
-            <label class="col-lg-2 control-label" for="tag"><?= $this->t('Squad Tag *') ?></label>
-            <div class="col-lg-1">
-                <input type="text" name="tag" id="tag" class="form-control" value="<?= $value('tag') ?>">
-            </div>
+            <label class="control-label" for="tag"><?= $this->t('Squad Tag *') ?></label>
+            <input type="text" name="tag" id="tag" class="form-control" style="max-width: 200px" value="<?= $value('tag') ?>">
         </div>
         <?php foreach ($fields as $field => [$type, $label]): ?>
             <div class="form-group">
-                <label class="col-lg-2 control-label" for="<?= $field ?>"><?= $label ?></label>
-                <div class="col-lg-10">
-                    <input type="<?= $type ?>" name="<?= $field ?>" id="<?= $field ?>" class="form-control" value="<?= $value($field) ?>">
-                </div>
+                <label class="control-label" for="<?= $field ?>"><?= $label ?></label>
+                <input type="<?= $type ?>" name="<?= $field ?>" id="<?= $field ?>" class="form-control" value="<?= $value($field) ?>">
             </div>
         <?php endforeach; ?>
         <div class="form-group">
-            <label class="col-lg-2 control-label" for="logo"><?= $this->t('Logo') ?></label>
-            <div class="col-lg-10">
-                <input type="file" name="logo" id="logo" class="form-control" accept="image/jpg,image/jpeg,image/gif,image/png">
-                <span class="help-block"><?= $this->t('FRONTEND_SQUAD_LOGO_HINT') ?></span>
-                <?php if (!$creating && $squad->logo): ?>
-                    <div class="well">
-                        <div class="row">
-                            <div class="col-xs-12 col-sm-8">
-                                <p class="text-primary"><?= $this->t('Current Squad Image') ?>:</p>
-                                <hr>
-                                <div class="checkbox">
-                                    <input type="hidden" name="deleteLogo" value="0">
-                                    <input type="checkbox" name="deleteLogo" id="deleteLogo" value="1">
-                                    <label class="checkbox-inline" for="deleteLogo"><?= $this->t('Delete Image') ?></label>
-                                </div>
-                                <br /><br />
-                            </div>
-                            <div class="col-xs-12 col-sm-4">
-                                <?php if ($logoPng !== null): ?>
-                                    <img class="img-responsive" style="border: 1px solid rgba(0, 0, 0, 0.1)" src="<?= $this->escapeHtml($this->basePath($logoPng)) ?>" />
-                                <?php endif; ?>
+            <label class="control-label" for="logo"><?= $this->t('Logo') ?></label>
+            <input type="file" name="logo" id="logo" class="form-control" accept="image/jpg,image/jpeg,image/gif,image/png">
+            <span class="help-block"><?= $this->t('FRONTEND_SQUAD_LOGO_HINT') ?></span>
+            <?php if (!$creating && $squad->logo): ?>
+                <div class="well">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-8">
+                            <p class="text-primary"><?= $this->t('Current Squad Image') ?>:</p>
+                            <hr>
+                            <div class="checkbox">
+                                <input type="hidden" name="deleteLogo" value="0">
+                                <input type="checkbox" name="deleteLogo" id="deleteLogo" value="1">
+                                <label class="checkbox-inline" for="deleteLogo"><?= $this->t('Delete Image') ?></label>
                             </div>
                         </div>
+                        <div class="col-xs-12 col-sm-4">
+                            <?php if ($logoPng !== null): ?>
+                                <img class="img-responsive" style="border: 1px solid rgba(0, 0, 0, 0.1)" src="<?= $this->escapeHtml($this->basePath($logoPng)) ?>" />
+                            <?php endif; ?>
+                        </div>
                     </div>
-                <?php endif; ?>
-            </div>
+                </div>
+            <?php endif; ?>
         </div>
-        <?php if (!$creating): ?><br /><?php endif; ?>
-        <div class="form-group">
-            <div class="col-lg-10 col-lg-offset-2">
-                <a class="btn btn-danger" href="<?= $this->url('squads') ?>"><?= $this->t('Cancel') ?></a>
-                <?php if ($creating): ?>
-                    <button type="submit" class="btn btn-success"><?= $this->t('Create my awesome Squad!') ?></button>
-                <?php else: ?>
-                    <button type="submit" class="btn btn-primary"><?= $this->t('Edit my awesome Squad!') ?></button>
-                <?php endif; ?>
-            </div>
-        </div>
-        <label><?= $this->t('* required fields') ?></label>
+        <hr>
+        <a class="btn btn-danger" href="<?= $this->url('squads') ?>"><?= $this->t('Cancel') ?></a>
+        <?php if ($creating): ?>
+            <button type="submit" class="btn btn-success"><?= $this->t('Create my awesome Squad!') ?></button>
+        <?php else: ?>
+            <button type="submit" class="btn btn-primary"><?= $this->t('Edit my awesome Squad!') ?></button>
+        <?php endif; ?>
+        <span class="help-block"><?= $this->t('* required fields') ?></span>
     </fieldset>
 </form>

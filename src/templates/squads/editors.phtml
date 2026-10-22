@@ -1,0 +1,49 @@
+<?php
+/** @var Armasquads\View $this */
+/** @var Armasquads\Model\Squad $squad */
+/** @var ?string $logoPng */
+/** @var array<int, string> $editors usernames by user id */
+$this->headTitle('Editors');
+$action = $this->url('squad-editors', ['id' => $squad->id]);
+?>
+<div class="page-header">
+    <h1 id="type">
+        <?php if ($logoPng !== null): ?>
+            <img width="64" height="64" src="<?= $this->escapeHtml($this->basePath($logoPng)) ?>" class="img-circle" />
+        <?php endif; ?>
+        »<em><?= $this->escapeHtml($squad->tag) ?></em>«
+        <?= $this->escapeHtml($squad->name) ?>
+    </h1>
+</div>
+<p><?= $this->t('FRONTEND_SQUAD_EDITORS_HINT') ?></p>
+<div class="well">
+    <legend><?= $this->t('Editors') ?></legend>
+    <form method="post" action="<?= $action ?>">
+        <?= $this->csrfField() ?>
+        <ul class="list-group">
+            <?php foreach ($editors as $editorId => $username): ?>
+                <li class="list-group-item clearfix">
+                    <span class="fa fa-user"></span> <?= $this->escapeHtml($username) ?>
+                    <button type="submit" name="remove" value="<?= (int) $editorId ?>" class="btn btn-danger btn-xs pull-right"><?= $this->t('Remove') ?></button>
+                </li>
+            <?php endforeach; ?>
+            <?php if ($editors === []): ?>
+                <li class="list-group-item text-muted"><?= $this->t('No editors yet') ?></li>
+            <?php endif; ?>
+        </ul>
+    </form>
+    <form method="post" action="<?= $action ?>">
+        <?= $this->csrfField() ?>
+        <div class="form-group">
+            <label class="control-label" for="username"><?= $this->t('Add editor') ?></label>
+            <div class="input-group">
+                <input type="text" name="username" id="username" class="form-control" placeholder="<?= $this->t('Username') ?>">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary"><?= $this->t('Add editor') ?></button>
+                </span>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <a href="<?= $this->url('squads') ?>" class="btn btn-danger"><?= $this->t('Back') ?></a>
+</div>

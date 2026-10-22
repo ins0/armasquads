@@ -36,6 +36,58 @@ final readonly class SquadRepository
         return $row ? Squad::fromRow($row) : null;
     }
 
+    /**
+     * Squads the user owns or was added to as an editor.
+     *
+     * @return list<Squad>
+     */
+    public function findEditableByUser(int $userId): array
+    {
+        $statement = $this->db->prepare(
+            'SELECT * FROM sqa_squads_6d4c2s WHERE BEN_ID = ?'
+            . ' OR SQA_ID IN (SELECT SQA_ID FROM sqa_squad_editor WHERE BEN_ID = ?) ORDER BY SQA_ID DESC'
+        );
+        $statement->execute([$userId, $userId]);
+
+        return array_map(Squad::fromRow(...), $statement->fetchAll());
+    }
+
+    public function findEditable(int $userId, int $squadId): ?Squad
+    {
+        $statement = $this->db->prepare(
+            'SELECT * FROM sqa_squads_6d4c2s WHERE SQA_ID = ?'
+            . ' AND (BEN_ID = ? OR SQA_ID IN (SELECT SQA_ID FROM sqa_squad_editor WHERE BEN_ID = ?)) LIMIT 1'
+        );
+        $statement->execute([$squadId, $userId, $userId]);
+        $row = $statement->fetch();
+
+        return $row ? Squad::fromRow($row) : null;
+    }
+
+    /**
+     * @return array<int, string> usernames of the editors by user id
+     */
+    public function editors(int $squadId): array
+    {
+        $statement = $this->db->prepare(
+            'SELECT u.BEN_ID, u.BEN_Username FROM sqa_squad_editor e JOIN ben_benutzer_91c48c u ON u.BEN_ID = e.BEN_ID'
+            . ' WHERE e.SQA_ID = ? ORDER BY u.BEN_Username'
+        );
+        $statement->execute([$squadId]);
+
+        return array_map(strval(...), $statement->fetchAll(PDO::FETCH_KEY_PAIR));
+    }
+
+    public function addEditor(int $squadId, int $userId): void
+    {
+        $this->db->prepare('INSERT IGNORE INTO sqa_squad_editor (SQA_ID, BEN_ID) VALUES (?, ?)')->execute([$squadId, $userId]);
+    }
+
+    public function removeEditor(int $squadId, int $userId): void
+    {
+        $this->db->prepare('DELETE FROM sqa_squad_editor WHERE SQA_ID = ? AND BEN_ID = ?')->execute([$squadId, $userId]);
+    }
+
     public function findByPrivateId(string $privateId): ?Squad
     {
         $statement = $this->db->prepare('SELECT * FROM sqa_squads_6d4c2s WHERE SQA_PrivateID = ? LIMIT 1');
@@ -99,6 +151,7 @@ final readonly class SquadRepository
     {
         $this->db->beginTransaction();
         $this->db->prepare('DELETE FROM sqa_squad_member_4de785 WHERE SQA_ID = ?')->execute([$squadId]);
+        $this->db->prepare('DELETE FROM sqa_squad_editor WHERE SQA_ID = ?')->execute([$squadId]);
         $this->db->prepare('DELETE FROM sqa_squads_6d4c2s WHERE SQA_ID = ?')->execute([$squadId]);
         $this->db->commit();
     }
