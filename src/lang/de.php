@@ -71,7 +71,6 @@ return array (
   'RESTFul API Interface' => 'REST-API-Schnittstelle',
   'Statistics' => 'Statistik',
   'We are currently hosting %s ArmA squad files with total %s Squad Members from %s registered users. So much so wow.' => 'Wir hosten aktuell %s ArmA Squad-Dateien mit insgesamt %s Squad-Mitgliedern von %s registrierten Nutzern. So much so wow.',
-  'Last registered user: %s - Hey man! Welcome on board!' => 'Zuletzt registriert: %s. Hey, willkommen an Bord!',
   'E-Mail' => 'E-Mail',
   'Password' => 'Passwort',
   'Username' => 'Benutzername',
@@ -85,6 +84,7 @@ return array (
   'Enter a Password' => 'Bitte gib ein Passwort ein',
   'Please repeat your Password!' => 'Bitte wiederhole dein Passwort!',
   'Both entered passwords are different!' => 'Die beiden Passwörter sind unterschiedlich!',
+  'Leave this field empty' => 'Dieses Feld bitte leer lassen',
   'My Account' => 'Mein Account',
   'Profile Details' => 'Profil',
   'Register Date' => 'Registriert am',
@@ -229,4 +229,7 @@ return array (
   'FRONTEND_SQUAD_EDITOR_AMBIGUOUS' => 'Mehrere Konten nutzen diesen Benutzernamen, deshalb kann er nicht hinzugefügt werden.',
   'FRONTEND_SQUAD_EDITOR_IS_OWNER' => 'Dir gehört dieser Squad bereits.',
   'FRONTEND_SQUAD_EDITOR_ALREADY_ADDED' => 'Dieses Konto ist bereits Bearbeiter dieses Squads.',
+  'FRONTEND_REGISTER_REJECTED' => 'Dein Account konnte nicht angelegt werden. Bitte warte einen Moment und schicke das Formular noch einmal ab.',
+  'FRONTEND_REGISTER_USERNAME_TOO_LONG' => 'Dein Benutzername darf höchstens 32 Zeichen lang sein.',
+  'FRONTEND_REGISTER_USERNAME_LINK' => 'Dein Benutzername darf keine Webadresse enthalten.',
 );

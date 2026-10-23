@@ -7,7 +7,7 @@ namespace Armasquads\Controller;
 use Armasquads\Context;
 use Armasquads\Repository\UserRepository;
 use Armasquads\Service\Passwords;
-use Armasquads\Validation\Validator;
+use Armasquads\Validation\RegistrationInput;
 use DateTimeImmutable;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -39,7 +39,7 @@ final class AuthController extends Controller
             $context->session->flash('error', $error);
         }
 
-        return self::render($request, $response, 'auth/login', [
+        return self::renderForms($request, $response, [
             'fallbackUrl' => $fallbackUrl,
             'loginEmail' => $email,
         ]);
@@ -60,10 +60,19 @@ final class AuthController extends Controller
                 'password2' => trim(self::field($post, 'password2')),
             ];
 
+            $automationHint = RegistrationInput::automationHint(self::field($post, 'homepage'), $context->session->registerFormShownAt(), time());
+
             if (!self::isValidCsrf($request)) {
                 $errors = ['ERROR_FORM_CSRF'];
+            } elseif ($automationHint !== null) {
+                error_log('Registration rejected, ' . $automationHint . ': ' . json_encode($values['username'], JSON_UNESCAPED_UNICODE));
+                $errors = ['FRONTEND_REGISTER_REJECTED'];
             } else {
-                $validator = $this->validateRegistration($values);
+                $validator = RegistrationInput::validate(
+                    $values,
+                    $this->users->usernameExists($values['username']),
+                    $this->users->emailExists($values['email']),
+                );
                 if ($validator->isValid()) {
                     $userId = $this->users->create(
                         $values['username'],
@@ -71,6 +80,7 @@ final class AuthController extends Controller
                         Passwords::hash($values['password']),
                         new DateTimeImmutable(),
                     );
+                    $context->session->forgetRegisterFormShown();
                     $context->session->login($userId);
 
                     return self::redirectToRoute($request, $response, 'dashboard');
@@ -79,7 +89,7 @@ final class AuthController extends Controller
             }
         }
 
-        return self::render($request, $response, 'auth/login', [
+        return self::renderForms($request, $response, [
             'fallbackUrl' => null,
             'loginEmail' => '',
             'registerValues' => $values,
@@ -125,36 +135,14 @@ final class AuthController extends Controller
     }
 
     /**
-     * @param array{username: string, email: string, password: string, password2: string} $values
+     * Login and registration share one page; the time it was shown is checked when the registration is submitted.
+     *
+     * @param array<string, mixed> $variables
      */
-    private function validateRegistration(array $values): Validator
+    private static function renderForms(ServerRequestInterface $request, ResponseInterface $response, array $variables): ResponseInterface
     {
-        $validator = new Validator();
+        Context::of($request)->session->markRegisterFormShown(time());
 
-        if (Validator::isBlank($values['username'])) {
-            $validator->add('username', Validator::IS_EMPTY, 'Choose a Username');
-        } elseif ($this->users->usernameExists($values['username'])) {
-            $validator->add('username', Validator::ALREADY_EXISTS, 'Username already exists!');
-        }
-
-        if (Validator::isBlank($values['email'])) {
-            $validator->add('email', Validator::IS_EMPTY, 'Enter a valid Email');
-        } elseif (!Validator::isEmail($values['email'])) {
-            $validator->add('email', Validator::INVALID_EMAIL, 'Please enter a valid Email!');
-        } elseif ($this->users->emailExists($values['email'])) {
-            $validator->add('email', Validator::ALREADY_EXISTS, 'Account with this Email already exists!');
-        }
-
-        if (Validator::isBlank($values['password'])) {
-            $validator->add('password', Validator::IS_EMPTY, 'Enter a Password');
-        }
-
-        if (Validator::isBlank($values['password2'])) {
-            $validator->add('password2', Validator::IS_EMPTY, 'Please repeat your Password!');
-        } elseif ($values['password2'] !== $values['password']) {
-            $validator->add('password2', Validator::NOT_SAME, 'Both entered passwords are different!');
-        }
-
-        return $validator;
+        return self::render($request, $response, 'auth/login', $variables);
     }
 }

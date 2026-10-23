@@ -173,3 +173,11 @@ a.dashboard-tile:focus {
     text-decoration: none;
     border-color: #008cba;
 }
+
+.register-homepage {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}

@@ -26,11 +26,6 @@ final readonly class UserRepository
         return $this->fetchOne('SELECT * FROM ben_benutzer_91c48c WHERE BEN_Email = ? LIMIT 1', [$email]);
     }
 
-    public function findLatest(): ?User
-    {
-        return $this->fetchOne('SELECT * FROM ben_benutzer_91c48c ORDER BY BEN_ID DESC LIMIT 1', []);
-    }
-
     /**
      * @return list<int> all accounts with this username, old accounts can share one
      */

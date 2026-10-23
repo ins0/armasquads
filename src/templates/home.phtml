@@ -1,6 +1,5 @@
 <?php
 /** @var Armasquads\View $this */
-/** @var ?Armasquads\Model\User $lastUser */
 /** @var int $totalUsers */
 /** @var int $totalSquads */
 /** @var int $totalSquadsMembers */
@@ -26,8 +25,6 @@ $this->headTitle('ARMA Squad Generator and Hoster');
         <h3 class="panel-title"><?= $this->t('Statistics') ?></h3>
     </div>
     <div class="panel-body">
-        <?= sprintf($this->t('We are currently hosting %s ArmA squad files with total %s Squad Members from %s registered users. So much so wow.'), '<b>' . $totalSquads . '</b>', '<b>' . $totalSquadsMembers . '</b>', '<b>' . $totalUsers . '</b>') ?><br />
-        <hr>
-        <?= sprintf($this->t('Last registered user: %s - Hey man! Welcome on board!'), '<b>' . $this->escapeHtml($lastUser ? $lastUser->username : '-') . '</b>') ?>
+        <?= sprintf($this->t('We are currently hosting %s ArmA squad files with total %s Squad Members from %s registered users. So much so wow.'), '<b>' . $totalSquads . '</b>', '<b>' . $totalSquadsMembers . '</b>', '<b>' . $totalUsers . '</b>') ?>
     </div>
 </div>

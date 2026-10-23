@@ -31,7 +31,6 @@ final class PageController extends Controller
         $statistics = $this->squads->statistics();
 
         return self::render($request, $response, 'home', [
-            'lastUser' => $this->users->findLatest(),
             'totalUsers' => $this->users->count(),
             'totalSquads' => $statistics['squads'],
             'totalSquadsMembers' => $statistics['members'],

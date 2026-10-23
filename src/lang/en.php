@@ -60,4 +60,7 @@ return array (
   'FRONTEND_SQUAD_EDITOR_AMBIGUOUS' => 'Several accounts use this username, so it cannot be added.',
   'FRONTEND_SQUAD_EDITOR_IS_OWNER' => 'You already own this squad.',
   'FRONTEND_SQUAD_EDITOR_ALREADY_ADDED' => 'This account is already an editor of this squad.',
+  'FRONTEND_REGISTER_REJECTED' => 'Your account could not be created. Please wait a moment and submit the form again.',
+  'FRONTEND_REGISTER_USERNAME_TOO_LONG' => 'Your username can be at most 32 characters long.',
+  'FRONTEND_REGISTER_USERNAME_LINK' => 'Your username must not contain a web address.',
 );

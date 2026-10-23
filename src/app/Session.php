@@ -9,6 +9,7 @@ final class Session
     private const string USER_KEY = 'user_id';
     private const string FLASH_KEY = 'flash';
     private const string CSRF_KEY = 'csrf';
+    private const string REGISTER_FORM_KEY = 'register_form_shown_at';
 
     public static function start(bool $secure): self
     {
@@ -71,5 +72,27 @@ final class Session
     public function isValidCsrfToken(mixed $token): bool
     {
         return is_string($token) && hash_equals($this->csrfToken(), $token);
+    }
+
+    /**
+     * Keeps the time the registration form was first shown, so showing it again after an error does not restart it.
+     */
+    public function markRegisterFormShown(int $time): void
+    {
+        if ($this->registerFormShownAt() === null) {
+            $_SESSION[self::REGISTER_FORM_KEY] = $time;
+        }
+    }
+
+    public function registerFormShownAt(): ?int
+    {
+        $time = $_SESSION[self::REGISTER_FORM_KEY] ?? null;
+
+        return is_int($time) ? $time : null;
+    }
+
+    public function forgetRegisterFormShown(): void
+    {
+        unset($_SESSION[self::REGISTER_FORM_KEY]);
     }
 }

@@ -6,6 +6,7 @@ namespace Armasquads\Tests\Validation;
 
 use Armasquads\Validation\EditorInput;
 use Armasquads\Validation\MemberInput;
+use Armasquads\Validation\RegistrationInput;
 use Armasquads\Validation\SquadInput;
 use Armasquads\Validation\Validator;
 use PHPUnit\Framework\TestCase;
@@ -75,6 +76,57 @@ final class InputTest extends TestCase
         }
 
         self::assertTrue(EditorInput::validate('newfriend', [9], 1, [5])->isValid());
+    }
+
+    public function testRegistrationRequiresAllFields(): void
+    {
+        $validator = RegistrationInput::validate(['username' => ' ', 'email' => '', 'password' => '', 'password2' => ''], false, false);
+
+        self::assertSame(['Choose a Username', 'Enter a valid Email', 'Enter a Password', 'Please repeat your Password!'], $validator->messages());
+    }
+
+    public function testRegistrationReportsTakenUsernameAndEmailAndDifferentPasswords(): void
+    {
+        $validator = RegistrationInput::validate(['username' => 'Neo', 'email' => 'neo@example.com', 'password' => 'a', 'password2' => 'b'], true, true);
+
+        self::assertSame(['Username already exists!', 'Account with this Email already exists!', 'Both entered passwords are different!'], $validator->messages());
+    }
+
+    public function testRegistrationLimitsTheUsernameTo32Characters(): void
+    {
+        $values = ['email' => 'neo@example.com', 'password' => 'a', 'password2' => 'a'];
+
+        self::assertTrue(RegistrationInput::validate(['username' => str_repeat('Ü', 32)] + $values, false, false)->isValid());
+        self::assertSame(
+            ['username' => [Validator::INVALID_VALUE => 'FRONTEND_REGISTER_USERNAME_TOO_LONG']],
+            RegistrationInput::validate(['username' => str_repeat('a', 33)] + $values, false, false)->errors(),
+        );
+    }
+
+    public function testRegistrationRejectsLinksInTheUsername(): void
+    {
+        $values = ['email' => 'neo@example.com', 'password' => 'a', 'password2' => 'a'];
+
+        foreach (['READ IT https://example.com', 'Get telegra.ph/payout', 'www.example.com', 'twitch.tv/neo', 'ftp://host'] as $username) {
+            self::assertSame(
+                ['username' => [Validator::INVALID_VALUE => 'FRONTEND_REGISTER_USERNAME_LINK']],
+                RegistrationInput::validate(['username' => $username] + $values, false, false)->errors(),
+                $username,
+            );
+        }
+        foreach (['Mr.Smith', 'F.O.O', '[GER] Hans', 'neo@example.com', 'Sgt. Pepper/2', '0516'] as $username) {
+            self::assertTrue(RegistrationInput::validate(['username' => $username] + $values, false, false)->isValid(), $username);
+        }
+    }
+
+    public function testRegistrationLooksAutomatedWhenTheHiddenFieldIsFilledOrTheFormWasSentTooFast(): void
+    {
+        $shownAt = 1_000_000;
+
+        self::assertNull(RegistrationInput::automationHint('', $shownAt, $shownAt + RegistrationInput::MIN_FILL_SECONDS));
+        self::assertSame('hidden field filled in', RegistrationInput::automationHint('https://example.com', $shownAt, $shownAt + 60));
+        self::assertSame('form not shown in this session', RegistrationInput::automationHint('', null, $shownAt));
+        self::assertSame('submitted after 2 seconds', RegistrationInput::automationHint('', $shownAt, $shownAt + 2));
     }
 
     public function testSquadKeepsMissingFieldsAsNull(): void
