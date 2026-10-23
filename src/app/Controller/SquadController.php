@@ -189,6 +189,29 @@ final class SquadController extends Controller
     }
 
     /**
+     * The PNG preview of a squad logo, only for accounts that may edit the squad. The logo name is part of the URL, so
+     * a new logo gets a new URL and the browser may cache the old one.
+     *
+     * @param array{id: string, logo: string} $args
+     */
+    public function logo(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $squad = $this->squads->findEditable(Context::of($request)->user()->id, (int) $args['id']);
+        $png = $squad !== null && $squad->logo === $args['logo'] ? $this->logos->pngPath($squad) : null;
+        if ($png === null) {
+            return $response->withStatus(404);
+        }
+
+        $file = $this->logos->absolutePath($png);
+
+        return $response
+            ->withBody(new Stream(fopen($file, 'rb')))
+            ->withHeader('Content-Type', 'image/png')
+            ->withHeader('Content-Length', (string) filesize($file))
+            ->withHeader('Cache-Control', 'private, max-age=86400');
+    }
+
+    /**
      * @return ?array{file: string, name: string}
      */
     private static function uploadedLogo(ServerRequestInterface $request): ?array

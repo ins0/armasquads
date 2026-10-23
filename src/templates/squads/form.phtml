@@ -58,7 +58,7 @@ $fields = [
                         </div>
                         <div class="col-xs-12 col-sm-4">
                             <?php if ($logoPng !== null): ?>
-                                <img class="img-responsive" style="border: 1px solid rgba(0, 0, 0, 0.1)" src="<?= $this->escapeHtml($this->basePath($logoPng)) ?>" />
+                                <img class="img-responsive" style="border: 1px solid rgba(0, 0, 0, 0.1)" src="<?= $this->escapeHtml($this->url('squad-logo-png', ['id' => (int) $squad->id, 'logo' => (string) $squad->logo])) ?>" />
                             <?php endif; ?>
                         </div>
                     </div>

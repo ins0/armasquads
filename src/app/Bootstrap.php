@@ -79,6 +79,7 @@ final class Bootstrap
                 $user->get('/squads/delete/{id}', [$squadPages, 'delete'])->setName('squad-delete');
                 $user->map(['GET', 'POST'], '/squads/member/{id}', [$members, 'edit'])->setName('squad-members');
                 $user->get('/squads/download/{id}', [$squadPages, 'download'])->setName('squad-download');
+                $user->get('/squads/logo/{id}/{logo:[A-Za-z0-9]+}.png', [$squadPages, 'logo'])->setName('squad-logo-png');
                 $user->map(['GET', 'POST'], '/squads/editors/{id}', [$editors, 'edit'])->setName('squad-editors');
                 $user->get('/squads/leave/{id}', [$editors, 'leave'])->setName('squad-leave');
             })->add($requireUser);

@@ -9,7 +9,7 @@ $action = $this->url('squad-editors', ['id' => $squad->id]);
 <div class="page-header">
     <h1 id="type">
         <?php if ($logoPng !== null): ?>
-            <img width="64" height="64" src="<?= $this->escapeHtml($this->basePath($logoPng)) ?>" class="img-circle" />
+            <img width="64" height="64" src="<?= $this->escapeHtml($this->url('squad-logo-png', ['id' => (int) $squad->id, 'logo' => (string) $squad->logo])) ?>" class="img-circle" />
         <?php endif; ?>
         »<em><?= $this->escapeHtml($squad->tag) ?></em>«
         <?= $this->escapeHtml($squad->name) ?>
